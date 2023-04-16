@@ -1,0 +1,16 @@
+{% extends 'site_admins/home_page.html' %}
+{% load static %}
+{% block main_content %}
+    <div class =  "wrapper" data-column = "{{column}}" data-row = "{{row}}">
+        <select name="appoint-chart-time" id="appoint-chart-time-box">
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
+        <span id="appointer-chart-wrapper">Loading</span>
+        <canvas id = "appoint-canvas" style = "display: none;"></canvas>
+    </div>
+    <!-- <script>
+        var a = "{{row|safe}}"
+    </script> -->
+    <script src="{% static 'dashboard.js' %}"></script>
+{% endblock main_content %}

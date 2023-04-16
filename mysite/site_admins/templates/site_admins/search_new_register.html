@@ -1,0 +1,9 @@
+{% if patients %}
+    <ul>
+    {% for patient in patients %}
+        <li>{{ patient.name }} ({{ patient.age }})</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No results found.</p>
+{% endif %}

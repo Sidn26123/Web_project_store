@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+{% block navbar_block %}
+	{% load static %}
+	<nav class = "navbr">
+		<ul class = "navbar-item-list">
+			<li class = navbar-item-list__item id = "logo">
+				<img>
+				<a href="">Logo</a>
+			</li>
+			<li class = navbar-item-list__item>
+				<a href="{% url 'site_admin:patient' %}">Bệnh nhân</a>
+			</li>
+			<li class = navbar-item-list__item>
+				<a href="">Bác sĩ</a>
+			</li>
+			<li class = navbar-item-list__item>
+				<a href="">Tài chính</a>
+			</li>
+			<li class = navbar-item-list__item>
+				<a href="{% url 'site_admin:dashboard' %}">Tổng quát</a>
+			</li>
+			<li class = navbar-item-list__item>
+				<a href="">Tin nhắn</a>
+			</li>
+		</ul>
+		<ul class="navbar-item-list">
+			<li class="navbar-item-list__item"></li>
+			<li class="navbar-item-list__item">
+				<i class="fa-regular fa-bell"></i>
+			</li>
+			<!-- <li class="navbar-item-list__item">
+
+			</li> -->
+			<li class = "navbar-item-list__item" id = "dropdown-menu-admin">
+				<img src="" alt="" class = "admin-avatar" >
+				<div class="admin-avatar-menu">
+					<div class="avatar-menu__header">
+						<img src="" alt="" class = "admin-avatar">
+						<span>{{admin}}</span> 
+					</div>
+					<hr>
+					<a href="">Cài đặt</a>
+					<hr>
+					<div>
+						<a href="{% url 'site_admin:logout_link' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Thoát</div></a>
+						
+				</div>
+			</li>
+			<script>
+				let dropdown_block = document.querySelector("#dropdown-menu-admin");
+				let dropdown_menu = document.querySelector(".admin-avatar-menu");
+				dropdown_block.addEventListener("click", (event)=>{
+					event.stopPropagation();
+					if (dropdown_menu.style.display == "none"){
+						dropdown_menu.style.display = "block";
+					}
+
+				});
+				document.addEventListener("click", function(event) {
+					// Kiểm tra xem click vào phần tử nào
+					//var isClickInside =  dropdown_menu.contains(event.target);
+					//if (!isClickInside) {
+					  // Ẩn menu đi nếu click ra ngoài menu
+					//dropdown_menu.style.display = "none";
+					//}
+					if (event.target !== dropdown_menu){
+						dropdown_menu.style.display = "none";
+					}
+				});
+			</script>
+		</ul>
+	</nav>
+
+{% endblock navbar_block %}
+
+{% block main_content %}
+{% endblock main_content %}

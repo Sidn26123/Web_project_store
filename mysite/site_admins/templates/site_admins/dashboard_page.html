@@ -1,0 +1,247 @@
+{% extends 'site_admins/home_page.html' %}
+
+{% block main_content %}
+    {% load static %}
+    <div class="content">
+        <div class="menu">
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3">
+                    <div class="item-container">
+                        <div class="item-header">
+                            <h3>Bệnh nhân</h3>
+                            <select name="choose-time-box" id="patient-choose-time-box">
+                                <option value="today">Hôm nay</option>
+                                <option value="cur-week">Tuần này</option>
+                                <option value="cur-month">Tháng này</option>
+                                <option value="cur-year">Năm nay</option>
+                            </select>
+                        </div>
+                        <div class="item-content" id = "patient-new-register-total">
+                            <span>Đăng ký hôm nay {{patient_register_new_total}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-container">
+                        <div class="item-header">
+                            <h3>Bác sĩ</h3>
+                            <select name="choose-time-box" id="doctor-choose-time-box">
+                                <option value="today">Hôm nay</option>
+                                <option value="cur-week">Tuần này</option>
+                                <option value="cur-month">Tháng này</option>
+                                <option value="cur-year">Năm nay</option>
+                            </select>
+                        </div>
+                        <div class="item-content" id = "doctor-new-register-total">
+                            <span>Đăng ký hôm nay {{doctor_register_new_total}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-container">
+                        <div class="item-header">
+                            <h3>Đặt hẹn</h3>
+                            <select name="choose-time-box" id = "appointment-choose-time-box" >
+                                <option value="today">Hôm nay</option>
+                                <option value="cur-week">Tuần này</option>
+                                <option value="cur-month">Tháng này</option>
+                                <option value="cur-year">Năm nay</option>
+                            </select>
+                        </div>
+                        <div class="item-content" id = "booking-total">
+                            <span>Tống lượt đặt hẹn hôm nay {{total_appointments}}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="item-container">
+                        <div class="item-header">
+                            <h3>Lượng tiền giao dịch</h3>
+                            <select name="choose-time-box" id = "transaction-amount-choose-time-box">
+                                <option value="today">Hôm nay</option>
+                                <option value="cur-week">Tuần này</option>
+                                <option value="cur-month">Tháng này</option>
+                                <option value="cur-year">Năm nay</option>
+                            </select>
+                        </div>
+                        <div class="item-content" id = "finance-total">
+                            <span>Tổng giao dịch hôm nay {{total_amount_transact}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-7">
+                    <div class="item-container">
+                        <div class="item-header">
+                            <span>Các cuộc hẹn</span>
+                            <select name="appointments" id="appoint-years">
+                                <option value="recent-12-months">Gần nhất</option>
+                                <option value="2022">2022</option>
+                            </select>
+                        </div>
+                        <div class = "chart-wrapper" id = "appointment-in-months-chart-wrapper">
+                            <span id = "appointer-chart-wrapper">Loading</span>
+                            <canvas id ="appointment-in-months-chart" style="display:none"></canvas>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="item-header">
+                        <span>Trang thái</span>
+                        <select name="appointments" id="appoint-state-choose-box">
+                            <option value="recent-12-months">Gần nhất</option>
+                            <option value="2022">2022</option>
+                        </select>
+                    </div>
+                    <div class="appointment-state-wrapper">
+                        <span id = "appointment-state-span" >Loading</span>
+                        <canvas id = "appointment-state-chart" style=" display:none"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="item-container">
+                        <div class="speciality-header">
+                            <span>Khoa bệnh</span>
+                            <select name="selections" id="speciality-selections">
+                                <option value="this-week"></option>
+                                <option value="this-month"></option>
+                            </select>
+                        </div>
+                        <table>
+                            <thead>
+                                <tr role = "row">
+                                    <th>Nha khoa</th>
+                                    <th>Lượng giao dịch</th>
+                                    <th>Lượt giao dịch</th>
+                                </tr>
+                            </thead>
+                            <tbody id="spec-list-body">
+                                Loading
+                            </tbody>
+                        </table>
+                        <!--<div class="specialities-item">
+                            <img src="" alt="Ảnh minh họa">
+                            <table>
+                                <thead>
+                                    <tr role = "row">
+                                        <th>Nha khoa</th>
+                                        <th>Lượng giao dịch</th>
+                                        <th>Lượt giao dịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td class = "patient-nums"></td>
+                                    <td class = "transaction-total"></td>
+                                    <td class = "transaction-count"></td>                                    
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="specialities-item">
+                            <img src="" alt="Ảnh minh họa">
+                            <table>
+                                <thead>
+                                    <tr role = "row">
+                                        <th>Tim mạch</th>
+                                        <th>Lượng giao dịch</th>
+                                        <th>Lượt giao dịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td class = "patient-nums"></td>
+                                    <td class = "transaction-total"></td>
+                                    <td class = "transaction-count"></td>                                       
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="specialities-item">
+                            <img src="" alt="Ảnh minh họa">
+                            <table>
+                                <thead>
+                                    <tr role = "row">
+                                        <th>Da liễu</th>
+                                        <th>Lượng giao dịch</th>
+                                        <th>Lượt giao dịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td class = "patient-nums"></td>
+                                    <td class = "transaction-total"></td>
+                                    <td class = "transaction-count"></td>                                        
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="specialities-item">
+                            <img src="" alt="Ảnh minh họa">
+                            <table>
+                                <thead>
+                                    <tr role = "row">
+                                        <th>Mắt</th>
+                                        <th>Lượng giao dịch</th>
+                                        <th>Lượt giao dịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td class = "patient-nums"></td>
+                                    <td class = "transaction-total"></td>
+                                    <td class = "transaction-count"></td>     
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="specialities-item">
+                            <img src="" alt="Ảnh minh họa">
+                            <table>
+                                <thead>
+                                    <tr role = "row">
+                                        <th>Xương khớp</th>
+                                        <th>Lượng giao dịch</th>
+                                        <th>Lượt giao dịch</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <td class = "patient-nums"></td>
+                                    <td class = "transaction-total"></td>
+                                    <td class = "transaction-count"></td>                                       
+                                </tbody>
+                            </table>
+                        </div>-->
+                    </div> 
+                </div>
+                <div class="col-md-7">
+                    <div class="col-md-12">
+                        <div class="item-containers">
+                            <div class="speciality-income-chart-header">
+                                <select name="time-selections" id="speciality-time-select-box">
+                                    <option value="weekly">Hàng tuần</option>
+                                    <option value="monthly">Hàng tháng</option>
+                                </select>
+                            </div>
+                            <span id = "specialty-income-chart-wrapper">Loading</span>
+                            <canvas id = "specialty-income-chart"></canvas>
+                        </div>
+                    </div>
+                    <div class="col-md-7">
+                        <div class="col-md-3">
+                            <div class="item-container">
+                                <span>Loading</span>
+                                <canvas id = "specialty-volume-chart"></canvas>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="item-container">
+                                <span>Loading</span>
+                                <canvas id = "specialty-schedule-time-chart"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="{% static 'dashboard.js' %}"></script>
+{% endblock %}

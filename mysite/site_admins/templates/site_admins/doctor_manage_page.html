@@ -1,0 +1,294 @@
+{% extends 'site_admins/home_page.html' %}
+
+{% block main_content %}
+    {% load static %}
+    <!-- Thẻ content bọc lại toàn bộ phần search + sort + results -->
+    <div class="fixed-menu " style="display:none">
+        <div class="menu-item">
+            <a href="#">Home</a>
+        </div>
+        <span class = "line"></span>
+        <div class="menu-item">
+            <div>Xuất file</div>
+        </div>
+        <div class="export-file-menu">
+            <div class="export-report">
+                <div>
+                    <span>Xuất báo cáo</span>
+                    <select name="type_ex" id="ex-report-selection">
+                        <option value="report">Báo cáo</option>
+                        <option value="list-file">Danh sách</option>
+                    </select>
+                </div>
+                <button>Xuất</button>
+            </div>
+            <div class="export-list">
+                <div>
+                    <span>Xuất danh sách</span>
+                    <select name="type_ex" id="ex-report-selection">
+                        <option value="report">Báo cáo</option>
+                        <option value="list-file">Danh sách</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="file-type" id="file-type-selection">
+                        <option value="excel">.xlxs</option>
+                        <option value="txt">.txt</option>
+                    </select>
+                    <select name="number-row" id="number-row">
+                        <option value="one-pag">1 trang đầu</option>
+                        <option value="two-pag">2 trang đầu</option>
+                        <option value="50-row">50 mục đầu</option>
+                    </select>
+                </div>
+                <button>Xuất</button>
+            </div>
+        </div>
+    </div>
+    <div class ="content">
+        <!-- Bo loc, click vao de chon va dua vao bo loc -->
+        <div class="search-filter">
+            <div class = "search-box">
+                <input type="text" id = "search-request-text">
+                <button id="search-submit-btn">Tìm</button>
+            </div>
+            <br>
+            {{query_set}}
+            <div class="search-filter__items">
+                <p>Tuổi</p>
+                <div class="items-container">
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "teen" value = "teen">
+                        <label for="teen">'<'19</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "adult" value = "adult">
+                        <label for="adult">20-59</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "elderly" value = "elderly">
+                        <label for="elderly">'>60'</label>
+                    </div>
+                </div>
+            </div>
+            <div class="search-filter__items">
+                <p>Giới tính</p>
+                <div class="items-container">
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "man-gender" value = "man">
+                        <label for="man-gender">Nam</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "woman-gender" value = "woman">
+                        <label for="woman-gender">Nữ</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "undefined-gender" value = "undefined">
+                        <label for="undefined-gender">Không xác định</label>
+                    </div>
+                </div>
+            </div>
+            <div class="search-filter__items">
+                <p>Tỉnh thành</p>
+                <div class="items-container">
+                    {% for province in provinces %}
+                        <div class="search-filter__item">
+                            <input type="checkbox", name = "province" id = {{province.0}} value = {{province.0}}>
+                            <label for={{province.0}}>{{province.1}}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- <div class="items-containers">
+                    <div class="search-filter__item">
+                        input
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- Phan tra ve ket qua, nhu trong canva gom header + content + footer -->
+        <div class="patient-wrapper" id = "patient-wrapper">
+            <!-- Header: head, bộ sắp xếp, tổng số result -->
+            <div class="patient-wrapper__header">
+                <div>
+                    <h3>Bệnh nhân</h3>
+                    <span>Chi tiết</span>
+                </div>
+                <div>
+                    <div class="order-filter-box">
+                        <div class="order-filter-select" id="order-filter-select" data-patient-data = {{query_results}}>
+                            <select name="choice-box" id="sort-choice">
+                                <option value="" disabled selected hidden>Sắp xếp theo</option>
+                                <option value="asc">Tên (A-Z)</option>
+                                <option value="des">Tên (Z-A)</option>
+                                <option value="age">Tuổi/option>
+                                <option value="date_join">Thời gian tham gia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="patient-wrapper__sum-patient"></div>
+                </div>
+            </div>
+            <!-- Phần content hiển thị kết quả tìm kiếm -->
+            <div class="patient-list" id="patient-list" >
+                <!-- {% for patient in page_results %}
+                    <div class="patient-list__item">
+                        <div>
+                            <img src="{% static 'images/images_s.jpeg' %}" alt="Avatar patient" class = "patient-thumbnail">
+                        </div>
+                        <ul>
+                            <li>{{patient}}</li>
+                            <li>{{patient.phone}}</li>
+                            <li>{{patient.address}}</li>
+                            <li>{{patient.citizen_identification}}</li>
+                        </ul>
+
+                        <div class="overlay">
+                            <div class="patient-details">
+                                <h3>Thông tin chi tiết</h3>
+                                <h4>ID: {{patient.id}}</h4>
+                                <img src="{% static 'images/images_s.jpeg' %}" alt="Avartar" class = "patient-thumbnail-in-details">
+                                <span>{{patient.username}}</span>
+                                <span>{{patient.gender_choice}}, {{patient.date_of_birth}}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}-->
+                <table class = "patient-table">
+                    <thead>
+                        <tr role = "row">
+                            <th class = "sorting">
+                                ID
+                                <i class="fa-solid fa-arrow-up" class = "sorting-asc"></i>
+                                <i class="fa-solid fa-arrow-down" class = ""></i>
+                            </th>
+                            <th class = "sorting">Tên</th>
+                            <th class = "sorting">Tuổi</th>
+                            <th class = "sorting">Giới tính</th>
+                            <th class = "sorting">Quê quán</th>
+                            <th class = "sorting">CCCD/CMND</th>
+                            <th class = "sorting">Số điện thoại</th>
+                            <th class = "sorting">Ngày tham gia</th>
+                            <th class = "sorting choosing">Đã chọn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for patient in page_results %}
+                        <tr class ="table-tr">
+                            <td class = "page-patient-id">{{ patient.id }}</td>
+                            <td>
+                                <img src="{{patient.avatar.url}}" alt="none" class = "patient-thumbnail"  data-id-patient = "{{patient.id}}">
+                                {{ patient.username }}
+                                
+                            </td>
+                            <td class = "page-patient-age">{{ patient.new_age }}</td>
+                            <td class = "page-patient-gender">{{ patient.get_gender_display }}</td>
+                            <td class = "page-patient-province">{{ patient.get_province_display }}</td>
+                            <td class = "page-patient-province">{{ patient.citizen_identification }}</td>
+                            <td class = "page-patient-province">{{ patient.phone }}</td>
+                            <td class = "page-patient-province">{{ patient.date_join }}</td>
+                            <td class = "page-patient-province"><input type="checkbox" name="chose-checkbox" class = "row-chose"></td>
+                        </tr>
+                    {% endfor %}
+                    
+
+                </tbody>
+            </table>
+            <div class="overlay">
+                <div class="patient-details d-col-flex">
+                    <div class = "d-row-flex">
+                        <h3>Thông tin chi tiết</h3>
+                        <i class="fa-regular fa-circle-xmark close-btn close-details"></i>
+                    </div>
+                    <div class = "d-row-flex patient-details-id">
+                        <span class = "id">ID: {{patient.id}}</span>
+                        <i class="fa-regular fa-clipboard"></i>
+                    </div>
+                    <div>
+                        <img src="{{patient.avatar.url}}" alt="Avartar" class = "patient-thumbnail-in-details">
+                        <div class = "d-col-flex">
+                            <span>{{patient.username}}</span>
+                            <div class = "d-row-flex">
+                                <span>{{patient.gender_choice}}, {{patient.date_of_birth}}</span>
+                                <span>Tuổi: {{patient.new_age}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span>Thông tin cá nhân</span>
+                            <div class = "d-row-flex details-wrapper">
+                                <span class = "cccd">CCCD/CMND: {{patient.citizen_identification}}</span>
+                                <span class = "phone">Điện thoại: {{patient.phone}}</span>
+                                <span class = "email">Email: {{patient.email}}</span>
+                                <span class ="d_o_b">Ngày sinh: {{patient.date_of_birth}}</span>
+                                <span class = "province">Quê quán: {{patient.province}}</span>
+                                <span class = "address">Địa chỉ: {{patient.address}}</span>
+                            </div>
+                        </div>
+                        <span>Tổng số cuộc hẹn đã hẹn:</span>
+                        <span>Tổng số tiền đã chi:</span>
+                    </div>
+                    <div>
+                        <button class = "edit-profile-btn">Chỉnh sửa</button>
+                        <button class = "delete-btn">Xóa bệnh nhân</button>
+                    </div>
+                </div>
+                <div class = "patient-details d-col-flex forms">
+                    <form action="" method = "POST"> {% csrf_token %}
+                        <div class = "d-row-flex">
+                            <h3>Chỉnh sửa thông tin</h3>
+                            <i class='fa-regular fa-circle-xmark close-btn close-form'></i>
+                        </div>
+                        <span>Tên<input type="text"></span>
+                        <div class = "d-col-flex">
+                            <span>Avatar</span>
+                            <input type = "file">
+                        </div>
+                        <input type="submit">
+                    </form>
+                </div>
+            </div>
+        </div>
+
+            <!-- <div class="page-counters" onclick="toggleActive(this)">0</div> -->
+            <div class="patient-wrapper__footer">
+                <div class="show-page">
+                </div>
+                <div class="number-page-box">
+                </div>
+                <div class="direct-page-block">
+                    <!-- Button nhấn vào để tiến trang kế -->
+                    <button class="bttn back-btn" id = "back-btn" data-page-results = {{page_results}}>
+                        <!-- Kiểm tra có trang trước trang hiện tại không, nếu có thì direct tới trang đó, không thì disable -->
+                        {% if page_results.has_previous %}
+                            <a href="?page={{page_results.previous_page_number}}" class = "back-btn back-btn--active"><i class="fa-solid fa-chevron-left"></i></a>
+                        {% else %}
+                            <a href="#" class = "back-btn back-btn--disable"><i class="fa-solid fa-chevron-left"></i></a>
+                        {% endif %}
+                        <!-- trong href có thể sử dung if else để xuất url theo điều kiện -->
+                        <!-- <a href="?page={{page_results.page}}"></a> -->
+                    </button>
+                    
+                    <ul>
+                        {% for page_num in page_range %}
+                            <!-- Neu so trang hien tai trùng với số trang trong <li> thi se css trang trùng do len z (áp dung class active)
+                                Số trang được xác định = page_obj.number, page_obj = paginator.get_page()-->
+                            <a class ="page-num {% if page_results.number == page_num %}active{% endif %}" href="?page={{page_num}}">{{page_num}}</a>
+
+
+                        {% endfor %}
+                    </ul>
+                    <div class = "bttn-wrapper" id = "next-btn--actived" data-page-results = {{page_results.number}}>
+                        {% if page_results.has_next %}
+                            <a href="?page={{page_results.next_page_number}}" class = "next-btn next-btn--active"><i class="fa-solid fa-chevron-right"></i></a>
+                        {% else %}
+                            <a href="#" class = "next-btn next-btn--disable"><i class="fa-solid fa-chevron-right"></i></a> 
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var fullHeightDiv = document.getElementById("patient-wrapper");
+            fullHeightDiv.style.height = document.documentElement.scrollHeight + "px";
+        </script>
+    </div>
+{% endblock main_content%}

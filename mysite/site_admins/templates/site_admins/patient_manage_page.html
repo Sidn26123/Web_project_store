@@ -1,0 +1,439 @@
+{% extends 'site_admins/home_page.html' %}
+
+{% block main_content %}
+    {% load static %}
+    <!-- Thẻ content bọc lại toàn bộ phần search + sort + results -->
+    <div class="fixed-menu ">
+        <div class="menu-item">
+            <a href="#">Home</a>
+        </div>
+        <span class = "line"></span>
+        <div class="menu-item">
+            <div class = "export-file-b">Xuất file</div>
+        </div>
+        <div class="menu-item export-file-menu">
+            <div class="export-report">
+                <div>
+                    <span>Xuất báo cáo</span>
+                    <select name="type_ex" id="ex-report-selection">
+                        <option value="report">Báo cáo</option>
+                        <option value="list-file">Danh sách</option>
+                    </select>
+                </div>
+                <button>Xuất</button>
+            </div>
+            <div class="export-list">
+                <div>
+                    <span>Xuất danh sách</span>
+                    <select name="type_ex" id="ex-report-selection">
+                        <option value="report">Báo cáo</option>
+                        <option value="list-file">Danh sách</option>
+                    </select>
+                </div>
+                <div>
+                    <select name="file-type" id="file-type-selection">
+                        <option value="excel">.xlxs</option>
+                        <option value="txt">.txt</option>
+                    </select>
+                    <select name="number-row" id="number-row">
+                        <option value="one-pag">1 trang đầu</option>
+                        <option value="two-pag">2 trang đầu</option>
+                        <option value="50-row">50 mục đầu</option>
+                    </select>
+                </div>
+                <button class = "export-file-btn">Xuất</button>
+            </div>
+        </div>
+    </div>
+    <div class ="content">
+        <!-- Bo loc, click vao de chon va dua vao bo loc -->
+        <div class="search-filter">
+            <div class = "search-box">
+                <input type="text" id = "search-request-text">
+                <button id="search-submit-btn">Tìm</button>
+            </div>
+            <div class = "items-chose-display-area">
+            </div>
+            <br>
+            <div class="search-filter__items">
+                <p>Tuổi</p>
+                <div class="items-container">
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "teen" value = "teen">
+                        <label for="teen">'<'19</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "adult" value = "adult">
+                        <label for="adult">20-59</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "elderly" value = "elderly">
+                        <label for="elderly">'>60'</label>
+                    </div>
+                </div>
+            </div>
+            <div class="search-filter__items">
+                <p>Giới tính</p>
+                <div class="items-container">
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "man-gender" value = "man">
+                        <label for="man-gender">Nam</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "woman-gender" value = "woman">
+                        <label for="woman-gender">Nữ</label>
+                    </div>
+                    <div class="search-filter__item">
+                        <input type="checkbox", name = "gender" class="search-filter__item-checkbox" id = "undefined-gender" value = "undefined">
+                        <label for="undefined-gender">Không xác định</label>
+                    </div>
+                </div>
+            </div>
+            <div class="search-filter__items">
+                <span class = "province-expand-btn">Tỉnh thành</span>
+                <div class="items-container patient-province">
+                    {% for province in provinces %}
+                        <div class="search-filter__item">
+                            <input type="checkbox", name = "province" id = {{province.0}} value = {{province.0}}>
+                            <label for={{province.0}}>{{province.1}}</label>
+                        </div>
+                    {% endfor %}
+                </div>
+                <!-- <div class="items-containers">
+                    <div class="search-filter__item">
+                        input
+                    </div>
+                </div> -->
+            </div>
+        </div>
+        <!-- Phan tra ve ket qua, nhu trong canva gom header + content + footer -->
+        <div class="patient-wrapper" id = "patient-wrapper">
+            <!-- Header: head, bộ sắp xếp, tổng số result -->
+            <div class="patient-wrapper__header">
+                <div>
+
+                </div>
+                <div>
+                    <h3>Bệnh nhân</h3>
+                    <span>Chi tiết</span>
+                </div>
+                <div class = "add-patient-btn">
+                    <i class="fa-duotone fa-plus"></i>
+                    <span>Thêm</span>
+                    <div class ="create-wrapper d-col-flex">
+                        <form action="/ad/add-patient/" method = "POST" class = "add-patient-form" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class = "d-row-flex">
+                                <div>Thêm người dùng mới</div>
+                                <i class="fa-regular fa-circle-xmark close-btn add-patient-form-cancel-btn"></i>
+                                <div class = "confirm-cancel-add-patient-form">
+                                    <div>
+                                        <div class = "d-row-flex">
+                                            <span>Nội dung sẽ mất nếu thoát</span>
+                                            <i class="fa-regular fa-circle-xmark close-btn add-patient-form-cancel-btn"></i>
+                                        </div>
+                                        <div class = "d-row-flex">
+                                            <button class = "confirm-cancel-add-patient-form-btn leave-btn">Xác nhận</button>
+                                            
+                                            <button class = "confirm-cancel-add-patient-form-btn stay-btn">Ở lại</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>
+                                    <label for="new-patient-username">Tài khoản</label>
+                                    <input type="text" name = "new-patient-username" id = "new-patient-username">
+                                </div>
+
+                                <div>
+                                    <label for="new-patient-password">Mật khẩu</label>
+                                    <input type="password" name = "new-patient-password" id = "new-patient-password">
+                                </div>
+
+                            </div>
+                            <div class="d-row-flex">
+                                <label for="new-patient-name">Tên<input type="text" name= "name" placeholder="Tên" id = "new-patient-name"></label>
+                                
+                            </div>
+                            <div>
+                                <label for="new-patient-ci_id">CCCD/CMND</label>
+                                <input type="text"  name = "new-patient-ci_id" id = "new-patient-ci_id">
+                            </div>
+                            <div class="d-row-flex">
+                                <label for="new-patient-avatar">Avatar</label>
+                                <input type="file" name = "new-patient-avatar" id = "new-patient-avatar">
+                            </div>
+                            <div class="d-row-flex">
+                                <label for="new-patient-phone">Số điện thoại</label>
+                                <input type="text" name = "new-patient-phone" placeholder="" id ="new-patient-phone">
+                            </div>
+                            <div class = "d-row-flex">
+                                <div class="d-row-flex">
+                                    <label for="new-patient-dob">Ngày sinh</label>
+                                    <input type="text" name = "new-patient-dob" id = "new-patient-dob">
+                                </div>
+                                <div class="d-row-flex">
+                                    <!-- <label for="new-patient-gender">Giới tính</label> -->
+                                    <select name="new-patient-gender" id="new-patient-gender">
+                                        <option value="" disabled>Giới tính</option>
+                                        <option value="man">Nam</option>
+                                        <option value="woman">Nữ</option>
+                                        <option value="undefined">Không xác định</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="d-row-flex">
+                                <!-- <label for="new-patient-province">Tỉnh thành</label> -->
+                                <select name="new-patient-province" id="new-patient-province">
+                                    <option value="" disabled selected hidden>Tỉnh thành</option>
+                                    {% for province in provinces %}
+                                        <option value={{province.0}}>{{province.1}}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            <div>
+                                <label for="new-patient-address">Địa chỉ</label>
+                                <input type="text" name = "new-patient-address" id = "new-patient-address">
+                            </div>
+                            <div>
+                                <label for="new-patient-email">Email</label>
+                                <input type="text" name= "new-patient-email" id = "new-patient-email">
+                            </div>
+                            <div>
+                                <label for="new-patient-blood-gr">Nhóm máu</label>
+                                <input type="text" name = "new-patient-blood-gr" id = "new-patient-blood-gr">
+                            </div>
+                            <input type="submit" value="Thêm" class  = "add-patient-form-submit-btn">
+                        </form>
+                    </div>
+                </div>
+                <div>
+                    <div class="order-filter-box">
+                        <div class="order-filter-select" id="order-filter-select" data-patient-data = {{query_results}}>
+                            <select name="choice-box" id="sort-choice">
+                                <option value="" disabled selected hidden>Sắp xếp theo</option>
+                                <option value="asc">Tên (A-Z)</option>
+                                <option value="des">Tên (Z-A)</option>
+                                <option value="age">Tuổi/option>
+                                <option value="date_join">Thời gian tham gia</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="patient-wrapper__sum-patient"></div>
+                </div>
+            </div>
+            <!-- Phần content hiển thị kết quả tìm kiếm -->
+            <div class="patient-list" id="patient-list" >
+                <!-- {% for patient in page_results %}
+                    <div class="patient-list__item">
+                        <div>
+                            <img src="{% static 'images/images_s.jpeg' %}" alt="Avatar patient" class = "patient-thumbnail">
+                        </div>
+                        <ul>
+                            <li>{{patient}}</li>
+                            <li>{{patient.phone}}</li>
+                            <li>{{patient.address}}</li>
+                            <li>{{patient.citizen_identification}}</li>
+                        </ul>
+
+                        <div class="overlay">
+                            <div class="patient-details">
+                                <h3>Thông tin chi tiết</h3>
+                                <h4>ID: {{patient.id}}</h4>
+                                <img src="{% static 'images/images_s.jpeg' %}" alt="Avartar" class = "patient-thumbnail-in-details">
+                                <span>{{patient.username}}</span>
+                                <span>{{patient.gender_choice}}, {{patient.date_of_birth}}</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}-->
+                <table class = "patient-table">
+                    <thead>
+                        <tr role = "row">
+                            <th class = "sorting">
+                                ID
+                                <i class="fa-solid fa-arrow-up" class = "sorting-asc"></i>
+                                <i class="fa-solid fa-arrow-down" class = ""></i>
+                            </th>
+                            <th class = "sorting">Tên</th>
+                            <th class = "sorting">Tuổi</th>
+                            <th class = "sorting">Giới tính</th>
+                            <th class = "sorting">Quê quán</th>
+                            <th class = "sorting">CCCD/CMND</th>
+                            <th class = "sorting">Số điện thoại</th>
+                            <th class = "sorting">Ngày tham gia</th>
+                            <th class = "sorting">Hoạt động</th>
+                            <!-- <th class = "sorting choosing">Đã chọn</th> -->
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for patient in page_results %}
+                        <tr class ="table-tr">
+                            <td class = "page-patient-id">{{ patient.id }}</td>
+                            <td>
+                                <img src="{{patient.avatar.url}}" alt="none" class = "patient-thumbnail"  data-id-patient = "{{patient.id}}">
+                                {{ patient.username }}
+                                
+                            </td>
+                            <td class = "page-patient-age">{{ patient.new_age }}</td>
+                            <td class = "page-patient-gender">{{ patient.get_gender_display }}</td>
+                            <td class = "page-patient-province">{{ patient.get_province_display }}</td>
+                            <td class = "page-patient-citizen_id">{{ patient.citizen_identification }}</td>
+                            <td class = "page-patient-phone">{{ patient.phone }}</td>
+                            <td class = "page-patient-date-join">{{ patient.date_join }}</td>
+                            {% if patient.is_active %}
+                                <td class = "page-patient-active">Đang hoạt động</td>
+                            {% else %}
+                                <td class = "page-patient-active">Đã khóa</td>
+                            {% endif %}
+                            <!-- <td class = "page-patient-actived">{{patient.is_active}}</td> -->
+                            <td class = "page-patient-choose-box"><input type="checkbox" name="chose-checkbox" class = "row-choose" style="display:none"></td>
+                        </tr>
+                    {% endfor %}
+                    
+
+                </tbody>
+            </table>
+            <div class="overlay">
+                <div class="patient-details d-col-flex">
+                    <div class = "d-row-flex">
+                        <h3>Thông tin chi tiết</h3>
+                        <i class="fa-regular fa-circle-xmark close-btn close-details"></i>
+                    </div>
+                    <div class = "d-row-flex patient-details-id">
+                        <span class = "id">ID: {{patient.id}}</span>
+                        <i class="fa-regular fa-clipboard"></i>
+                    </div>
+                    <div class = "d-row-flex">
+                        <img src="" alt="Avatar" class = "patient-thumbnail-in-details">
+                        <div class = "d-col-flex">
+                            <span class = "name"></span>
+                            <div class = "d-row-flex">
+                                <span class ="">{{patient.gender_choice}}, {{patient.date_of_birth}}</span>
+                                <span class = "age">Tuổi: {{patient.new_age}}</span>
+                            </div>
+                        </div>
+                        <div>
+                            <span>Thông tin cá nhân</span>
+                            <div class = "d-row-flex details-wrapper">
+                                <span class = "cccd">CCCD/CMND: {{patient.citizen_identification}}</span>
+                                <span class = "phone">Điện thoại: {{patient.phone}}</span>
+                                <span class = "email">Email: {{patient.email}}</span>
+                                <span class ="d_o_b">Ngày sinh: {{patient.date_of_birth}}</span>
+                                <span class = "province">Quê quán: {{patient.province}}</span>
+                                <span class = "address">Địa chỉ: {{patient.address}}</span>
+                            </div>
+                        </div>
+                        <span class = "total_appointments">Tổng số cuộc hẹn đã hẹn:</span>
+                        <span class = "total_spent">Tổng số tiền đã chi:</span>
+                    </div>
+                    <div>
+                        <button class = "edit-profile-btn">Chỉnh sửa</button>
+                        <button class = "delete-btn">Xóa bệnh nhân</button>
+                        <div class = "confirm-delete-form">
+                            <span>Xác nhận xóa</span>
+                            <i class='fa-regular fa-circle-xmark close-btn confirm-delete-form__close-btn'></i>
+                            <button class = "confirm-delete-form__delete-btn">Xóa</button>
+                            <button class = "confirm-delete-form__cancel-btn">Không</button>
+                        </div>
+                    </div>
+                </div>
+                <div class = "patient-details d-col-flex forms">
+                    <form action="/ad/update-patient-info/" method = "POST" enctype="multipart/form-data" id = "update-patient-info-f"> {% csrf_token %}
+                        <div style = "display:none">
+                            <input type="text" class = "id-text" name = "patient-id">
+                        </div>
+                        <div class = "d-row-flex">
+                            <h3>Chỉnh sửa thông tin</h3>
+                            <i class='fa-regular fa-circle-xmark close-btn close-form-btn'></i>
+                        </div>
+                        <div>
+                            <span >Tên</span>
+                            <input type="text" class = "name-text" name = "patient-name">
+                        </div>
+                        <div class = "d-col-flex">
+                            <span>Avatar</span>
+                            <input type = "file"  class = "avatar-file" name = "patient-avatar">
+                        </div>
+                        <div class = "d-col-flex">
+                            <span Địa chỉ></span>
+                            <input type="text" class = "address-text" name = "patient-address">
+                        </div>
+                        <div class="d-col-flex">
+                            <span >Số điện thoại</span>
+                            <input type="text" class = "phone-text" name = "patient-address">
+                        </div>
+                        <div class = "d-col-flex">
+                            <span>Trạng thái tài khoản:</span>
+                            <div>
+                                <input class = "account-status" type="checkbox" name="lock-status" id="status-checkbox">
+                                <label for="status-checkbox">Khóa/Mở khóa</label>
+                            </div>
+                        </div>
+                        <input type="submit" name = "save" class = "btn save-btn">
+                        <label for="save">Lưu</label>
+                    </form>
+                    <div class = "confirm-form">
+                        <span>Bạn có muốn lưu thông tin rồi thoát không?</span>
+                        <i class='fa-regular fa-circle-xmark close-btn confirm-form__close-btn'></i>
+                        <button class = "confirm-form__save-btn">Lưu</button>
+                        <button class = "confirm-form__cancel-btn">Không</button>
+                    </div>
+                </div>
+
+                <div id="my-alert" class="alert alert-success" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Thông báo của bạn đã được gửi đi thành công!
+                </div>
+            </div>
+        </div>
+
+            <!-- <div class="page-counters" onclick="toggleActive(this)">0</div> -->
+            <div class="patient-wrapper__footer">
+                <div class="show-page">
+                </div>
+                <div class="number-page-box">
+                </div>
+                <div class="direct-page-block">
+                    <!-- Button nhấn vào để tiến trang kế -->
+                    <button class="bttn back-btn" id = "back-btn" data-page-results = {{page_results}}>
+                        <!-- Kiểm tra có trang trước trang hiện tại không, nếu có thì direct tới trang đó, không thì disable -->
+                        {% if page_results.has_previous %}
+                            <a href="?page={{page_results.previous_page_number}}" class = "back-btn back-btn--active"><i class="fa-solid fa-chevron-left"></i></a>
+                        {% else %}
+                            <a href="#" class = "back-btn back-btn--disable"><i class="fa-solid fa-chevron-left"></i></a>
+                        {% endif %}
+                        <!-- trong href có thể sử dung if else để xuất url theo điều kiện -->
+                        <!-- <a href="?page={{page_results.page}}"></a> -->
+                    </button>
+                    
+                    <ul>
+                        {% for page_num in page_range %}
+                            <!-- Neu so trang hien tai trùng với số trang trong <li> thi se css trang trùng do len z (áp dung class active)
+                                Số trang được xác định = page_obj.number, page_obj = paginator.get_page()-->
+                            <a class ="page-num {% if page_results.number == page_num %}active{% endif %}" href="?page={{page_num}}">{{page_num}}</a>
+
+
+                        {% endfor %}
+                    </ul>
+                    <div class = "bttn-wrapper" id = "next-btn--actived" data-page-results = {{page_results.number}}>
+                        {% if page_results.has_next %}
+                            <a href="?page={{page_results.next_page_number}}" class = "next-btn next-btn--active"><i class="fa-solid fa-chevron-right"></i></a>
+                        {% else %}
+                            <a href="#" class = "next-btn next-btn--disable"><i class="fa-solid fa-chevron-right"></i></a> 
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script>
+            var fullHeightDiv = document.getElementById("patient-wrapper");
+            fullHeightDiv.style.height = document.documentElement.scrollHeight + "px";
+        </script>
+        <script src="{% static 'form_validations.js' %}"></script>
+    </div>
+{% endblock main_content%}
+
+
+

@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>You have 1 message unread</title>
+	{% load static %}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <!-- <link rel="stylesheet" href="./assets/fonts/fontawesome-free-6.3.0/css/all.min.css"> -->
+	<!-- <link rel="stylesheet" href="../assets/fonts/fontawesome-free-6.3.0-web/fontawesome-free-6.3.0-web/css/all.min.css"> -->
+	<!-- <link rel="stylesheet" href="{% static 'user.css' %}"> -->
+	<link rel="stylesheet" href="{% static 'css/all.min.css' %}">
+    <!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+	<link rel="stylesheet" href="{% static 'nomalize.css' %}">
+	<!-- jQuery library -->
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
+	<!-- Popper JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+
+	<!-- Latest compiled JavaScript -->
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<script src="https://cdn.jsdelivr.net/npm/chart.js@4.2.1/dist/chart.umd.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<!-- Thêm thư viện jQuery Validate -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+</head>
+<body>
+	<!-- <div class = "signup-btn signup-btn-1">Đăng ký
+		<div class = "tes"></div>
+	</div> -->
+	{% block navbar_block %}
+	{% endblock navbar_block %}
+	{% block main_content %}{% endblock main_content %}
+	{% block footer %}{% endblock footer %}
+	<script src="{% static 'main.js' %}"></script>
+</body>
+	
+</html>
