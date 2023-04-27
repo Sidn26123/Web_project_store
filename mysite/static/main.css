@@ -1,0 +1,457 @@
+.content{
+	margin: 0 0 10px 30px;
+}
+.navbr{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #f1f1f1;
+	height: 40px;
+}
+.navbar-item-list{
+	padding: 0px 15px 0px 15px;
+	margin: 0;
+}
+.navbar-item-list__item{
+	display: inline-block;
+	padding: 0px 10px 0px 10px;
+
+}
+.navbar-item-list__item a{
+	font-size: 1.5rem;
+	font-weight: 400;
+	margin: 0;
+	color: black;
+}
+.admin-avatar{
+	height: 30px;
+	width: auto;
+	border-radius: 50%;
+}
+
+.admin-avatar-menu{
+	position: absolute;
+	display: none;
+	height: 115px;
+	width: 100px;
+	background-color: aquamarine;
+	right: 30px;
+	top:38px;
+}
+/* .navbar-item-list__item--display-menu:active .admin-avatar-menu{
+	display: block;
+} */
+.admin-avatar-menu div,a{
+	margin: 0 3px;
+}
+.admin-avatar-menu div{
+	margin: 4px 3px;
+}
+
+
+.navbar-item-list a{
+	font-size: 1.3rem;
+	font-weight: bold;
+}
+.navbar-item-list hr {
+	border: none;
+	border-top: 1px solid #302c2c5b;
+	margin: 5px 0;
+	padding: 0;
+	color: #2c272749;
+	height: 1px;
+}
+.line{
+	height: 1px;
+	width: 100%;
+	background-color: black;
+}
+.test{
+	display: flex;
+	justify-content: space-between;
+}
+
+#patient-wrapper{
+}
+
+.patient-list{
+	background-color: rgb(33, 151, 112);
+	height: 70vh;
+	width: calc(100% - 100px);
+	min-width: 700px;
+	margin: 0px 10px;
+}
+.content{
+	display: flex;
+	justify-content: space-between;
+}
+
+.search-filter{
+	position: relative;
+	height: calc(100vh-40px);
+	width: 250px;
+	margin-left: 30px;
+	background-color: rgba(39, 39, 97, 0.781);
+}
+
+.patient-wrapper{
+	height: calc(100vh - 50px);
+	width: calc(100% - 200px);
+	background-color: rgba(33, 33, 235, 0.253);
+}
+.patient-wrapper__header{
+	display: flex;
+	justify-content: space-between;
+}
+
+.patient-wrapper__header h3{
+	display: block;
+}
+
+.page-counter{
+	height: 30px;
+	width: 50px;
+	background-color: rgb(124, 124, 124);
+	transition: background-color 0.2s ease;
+	cursor: pointer;
+}
+
+.active{
+	background-color: black;
+}
+.page-counter:active{
+	background-color: rgb(39, 39, 30);
+}
+.page-counter:hover{
+	background-color: rgb(82, 82, 78);
+}
+.direct-page-block{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 120px;
+}
+
+.direct-page-block ul{
+	padding: 0;
+}
+
+.button--disble{
+	opacity: 0.5;
+    pointer-events: none;
+}
+
+.bttn{
+	background-color: none;
+	height: 2rem;
+	width: 20px;
+	border: none;
+}
+
+.search-box{
+	display: flex;
+	justify-content: space-between;
+}
+
+.search-box input[type = "text"]{
+	width: 100px;
+}
+
+.patient-details h3,h4,span{
+	color:#97A2D2;
+}
+.patient-details--visible{
+	display: block;
+}
+
+.patient-details-wrapper{
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(255, 255, 255, 0.671);
+}
+
+.patient-thumbnail{
+	border-radius: 50%;
+	height: 50px;
+	width: 50px;
+}
+
+.patient-thumbnail-in-details{
+	border-radius: 50%;
+	height: 25px;
+	width: 25px;
+}
+
+
+
+
+.next-btn{
+	display: flex;
+	justify-content: space-between;
+	height: 20px;
+	width: 20px;
+	border-radius: 30%;
+	background-color: #f1f1f1;
+}
+.next-btn i{
+	transform: translate(55%, 15%);
+}
+.bttn a{
+	display: flex;
+	justify-content: space-between;
+	height: 20px;
+	width: 20px;
+	border-radius: 30%;
+	background-color: #f1f1f1;
+}
+
+.back-btn{
+	display: flex;
+	justify-content: space-between;
+	height: 20px;
+	width: 20px;
+	border-radius: 30%;
+	background-color: #f1f1f1;
+}
+.back-btn i{
+	transform: translate(-15%, 15%);
+}
+
+.overlay {
+	display: none;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100vw;
+	height: 100vh;
+	background-color: rgba(255, 255, 255, 0.164); /* Màu nền đục để làm lớp đè */
+	/*z-index: 9999; /* Đặt lớp này ở trên cùng của các phần tử khác */
+}
+.overlay--visible{
+	display: block;
+}
+
+.search-filter__item{
+	display: inline-block;
+	white-space: nowrap;
+	background-color: aquamarine;
+	margin: 5px;
+}
+.search-filter input[type = "checkbox"]{
+	display: none;
+	appearance: none;
+	/* height: 30px; */
+	/* width: 30px; */
+	/* background-color: greenyellow; */
+}
+
+.items-container{
+	display: flex;
+	flex-wrap: wrap;
+	max-width: 600px;
+}
+
+.search-filter__item label{
+	display: block;
+	height: 100%;
+	width: 100%;
+}
+
+
+
+nav a {
+	color: black;
+	text-decoration: none;
+}
+
+nav a:visited {
+	color: black;
+}
+
+nav a:hover {
+	color: blue;
+}
+
+table {
+	border-collapse: collapse;
+	width: 100%;
+	margin: 10px 0;
+	font-size: 14px;
+	background-color: #0c5ba5;
+	color: #333;
+}
+
+th, td {
+	padding: 8px;
+	text-align: left;
+}
+
+th {
+	background-color: #555bb4ce;
+}
+
+th i::before{
+	background-color: aqua;
+}
+
+th i::after{
+	background-color: purple;
+}
+
+
+.checkbox-custom-checked{
+	background-color: #008000; /* Màu nền khi checkbox được chọn */
+}
+
+
+
+
+.patient-details{
+	display: block;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 400px;
+	width: 240px;
+	background-color: #503535;
+	flex-wrap: wrap;
+	white-space: nowrap;
+}
+
+.d-col-flex{
+	display: flex;
+	flex-direction: column;
+}
+
+.d-col-flex h3{
+	margin: 10px 5px;
+}
+
+.d-col-flex .close-details{
+	margin: 5px;
+	transform: translateY(-40%);
+	color: rgb(35, 8, 131);
+}
+.d-col-flex .close-details:hover{
+	color:#e40404;
+}
+.d-row-flex{
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	width: 100%;
+	flex-wrap: wrap;
+	max-width: 100%;
+	overflow: hidden
+}
+
+.d-row-flex .wrapper{
+	flex-wrap: wrap;
+	max-width: 240px;
+}
+
+.d-row-flex span{
+	display: inline-block;
+	white-space: nowrap;
+	margin: 0px 5px 3px 0;
+	/* word-wrap: break-word; */
+}
+
+
+
+.close-form{
+	color: #e40404;
+}
+
+
+
+.fixed-menu{
+	position: fixed;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	height: 100px;
+	width: 50px;
+	background-color: #1D1D42;
+}
+
+.menu-item:hover{
+	background-color: #0c5ba5;
+}
+
+.export-file-menu{
+	display: none;
+	position: relative;
+}
+
+
+.confirm-form{
+	display: none;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	height: 200px;
+	width: 300px;
+	background-color: #503535;
+	flex-wrap: wrap;
+	white-space: nowrap;
+}
+.forms{
+	display: none;
+}
+.confirm-delete-form{
+	display: none;
+}
+.add-patient-btn{
+	cursor: pointer;
+}
+
+.add-patient-form{
+	display: none;
+	position: relative;
+}
+.create-wrapper{
+	display: inline-block;
+}
+
+.create-wrapper{
+	display: inline-block;
+	position: fixed;
+	background-color: #1D1D42;
+	color:#4d61d6
+}
+
+.hidden{
+	display: none!important;
+}
+.display{
+	display: block!important;
+}
+
+.confirm-cancel-add-patient-form{
+	display: none;
+}
+
+.patient-province{
+	display: none;
+}
+
+.chart-wrapper{
+	margin: 0 0 10px 30px;
+}
+
+.chart-w-3{
+	width: 300px;
+	height: auto;
+}
+
+.canvas{
+	min-width: 200px;
+	min-height: 150px;
+}

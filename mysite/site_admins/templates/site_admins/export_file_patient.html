@@ -1,0 +1,12 @@
+
+def download_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="mydata.csv"'
+
+    # Tạo writer CSV và ghi dữ liệu vào response
+    writer = csv.writer(response)
+    writer.writerow(['Field 1', 'Field 2', 'Field 3']) # Header của file CSV
+    for row in mydata:
+        writer.writerow([row['field1'], row['field2'], row['field3']]) # Ghi dữ liệu của từng row vào file CSV
+
+    return response
