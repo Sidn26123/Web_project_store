@@ -5,3 +5,5 @@ Clone file mysite -> chuyển đến thư mục mysite sẽ có file requirement
 ```
 pip install -r requirements.txt
 ```
+Ví dụ: File được clone về ở D:/Project
+Vào console (window + R -> nhập cmd hoặc có sẵn trong Vscode) chuyển đến thư mục mysite trong file vừa tải về. Theo đường dẫn trên thì path trong console sẽ như sau: D:/Project/mysite. Sau đó nhập lệnh pip trên
