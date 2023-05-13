@@ -16,7 +16,7 @@ from datetime import datetime,date,timedelta
 from dateutil.relativedelta import relativedelta
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count, Sum, Case, When, F, Value, CharField, DateField, IntegerField, DateTimeField
-from django.db.models.functions import TruncMonth, TruncWeek, TruncYear,ExtractMonth, ExtractYear, TruncDate
+from django.db.models.functions import TruncMonth, TruncWeek, TruncYear,ExtractMonth, ExtractYear, TruncDate, TruncSecond
 from django.core.serializers.json import DjangoJSONEncoder
 from django.core import serializers
 from django.conf import settings
@@ -244,6 +244,7 @@ def success_appoint_chart_data(request):
         'table_data': json.dumps(table_data),
     }
     return JsonResponse(data)
+
 def failed_appoint_chart_data(request):
     selected_value = request.GET.get('selected_value')
     now = datetime.now()
@@ -386,11 +387,45 @@ def spec_appoint_chart_data(request):
     return JsonResponse(data)
 
 def dispose_appoint_chart_data(request):
-    
-    return JsonResponse({'success': 'true'})
-
-
-
-
-def upcoming_appoint_table_row_data(request):
-    pass
+    selected_value = request.GET.get('selected_value')
+    now = datetime.strptime(datetime.strftime(datetime.now(),'%d/%m/%Y %H:%M:%S'), '%d/%m/%Y %H:%M:%S')
+    time_start = now.replace(hour = 00, minute = 00, second = 00)
+    time_end = now.replace(hour = 23, minute = 59, second = 59)
+    if selected_value == "15-before-next":
+        time_start = time_start + timedelta(days = -14)
+        time_end = time_end + timedelta(days = 14)
+    elif selected_value == "30-days-next":
+        time_end = time_end + timedelta(days = 29)
+    elif selected_value == "30-days-before":
+        time_start  = time_start + timedelta(days = -29)
+    elif selected_value == "custom":
+        time_start = datetime.strptime(request.GET.get('time_start'), "%d/%m/%Y %H:%M:%S")
+        time_end = datetime.strptime(request.GET.get('time_end'), "%d/%m/%Y %H:%M:%S")
+        if time_start > time_end:
+            time_start, time_end = time_end, time_start
+    step_label = get_time_step(time_start, time_end, 6)
+    step_x_axis = get_time_step(time_start, time_end, 100)
+    times = [time_start + timedelta(seconds = step_label*i) for i in range(1,7)]
+    labels = [time.strftime("%d/%m/%Y") for time in times]
+    transactions = Transaction.objects.\
+                    filter(appoint_time__range = (time_start, time_end)).\
+                    annotate(appoint_time_group = TruncSecond('appoint_time')).\
+                    annotate(count = Count('id')).\
+                    values('count', 'appoint_time_group').\
+                    order_by('appoint_time_group')
+    maximum = 300
+    x_axis = []
+    y_axis = []
+    r = []
+    table = []
+    total_sec = (time_end - time_start).total_seconds()
+    for transaction in transactions:
+        time_group = transaction['appoint_time_group']
+        time_temp = time_group.replace(hour = 00, minute = 00, second = 00)
+        delta_sec = (time_group - time_temp).total_seconds()
+        table.append({'x_axis': ((time_group - time_start).total_seconds()/total_sec)*maximum, 'y_axis': delta_sec, 'r': transaction['count']})
+    data = {
+        'labels': labels,
+        'table_data': table,
+    }
+    return JsonResponse(data)

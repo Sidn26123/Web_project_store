@@ -62,6 +62,9 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'mysite.urls'
 
+
+def name_processor(request):
+    return {'name': request.user.real_name}
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -73,6 +76,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                # 'site_admins.context_processors.name_processor'
             ],
         },
     },

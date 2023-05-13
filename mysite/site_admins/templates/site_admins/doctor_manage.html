@@ -53,21 +53,21 @@
                 <button id="search-submit-btn">Tìm</button>
             </div>
             <br>
-            {{query_set}}
+            <div class = "items-chose-display-area"></div>
             <div class="search-filter__items">
                 <p>Tuổi</p>
                 <div class="items-container">
                     <div class="search-filter__item">
-                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "teen" value = "teen">
-                        <label for="teen">'<'19</label>
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "group_1" value = "group_1">
+                        <label for="group_1">'<'25</label>
                     </div>
                     <div class="search-filter__item">
-                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "adult" value = "adult">
-                        <label for="adult">20-59</label>
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "group_2" value = "group_2">
+                        <label for="group_2">25-40</label>
                     </div>
                     <div class="search-filter__item">
-                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "elderly" value = "elderly">
-                        <label for="elderly">'>60'</label>
+                        <input type="checkbox", name = "age" class="search-filter__item-checkbox" id = "group_3" value = "group_3">
+                        <label for="group_3">'>40'</label>
                     </div>
                 </div>
             </div>
@@ -89,7 +89,7 @@
                 </div>
             </div>
             <div class="search-filter__items">
-                <p>Tỉnh thành</p>
+                <span class="province-expand-btn">Tỉnh thành</span>
                 <div class="items-container">
                     {% for province in provinces %}
                         <div class="search-filter__item">
@@ -97,39 +97,40 @@
                             <label for={{province.0}}>{{province.1}}</label>
                         </div>
                     {% endfor %}
+                    <span class="province-expand-btn">A</span>
                 </div>
+                
                 <!-- <div class="items-containers">
                     <div class="search-filter__item">
                         input
                     </div>
                 </div> -->
             </div>
-        </div>
-        <!-- Phan tra ve ket qua, nhu trong canva gom header + content + footer -->
-        <div class="patient-wrapper" id = "patient-wrapper">
-            <!-- Header: head, bộ sắp xếp, tổng số result -->
-            <div class="patient-wrapper__header">
-                <div>
-                    <h3>Bệnh nhân</h3>
-                    <span>Chi tiết</span>
-                </div>
-                <div>
-                    <div class="order-filter-box">
-                        <div class="order-filter-select" id="order-filter-select" data-patient-data = {{query_results}}>
-                            <select name="choice-box" id="sort-choice">
-                                <option value="" disabled selected hidden>Sắp xếp theo</option>
-                                <option value="asc">Tên (A-Z)</option>
-                                <option value="des">Tên (Z-A)</option>
-                                <option value="age">Tuổi/option>
-                                <option value="date_join">Thời gian tham gia</option>
-                            </select>
+            <div class="search-filter__items">
+                <span>Chuyên ngành</span>
+                <div class="items-container">
+                    {% for spec in spec_labels %}
+                        <div class = "search-filter__item">
+                            <input type="checkbox", name = "spec", id = {{spec.0}} value = {{spec.0}}>
+                            <label for = {{spec.0}}>{{spec.1}}</label>
                         </div>
-                    </div>
-                    <div class="patient-wrapper__sum-patient"></div>
+                    {% endfor %}
                 </div>
             </div>
+            <!-- <div>
+                <span>Thu nhập</span>
+                <label for="doctor-income">Tu</label>
+                <input type="number" name = "income" value = "income" class = "income-input" id = "doctor-income-lowest">
+                <label for="doctor-income">den</label>
+                <input type="number" name = "income" value = "income" class = "income-input" id = "doctor-income-highest">
+            </div> -->
+        </div>
+        <!-- Phan tra ve ket qua, nhu trong canva gom header + content + footer -->
+        <div class="wrapper doctor-wrapper" id = "doctor-wrapper">
+            <!-- Header: head, bộ sắp xếp, tổng số result -->
+
             <!-- Phần content hiển thị kết quả tìm kiếm -->
-            <div class="patient-list" id="patient-list" >
+            <div class="doctor-list" id="doctor-list" >
                 <!-- {% for patient in page_results %}
                     <div class="patient-list__item">
                         <div>
@@ -153,46 +154,13 @@
                         </div>
                     </div>
                 {% endfor %}-->
-                <table class = "patient-table">
+                <table id = "doctor-table">
                     <thead>
-                        <tr role = "row">
-                            <th class = "sorting">
-                                ID
-                                <i class="fa-solid fa-arrow-up" class = "sorting-asc"></i>
-                                <i class="fa-solid fa-arrow-down" class = ""></i>
-                            </th>
-                            <th class = "sorting">Tên</th>
-                            <th class = "sorting">Tuổi</th>
-                            <th class = "sorting">Giới tính</th>
-                            <th class = "sorting">Quê quán</th>
-                            <th class = "sorting">CCCD/CMND</th>
-                            <th class = "sorting">Số điện thoại</th>
-                            <th class = "sorting">Ngày tham gia</th>
-                            <th class = "sorting choosing">Đã chọn</th>
-                        </tr>
+                        <tr role = "row"></tr>
                     </thead>
                     <tbody>
-                    {% for patient in page_results %}
-                        <tr class ="table-tr">
-                            <td class = "page-patient-id">{{ patient.id }}</td>
-                            <td>
-                                <img src="{{patient.avatar.url}}" alt="none" class = "patient-thumbnail"  data-id-patient = "{{patient.id}}">
-                                {{ patient.username }}
-                                
-                            </td>
-                            <td class = "page-patient-age">{{ patient.new_age }}</td>
-                            <td class = "page-patient-gender">{{ patient.get_gender_display }}</td>
-                            <td class = "page-patient-province">{{ patient.get_province_display }}</td>
-                            <td class = "page-patient-province">{{ patient.citizen_identification }}</td>
-                            <td class = "page-patient-province">{{ patient.phone }}</td>
-                            <td class = "page-patient-province">{{ patient.date_join }}</td>
-                            <td class = "page-patient-province"><input type="checkbox" name="chose-checkbox" class = "row-chose"></td>
-                        </tr>
-                    {% endfor %}
-                    
-
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
             <div class="overlay">
                 <div class="patient-details d-col-flex">
                     <div class = "d-row-flex">
@@ -200,16 +168,16 @@
                         <i class="fa-regular fa-circle-xmark close-btn close-details"></i>
                     </div>
                     <div class = "d-row-flex patient-details-id">
-                        <span class = "id">ID: {{patient.id}}</span>
+                        <span class = "id"></span>
                         <i class="fa-regular fa-clipboard"></i>
                     </div>
                     <div>
                         <img src="{{patient.avatar.url}}" alt="Avartar" class = "patient-thumbnail-in-details">
                         <div class = "d-col-flex">
-                            <span>{{patient.username}}</span>
+                            <span>username</span>
                             <div class = "d-row-flex">
-                                <span>{{patient.gender_choice}}, {{patient.date_of_birth}}</span>
-                                <span>Tuổi: {{patient.new_age}}</span>
+                                <span>gender, birth</span>
+                                <span>Tuổi: </span>
                             </div>
                         </div>
                         <div>
@@ -224,29 +192,61 @@
                             </div>
                         </div>
                         <span>Tổng số cuộc hẹn đã hẹn:</span>
-                        <span>Tổng số tiền đã chi:</span>
+                        <span>Tổng số tiền thu được:</span>
                     </div>
                     <div>
                         <button class = "edit-profile-btn">Chỉnh sửa</button>
-                        <button class = "delete-btn">Xóa bệnh nhân</button>
+                        <button class = "delete-btn">Xóa </button>
                     </div>
                 </div>
                 <div class = "patient-details d-col-flex forms">
-                    <form action="" method = "POST"> {% csrf_token %}
+                    <form action="/ad/update-doctor-info/" method = "POST" enctype="multipart/form-data" id = "update-patient-info-f"> {% csrf_token %}
+                        <div style = "display:none">
+                            <input type= "number" class = "id-text" name = "id" id = "id-number">
+                        </div>
                         <div class = "d-row-flex">
                             <h3>Chỉnh sửa thông tin</h3>
-                            <i class='fa-regular fa-circle-xmark close-btn close-form'></i>
+                            <i class='fa-regular fa-circle-xmark close-btn close-form-btn'></i>
                         </div>
-                        <span>Tên<input type="text"></span>
+                        <div>
+                            <span >Tên</span>
+                            <input type="text" class = "name-text" name = "name">
+                        </div>
                         <div class = "d-col-flex">
                             <span>Avatar</span>
-                            <input type = "file">
+                            <input type = "file"  class = "avatar-file" name = "avatar">
                         </div>
-                        <input type="submit">
+                        <div class = "d-col-flex">
+                            <span Địa chỉ></span>
+                            <input type="text" class = "address-text" name = "address">
+                        </div>
+                        <div class="d-col-flex">
+                            <span >Số điện thoại</span>
+                            <input type="text" class = "phone-text" name = "address">
+                        </div>
+                        <div class = "d-col-flex">
+                            <span>Trạng thái tài khoản:</span>
+                            <div>
+                                <input class = "account-status" type="checkbox" name="lock-status" id="status-checkbox">
+                                <label for="status-checkbox">Khóa/Mở khóa</label>
+                            </div>
+                        </div>
+                        <input type="submit" name = "save" class = "btn save-btn" value = "Lưu">
                     </form>
+                    <div class = "confirm-form">
+                        <span>Bạn có muốn lưu thông tin rồi thoát không?</span>
+                        <i class='fa-regular fa-circle-xmark close-btn confirm-form__close-btn'></i>
+                        <button class = "confirm-form__save-btn">Lưu</button>
+                        <button class = "confirm-form__cancel-btn">Không</button>
+                    </div>
+                </div>
+                <div id="my-alert" class="alert alert-success" style="display: none;">
+                    <button type="button" class="close" data-dismiss="alert">&times;</button>
+                    Thông báo của bạn đã được gửi đi thành công!
                 </div>
             </div>
-        </div>
+            </div>
+            </div>
 
             <!-- <div class="page-counters" onclick="toggleActive(this)">0</div> -->
             <div class="patient-wrapper__footer">
@@ -287,8 +287,11 @@
             </div>
         </div>
         <script>
-            var fullHeightDiv = document.getElementById("patient-wrapper");
+            var fullHeightDiv = document.getElementById("doctor-wrapper");
             fullHeightDiv.style.height = document.documentElement.scrollHeight + "px";
         </script>
     </div>
+    <script src = '{% static "doctor.js" %}'></script>
+
+
 {% endblock main_content%}

@@ -65,13 +65,13 @@ class Detail_canceled(models.Model):
     reason = models.TextField(blank = True, null = True)
     canceler = models.CharField(max_length = 20, choices = canceler_choices, default = 'patient')
     time_cancel = models.DateTimeField(auto_now_add=True)
-    
     def __str__(self):
         return self.id_transaction
     def __save__(self, *args, **kwargs):
         if (args[0]):
             self.canceler = args[0]
         super().save(*args, **kwargs)
+
 class Test(models.Model):
     name = models.CharField(max_length = 100, default= None)
     age = models.IntegerField(default= 1)

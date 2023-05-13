@@ -1,5 +1,5 @@
-{% extends "user_login_view.html" %}
-
+{% extends "patients/user_login_view.html" %}
+{% load static %}
 
 {% block content %}
 	<form method = "POST"> {% csrf_token %}

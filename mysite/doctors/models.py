@@ -3,9 +3,11 @@ from django.db import models
 from users.models import User
 # Create your models here.
 class Doctor(User):
-    
+    position = models.CharField(max_length=255, null = True, blank = True)
+    specialty = models.ForeignKey('Specialties', on_delete=models.CASCADE, default = 'nha_khoa')
+    rate = models.FloatField(default = 0)
+    income = models.IntegerField(default = 0)
     def save(self, *args, **kwargs):
-        
         super().save(*args, **kwargs)
         
 class Specialties(models.Model):

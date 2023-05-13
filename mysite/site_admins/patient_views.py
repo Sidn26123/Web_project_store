@@ -221,3 +221,103 @@ def get_account_status(request):
         'amounts': amounts,
     }
     return JsonResponse(data)
+
+def get_patient_table(request):
+    #../?gender=man&gender=woman&province=Binh_thuan
+    #Lấy các key có trong url gender, province
+    url_params = request.GET.keys()
+    #Luu trữ toàn bộ cặp key-value có trong url
+    url_param_values = []
+    #Duyệt để đẩy cặp key-value vào url_param_values
+    for key in url_params:
+        param_list = request.GET.getlist(key)
+        for param in param_list:
+            url_param_values.append([key, param])
+            
+    query = Q()
+    query_temp = Q()
+    sort = ""
+    gender_conditions = []
+    province_conditions = []
+    age_conditions = []
+    age = (0,0)
+    #Duyệt các phần tử để thêm vào query
+    for key, value in url_param_values:
+        if key == "gender":
+            gender_conditions.append(value)
+        elif key == "province":
+            province_conditions.append(value)
+        elif key == "sort_by":
+            sort = value
+        elif key == "search_query":
+            query &= Q(real_name__icontains = value)
+        elif key == "age-start":
+            age[1] = int(value)
+        elif key == "age-end":
+            age[1] = int(value)
+        elif key == "age":
+            age_conditions.append(value)
+            # if value == "teen":
+            #     query |= Q(new_age__lt = 19)
+            # elif value == "adult":
+            #     query |= Q(new_age__range = (20,59))
+            # elif value == "elderly":
+            #     query |= Q(new_age__gte = 60)
+    for condition in gender_conditions:
+        query_temp |= Q(gender = condition)
+    if (query):
+        query &= query_temp
+    else:
+        query = query_temp
+    query_temp = Q()
+    
+    for condition in province_conditions:
+        query_temp |= Q(province = condition)
+        
+    if (query_temp):
+        query &= query_temp
+        query_temp = Q()
+    
+    for condition in age_conditions:
+        if condition == "teen":
+            query_temp |= Q(new_age__lt = 19)
+        elif condition == "adult":
+            query_temp |= Q(new_age__range = (20,59))
+        elif condition == "elderly":
+            query_temp |= Q(new_age__gte = 60)
+    if query_temp:
+        query &= query_temp
+    
+    #Xử lý các query về tuổi
+    # if age[0] == 0 and age[1] == 0:
+    #     pass
+    # elif age[0] == 0:
+    #     query |= Q(age__lt = age[1])
+    # elif age[1] == 0:
+    #     query |= Q(age_gte = age[0])
+    # else:
+    #     query |= Q(age__range = range(age[0], age[1]))
+        
+    #Xử lí query sort
+    results = Patient.objects.filter(query)
+    table = []
+    
+    for result in results:
+        img = [result.avatar.url, result.real_name]
+        row = [result.id, img, result.new_age, result.get_gender_display(), result.get_province_display(), result.citizen_identification, result.phone, datetime.strftime(result.date_joined, "%d/%m/%Y %H:%M:%S"), result.is_active]
+        table.append(row)
+    data = {
+        'table_data': table,
+    }
+    return JsonResponse(data)
+
+def update_patient_status(request):
+    patient_id = request.GET.get('id')
+    patient = Patient.objects.get(id = int(patient_id))
+    status =  patient.is_active
+    
+    # status = True if status == "true" else False
+    # print(patient.is_active)
+    patient.is_active = not status
+    patient.save()
+    return JsonResponse({'status': 'ok'})

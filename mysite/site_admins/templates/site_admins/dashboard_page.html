@@ -112,16 +112,11 @@
                                 <option value="this-month"></option>
                             </select>
                         </div>
-                        <table>
+                        <table id = "spec-overview-table">
                             <thead>
-                                <tr role = "row">
-                                    <th>Nha khoa</th>
-                                    <th>Lượng giao dịch</th>
-                                    <th>Lượt giao dịch</th>
-                                </tr>
                             </thead>
-                            <tbody id="spec-list-body">
-                                Loading
+                            <tbody>
+                                <div class="loader" id = "spec-overview-table-loader"></div>
                             </tbody>
                         </table>
                         <!--<div class="specialities-item">
@@ -242,6 +237,5 @@
             </div>
         </div>
     </div>
-
     <script src="{% static 'dashboard.js' %}"></script>
 {% endblock %}

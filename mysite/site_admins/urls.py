@@ -6,6 +6,8 @@ from .views import (admin_login_view,
                     dashboard,
                     appointment_manage_view,
                     spec_manage_view,
+                    transaction_manage_view,
+                    doctor_manage_view,
                     new_patient_register_search_view,
                     new_doctor_register_search_view,
                     new_transaction_view,
@@ -15,8 +17,7 @@ from .views import (admin_login_view,
                     test_json,
                     appoints_total_data,
                     appoints_state_data,
-                    specialities_table_data,
-                    specialities_income_chart_data,
+
                     download_csv,
                     get_data_patient,
                     get_data_patients,
@@ -30,6 +31,8 @@ from .patient_views import (
                     update_overview_reg_chart,
                     get_new_register_amount,
                     get_account_status,
+                    get_patient_table,
+                    update_patient_status,
                     )
 
 from .appointment_manage import (
@@ -42,6 +45,21 @@ from .appointment_manage import (
     dispose_appoint_chart_data,
     
 )   
+from .spec import (
+    get_spec_data,
+)
+from .transaction import (
+    get_transaction_data,
+)
+from .dashboard import (
+    specialities_table_data,
+    specialities_income_chart_data,
+    get_spec_overview_table_data,
+    
+)
+from .doctor import (
+    get_doctor_table_data,
+)
 app_name = "site_admin"
 
 urlpatterns = [
@@ -51,6 +69,8 @@ urlpatterns = [
     path('dashboard/', dashboard, name = "dashboard"),
     path('appointment-manage/', appointment_manage_view, name = "appointment"),
     path('spec-manage/', spec_manage_view, name = "spec_manage"),
+    path('transaction-manage/', transaction_manage_view, name = "transaction_manage"),
+    path('doctor-manage/', doctor_manage_view, name = "doctor"),
     path('get-new-data/', new_patient_register_search_view, name = "total_new_patient"),
     path('get-new-data-doctor/', new_doctor_register_search_view, name = "total_new_doctor"),
     path('get-new-data-transaction/', new_transaction_view, name = "total_new_transaction"),
@@ -79,4 +99,10 @@ urlpatterns = [
     path('failed-appoint-chart-data/', failed_appoint_chart_data),
     path('spec-appoint-chart-data/', spec_appoint_chart_data),
     path('dispose-appoint-chart-data/', dispose_appoint_chart_data),
+    path('get-spec-data/', get_spec_data),
+    path('get-transactions-data/', get_transaction_data),
+    path('get-patient-table/', get_patient_table),
+    path('update-patient-status/', update_patient_status),
+    path('get-spec-overview-table-data/', get_spec_overview_table_data),
+    path('get-doctor-table-data/', get_doctor_table_data),
 ]

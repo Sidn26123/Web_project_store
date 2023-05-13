@@ -4,6 +4,7 @@
     {% load static %}
     <!-- Thẻ content bọc lại toàn bộ phần search + sort + results -->
     <div class="fixed-menu ">
+        <div class="a"></div>
         <div class="menu-item">
             <a href="#">Home</a>
         <span class = "line"></span>
@@ -314,14 +315,10 @@
                         </div>
                     </div>
                 {% endfor %}-->
-                <table class = "patient-table">
+                <table id = "patient-table">
                     <thead>
                         <tr role = "row">
-                            <th class = "sorting">
-                                ID
-                                <i class="fa-solid fa-arrow-up" class = "sorting-asc"></i>
-                                <i class="fa-solid fa-arrow-down" class = ""></i>
-                            </th>
+                            {% comment %} <th class = "sorting">ID</th>
                             <th class = "sorting">Tên</th>
                             <th class = "sorting">Tuổi</th>
                             <th class = "sorting">Giới tính</th>
@@ -329,12 +326,12 @@
                             <th class = "sorting">CCCD/CMND</th>
                             <th class = "sorting">Số điện thoại</th>
                             <th class = "sorting">Ngày tham gia</th>
-                            <th class = "sorting">Hoạt động</th>
+                            <th class = "sorting">Hoạt động</th> {% endcomment %}
                             <!-- <th class = "sorting choosing">Đã chọn</th> -->
                         </tr>
                     </thead>
                     <tbody>
-                    {% for patient in page_results %}
+                    <!-- {% for patient in page_results %}
                         <tr class ="table-tr">
                             <td class = "page-patient-id">{{ patient.id }}</td>
                             <td>
@@ -353,14 +350,20 @@
                             {% else %}
                                 <td class = "page-patient-active">Đã khóa</td>
                             {% endif %}
-                            <!-- <td class = "page-patient-actived">{{patient.is_active}}</td> -->
+                            <td class = "page-patient-actived">{{patient.is_active}}</td>
                             <td class = "page-patient-choose-box"><input type="checkbox" name="chose-checkbox" class = "row-choose" style="display:none"></td>
                         </tr>
-                    {% endfor %}
+                    {% endfor %} -->
+                    <div class = "page-patient-choose-box-confirm" style = "display: none;">
+                        <span>Thay đổi trạng thái của<span class = "patient-name"></span></span></span>
+                        <button class = "confirm__yes-btn" value="yes">Đồng ý</button>
+                        <button class = "confirm__no-btn" value="no">Không</button>
+                        <i class="fa-regular fa-circle-xmark close-btn" id = "change-status-close-btn"></i>
                     
-
+                    </div>
                 </tbody>
             </table>
+
             <div class="overlay">
                 <div class="patient-details d-col-flex">
                     <div class = "d-row-flex">
@@ -408,7 +411,7 @@
                 <div class = "patient-details d-col-flex forms">
                     <form action="/ad/update-patient-info/" method = "POST" enctype="multipart/form-data" id = "update-patient-info-f"> {% csrf_token %}
                         <div style = "display:none">
-                            <input type="text" class = "id-text" name = "patient-id">
+                            <input type= "number" class = "id-text" name = "patient-id" id = "id-number">
                         </div>
                         <div class = "d-row-flex">
                             <h3>Chỉnh sửa thông tin</h3>
@@ -437,8 +440,7 @@
                                 <label for="status-checkbox">Khóa/Mở khóa</label>
                             </div>
                         </div>
-                        <input type="submit" name = "save" class = "btn save-btn">
-                        <label for="save">Lưu</label>
+                        <input type="submit" name = "save" class = "btn save-btn" value = "Lưu">
                     </form>
                     <div class = "confirm-form">
                         <span>Bạn có muốn lưu thông tin rồi thoát không?</span>
@@ -447,7 +449,6 @@
                         <button class = "confirm-form__cancel-btn">Không</button>
                     </div>
                 </div>
-
                 <div id="my-alert" class="alert alert-success" style="display: none;">
                     <button type="button" class="close" data-dismiss="alert">&times;</button>
                     Thông báo của bạn đã được gửi đi thành công!
@@ -456,51 +457,17 @@
         </div>
 
             <!-- <div class="page-counters" onclick="toggleActive(this)">0</div> -->
-            <div class="patient-wrapper__footer">
-                <div class="show-page">
-                </div>
-                <div class="number-page-box">
-                </div>
-                <div class="direct-page-block">
-                    <!-- Button nhấn vào để tiến trang kế -->
-                    <button class="bttn back-btn" id = "back-btn" data-page-results = {{page_results}}>
-                        <!-- Kiểm tra có trang trước trang hiện tại không, nếu có thì direct tới trang đó, không thì disable -->
-                        {% if page_results.has_previous %}
-                            <a href="?page={{page_results.previous_page_number}}" class = "back-btn back-btn--active"><i class="fa-solid fa-chevron-left"></i></a>
-                        {% else %}
-                            <a href="#" class = "back-btn back-btn--disable"><i class="fa-solid fa-chevron-left"></i></a>
-                        {% endif %}
-                        <!-- trong href có thể sử dung if else để xuất url theo điều kiện -->
-                        <!-- <a href="?page={{page_results.page}}"></a> -->
-                    </button>
-                    
-                    <ul>
-                        {% for page_num in page_range %}
-                            <!-- Neu so trang hien tai trùng với số trang trong <li> thi se css trang trùng do len z (áp dung class active)
-                                Số trang được xác định = page_obj.number, page_obj = paginator.get_page()-->
-                            <a class ="page-num {% if page_results.number == page_num %}active{% endif %}" href="?page={{page_num}}">{{page_num}}</a>
 
-
-                        {% endfor %}
-                    </ul>
-                    <div class = "bttn-wrapper" id = "next-btn--actived" data-page-results = {{page_results.number}}>
-                        {% if page_results.has_next %}
-                            <a href="?page={{page_results.next_page_number}}" class = "next-btn next-btn--active"><i class="fa-solid fa-chevron-right"></i></a>
-                        {% else %}
-                            <a href="#" class = "next-btn next-btn--disable"><i class="fa-solid fa-chevron-right"></i></a> 
-                        {% endif %}
-                    </div>
-                </div>
-            </div>
         </div>
         <script>
             var fullHeightDiv = document.getElementById("patient-wrapper");
             fullHeightDiv.style.height = document.documentElement.scrollHeight + "px";
         </script>
+        <div class="loader">
+        </div>
         <script src="{% static 'form_validations.js' %}"></script>
         <script src="{% static 'patient_chart.js' %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-
     </div>
 {% endblock main_content%}
 

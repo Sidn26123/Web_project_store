@@ -28,6 +28,26 @@ import os
 
 def get_spec_data(request):
     spec_labels = []
-    spec = Specialties.objects.all()
-    
-    return JsonResponse({})
+    specs = Specialties.objects.all()
+    spec_labels = [spec.name for spec in specs]
+    spec_display = [spec.get_name_display() for spec in specs]
+    spec_description = [spec.description for spec in specs]
+    transactions = Transaction.objects.filter(medical_specialty__in = spec_labels).values('medical_specialty').annotate(total = Sum('amount_transact')).annotate(count = Count('id_transaction'))
+    doctors = Doctor.objects.filter(specialty__in = spec_labels).values('specialty').annotate(count = Count('id'))
+    data = []
+    for i in range(0, len(spec_labels)):
+        transaction_count = transactions.filter(medical_specialty = spec_labels[i])[0]['count'] #if i < len(spec_labels) else transactions
+        if transactions.filter(medical_specialty = spec_labels[i], state = 'success').exists():
+            transaction_total = transactions.filter(medical_specialty = spec_labels[i], state = 'success')[0]['total'] #if i < len(spec_labels) else transactions
+        else:
+            transaction_total = 0
+        if (doctors.filter(specialty = spec_labels[i]).exists()):
+            doctor_num = doctors.filter(specialty = spec_labels[i])[0]['count'] #if i < len(spec_labels) else transactions
+        else:
+            doctor_num = 0
+        temp = [spec_display[i], spec_description[i], doctor_num, transaction_total, transaction_count]
+        data.append(temp)
+    data = {
+        'table_data': json.dumps(data),
+    }
+    return JsonResponse(data)

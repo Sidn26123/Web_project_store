@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block main_content %}
+    <div class = "get" data-id="{% if request.user.is_authenticated %}{{ request.user.id }}{% else %}-1{% endif %}"></div>
+    <h1>Đặt</h1>
+    
+    <form method="POST" action = "/book-doctor/" id = "book-form"> {% csrf_token %}
+        <input type="text" id = "patient-name" name = "patient-name">
+        <label for="doctor-name">Bác sĩ</label>
+        <input type="text" id = "a" name = "a">
+    </form>
+    <input type = "submit" value = "book" id = "book-submit" name = "book">
+    <div>
+        <input type="date" name = "date_book" id = "date_book">
+        <input type="radio" name = "time" value = "1">
+        <input type="radio" name = "time" value = "2">
+        <input type="radio" name = "time" value = "3">
+    </div>
+    <script src = "{% static 'main_p.js' %}"></script>
+{% endblock %}

@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import Site_admin, Transaction, Test
 from patients.models import Patient
-from doctors.models import Doctor
+from doctors.models import Doctor, Specialties
 from users.models import User
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from django.core.files.storage import default_storage
@@ -41,7 +41,7 @@ def admin_login_view(request):
             print(user)
             if user is not None:
                 login(request, user)
-                return redirect('site_admin:home')
+                return redirect(request.GET.get('next', ''))
             # else:
             #     login(request, user)
             #     return redirect('../../')
@@ -488,71 +488,7 @@ def appoints_state_data(request):
     }
     return JsonResponse(data)
 
-def specialities_table_data(request):
-    selections = request.GET.get("selected_value")
-    results = []
-    if (selections == "this-week"):
-        time_start = datetime.now().date() + relativedelta(days = -7)
-        time_end = datetime.now().date() + relativedelta(days = 1)
-        spec_top = Transaction.objects.values('medical_specialty__name')\
-                            .annotate(count = Count('id'))\
-                            .annotate(total = Sum('amount_transact'))\
-                            .filter(transaction_time__gte = time_start, state = 'success', transaction_time__lt = time_end)\
-                            .values('count', 'total', 'medical_specialty__name')\
-                            .order_by('total')
-        
-    data = {
-        'data': list(spec_top),
-        'labels': [item['medical_specialty__name'] for item in spec_top],
-        'amounts': [item['total'] for item in spec_top],
-        'counts': [item['count'] for item in spec_top],
-    }
-    return JsonResponse(data)
 
-def specialities_income_chart_data(request):
-    selections = request.GET.get("selected_value")
-    results = []
-    time_labels = []
-    today = datetime.now().date()
-    if (selections == "weekly"): #Xử lý dữ liệu cho tuần mode
-        time_start = today + relativedelta(weeks = -8)
-        time_end = today + relativedelta(days = 1)
-        start_of_week = today - relativedelta(days = today.weekday()) #Lấy ngày đầu tuần để truncweek gộp nhóm tính tổng trên mỗi nhóm
-        for i in range(0,8):
-            time_labels.append(start_of_week + relativedelta(weeks = -i)) #Lấy 8 tuần làm nhãn cho chart
-        time_labels = time_labels[::-1]
-        spec_top = Transaction.objects.annotate(time = TruncWeek('transaction_time'), year = TruncYear('transaction_time'))\
-                            .annotate(count = Count('time'))\
-                            .annotate(total = Sum('amount_transact'))\
-                            .annotate(spec_total = Sum('medical_specialty'))\
-                            .filter(transaction_time__gte = time_start, state = 'success', transaction_time__lt = time_end)\
-                            .values('time','year','count', 'total','spec_total')
-    else:
-        time_start = today + relativedelta(months = -8)
-        time_end = today + relativedelta(days = 1)
-        start_of_month = today - relativedelta(days = today.day - 1)
-        for i in range(0,8):
-            time_labels.append(start_of_month + relativedelta(months = - i))
-        time_labels = time_labels[::-1]
-        spec_top = Transaction.objects\
-                    .annotate(time = TruncMonth('transaction_time'))\
-                    .annotate(year = TruncWeek('transaction_time'))\
-                    .annotate(spec_total = 'medical_specialty')\
-                    .annotate(count = Count('time'))\
-                    .annotate(total = Sum('amount_transact'))\
-                    .filter(transaction_time__gte = time_start, state = 'success', transaction_time__lt = time_end)\
-                    .values('time','year','count', 'total', 'spec_total')
-    # amounts = []
-    # counts = []
-    # for result in spec_top:
-    #     if result['time'] not in TruncMonth(time_labels):
-    #         a
-    data = {
-        'labels': [time for time in time_labels],
-        'amounts': [item['total'] for item in spec_top],
-        'counts': [item['spec_total'] for item in spec_top],
-    }
-    return JsonResponse(data)
 
 
 
@@ -649,20 +585,23 @@ def update_patient_info(request):
     address = request.POST.get('patient-address')
     phone = request.POST.get('patient-phone')
     account_status = request.POST.get('lock-status')
-    uploaded_file = request.FILES['patient-avatar']
-    #Tạo filename = thời gian hiện tại + tên file
-    file_name = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + uploaded_file.name
-    #Tạo đường dẫn file, mediaroot là tương đối, lấy path prefix từ os.path.join
-    file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', file_name)
-    #Lưu file vào thư mục uploads
-    default_storage.save(file_path, uploaded_file)
-    
+    if request.FILES.get('patient-avatar'):
+        uploaded_file = request.FILES['patient-avatar']
+        #Tạo filename = thời gian hiện tại + tên file
+        file_name = datetime.now().strftime("%Y%m%d%H%M%S") + "_" + uploaded_file.name
+        #Tạo đường dẫn file, mediaroot là tương đối, lấy path prefix từ os.path.join
+        file_path = os.path.join(settings.MEDIA_ROOT, 'uploads', file_name)
+        #Lưu file vào thư mục uploads
+        default_storage.save(file_path, uploaded_file)
+
     patient = Patient.objects.get(pk = id)
 
     patient.real_name = name
     patient.address = address
     patient.phone = phone
-    patient.avatar = 'uploads/' + file_name
+    if request.FILES.get('patient-avatar'):
+        patient.avatar = 'uploads/' + file_name
+    
     if (account_status == 'on'):
         patient.is_active = True
     else:
@@ -732,3 +671,80 @@ def appointment_manage_view(request):
 def spec_manage_view(request):
     
     return render(request, 'site_admins/spec_manage.html', {})
+
+def transaction_manage_view(request):
+    return render(request, 'site_admins/transaction_manage.html', {})
+
+def doctor_manage_view(request):
+    provinces = [
+        ('ho_chi_minh', 'TP. Hồ Chí Minh'),
+        ('ha_noi', 'Hà Nội'),
+        ('da_nang', 'Đà Nẵng'),
+        ('hai_phong', 'Hải Phòng'),
+        ('can_tho', 'Cần Thơ'),
+        ('cao_bang','Cao Bằng'),
+        ('an_giang', 'An Giang'),
+        ('bac_giang', 'Bắc Giang'),
+        ('bac_kan', 'Bắc Kạn'),
+        ('bac_lieu', 'Bạc Liêu'),
+        ('bac_ninh', 'Bắc Ninh'),
+        ('ben_tre', 'Bến Tre'),
+        ('binh_dinh', 'Bình Định'),
+        ('binh_duong', 'Bình Dương'),
+        ('binh_phuoc', 'Bình Phước'),
+        ('binh_thuan', 'Bình Thuận'),
+        ('ca_mau', 'Cà Mau'),
+        ('cao_bang', 'Cao Bằng'),
+        ('dak_lak', 'Đắk Lắk'),
+        ('dak_nong', 'Đắk Nông'),
+        ('dien_bien', 'Điện Biên'),
+        ('dong_nai', 'Đồng Nai'),
+        ('dong_thap', 'Đồng Tháp'),
+        ('gia_lai', 'Gia Lai'),
+        ('ha_giang', 'Hà Giang'),
+        ('ha_nam', 'Hà Nam'),
+        ('ha_tinh', 'Hà Tĩnh'),
+        ('hai_duong', 'Hải Dương'),
+        ('hau_giang', 'Hậu Giang'),
+        ('hoa_binh', 'Hòa Bình'),
+        ('hung_yen', 'Hưng Yên'),
+        ('khanh_hoa', 'Khánh Hòa'),
+        ('kien_giang', 'Kiên Giang'),
+        ('kon_tum', 'Kon Tum'),
+        ('lai_chau', 'Lai Châu'),
+        ('lam_dong', 'Lâm Đồng'),
+        ('lang_son', 'Lạng Sơn'),
+        ('lao_cai', 'Lào Cai'),
+        ('long_an', 'Long An'),
+        ('nam_dinh', 'Nam Định'),
+        ('nghe_an', 'Nghệ An'),
+        ('ninh_binh', 'Ninh Bình'),
+        ('ninh_thuan', 'Ninh Thuận'),
+        ('phu_tho', 'Phú Thọ'),
+        ('quang_binh', 'Quảng Bình'),
+        ('quang_nam', 'Quảng Nam'),
+        ('quang_ngai', 'Quảng Ngãi'),
+        ('quang_ninh', 'Quảng Ninh'),
+        ('quang_tri', 'Quảng Trị'),
+        ('soc_trang', 'Sóc Trăng'),
+        ('son_la', 'Sơn La'),
+        ('tay_ninh', 'Tây Ninh'),
+        ('thai_binh', 'Thái Bình'),
+        ('thai_nguyen', 'Thái Nguyên'),
+        ('thanh_hoa', 'Thanh Hóa'),
+        ('thua_thien_hue', 'Thừa Thiên Huế'),
+        ('tien_giang', 'Tiền Giang'),
+        ('tra_vinh', 'Trà Vinh'),
+        ('tuyen_quang', 'Tuyên Quang'),
+        ('vinh_long', 'Vĩnh Long'),
+        ('vinh_phuc', 'Vĩnh Phúc'),
+        ('yen_bai', 'Yên Bái')
+    ]
+
+    specs = Specialties.objects.all()
+    spec_labels = [(spec.name, spec.get_name_display()) for spec in specs]
+    context = {
+        'provinces': provinces,
+        'spec_labels': spec_labels,
+    }
+    return render(request, 'site_admins/doctor_manage.html', context)

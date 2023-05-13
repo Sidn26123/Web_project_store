@@ -162,8 +162,6 @@
         </div>
     </div>
 
-
-
     <div style="height: 300px; width: 300px;">
         <div class="selector">
             <select name="spec-appoint-chart" id="spec-appoint-chart-selector">
@@ -183,9 +181,37 @@
         <div class="d-row-flex">
             <canvas id = "spec-appoint-chart"></canvas>
             <canvas id = "spec-appoint-pie-chart"></canvas>
+
         </div>
     </div>
-    <canvas id = "appoint-dispose-chart"></canvas>
+    <div style="height: 300px; width: 300px;">
+        <div class="d-row-flex">
+            <h3>Phân bố cuộc hẹn</h3>
+            <div class="selector">
+                <select name="dispose-appoint-chart" id="dispose-appoint-chart-selector">
+                    <option value="15-before-next">15</option>
+                    <option value="30-days-next">30 ngày tới</option>
+                    <option value="30-days-before">30 ngày trước</option>
+                    <option value="custom">Tùy chỉnh</option>
+                </select>
+            </div>
+        </div>
+        <canvas id = "dispose-appoint-chart"></canvas>
+
+        <div class="d-row-flex">
+            <div class="d-col-flex">
+                <h4>Thống kê</h4>
+                <span>Khung giờ mật độ cao nhất</span>
+                <span>Khung giờ mật độ thấp nhất</span>
+                <span>Trung bình</span>
+                <span>Dài nhất</span>
+                <span>Ngắn nhất</span>
+                <span>Trung bình</span>
+            </div>
+        </div>
+
+    </div>
+
     <script src="{% static 'appointment_chart.js' %}"></script>
 	<link rel="stylesheet" type="text/css" href="{% static 'appointment.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">

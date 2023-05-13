@@ -1,10 +1,10 @@
 $('#spec-table').ready(function(){
-    
+    get_spec_data();
 });
 
 function get_spec_data(){
     $.ajax({
-        url: '/get_spec_data',
+        url: '/ad/get-spec-data',
         type: 'GET',
         success: function(data){
             table_data = JSON.parse(data.table_data);
@@ -21,9 +21,7 @@ function get_spec_data(){
                     "autoWidth": true // Điều chỉnh tự động chiều rộng cột
                 });
                 table.clear();
-                for (var i =0; i < table_data.length; i++){
-                    table.rows.add(table_data[i])
-                }
+                table.rows.add(table_data)
                 table.draw();
             }
         }

@@ -521,3 +521,82 @@ function update_all_select(selector, checkbox_class){
         selector.innerText = "Chọn tất cả";
     }
 }
+
+var dispose_appoint_chart = null
+$('.dispose-appoint-chart-selector').ready(function(){
+    console.log($('#dispose-appoint-chart'))
+    update_dispose_chart();
+    $(document).on('change', function(){
+        update_dispose_chart();
+    });
+});
+
+function update_dispose_chart(){
+    var selected_value = $('#dispose-appoint-chart-selector').val();
+    var time_start = ''
+    var time_end = ''
+    var now = new Date()
+    var time_now = now.getHours() + ':' + now.getMinutes() + ':' + now.getSeconds()
+    $.ajax({
+        url: '/ad/dispose-appoint-chart-data',
+        type: 'GET',
+        data: {
+            'selected_value': selected_value,
+            'time_start': time_start,
+            'time_end': time_end,
+            'time_now': time_now,
+        },
+        success: function(data){
+            console.log(data)
+
+            dispose_appoint(data);
+        }
+    });
+}
+
+function dispose_appoint(data){
+    var canvas = document.getElementById('dispose-appoint-chart');
+    var ctx = canvas.getContext('2d');
+    if (dispose_appoint_chart != null){
+        dispose_appoint_chart.destroy()
+    }
+    var dataset = []
+    for (var i = 0; i < data.table_data.length; i++){
+        dataset.push({
+            x: data.table_data[i].x_axis,
+            y: data.table_data[i].y_axis,
+            r: data.table_data[i].r,
+        })
+    }
+    console.log(dataset)
+    dispose_appoint_chart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: data.labels,
+            datasets:dataset
+        },
+        options: {
+            aspectRatio: 1,
+            scales: {
+                x: {
+                    max: 300,
+                    ticks:{
+                        // callback:
+                            // function(value, index, values){
+                            //     return value + '100';
+                            // }
+                    }
+                },
+                y: {
+                    max: 300,
+                    ticks:{
+                        callback:
+                            function(value, index, values){
+                                return value + '000';
+                            }
+                    }
+                },
+            },
+        }
+    });
+}
