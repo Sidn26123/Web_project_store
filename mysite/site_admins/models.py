@@ -77,3 +77,11 @@ class Test(models.Model):
     age = models.IntegerField(default= 1)
     def __str__(self):
         return self.name
+
+
+class Notification(models.Models):
+    notice = models.TextField()
+    time_notice = models.DateTimeField(auto_now_add=True)
+    is_read = models.BooleanField(default = False)
+    def __str__(self):
+        return self.notice
