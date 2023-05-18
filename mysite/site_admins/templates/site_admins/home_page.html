@@ -3,6 +3,7 @@
 	{% load static %}
 	<nav class = "navbr">
 		<ul class = "navbar-item-list">
+			<div class="get-id" data-id = "{% if request.user.is_authenticated %}{{ request.user.id }}{% else %}-1{% endif %}"></div>
 			<li class = navbar-item-list__item id = "logo">
 				<img>
 				<a href="">Logo</a>
@@ -28,9 +29,12 @@
 		</ul>
 		<ul class="navbar-item-list">
 			<li class="navbar-item-list__item"></li>
-			<li class="navbar-item-list__item">
-				<i class="fa-regular fa-bell"></i>
+			<li class="navbar-item-list__item" id = "notification">
+				<div class="loader" id = "notice-loader" style = "display:none"></div>
+				<i class="fa-regular fa-bell" ></i>
+				<div class="notification-container"></div>
 			</li>
+
 			<!-- <li class="navbar-item-list__item">
 
 			</li> -->

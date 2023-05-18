@@ -1,0 +1,210 @@
+function update_doctor_info(){
+    var doctor_id = $('.get-id').data('id');
+    console.log(doctor_id);
+    $.ajax({
+        url: '/doctor/update-doctor-info/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+        },
+        success: function(data){
+            $('.loader').hide();
+            doctor = JSON.parse(data.doctor);
+            $('#doctor-avatar').attr('src', doctor.avatar);
+            $('#name').text(doctor.real_name);
+            $('#position').text(doctor.position);
+            $('#work_place').text(doctor.work_place);
+            $('#work-experience').text(doctor.work_experience);
+        },
+    })
+}
+
+$(document).ready(function(){
+    $('.info-table .loader').show();
+    update_doctor_info();
+});
+
+$(document).ready(function(){
+    update_doctor_money();
+});
+
+function update_doctor_money() {
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/get-money-left/',
+        type: 'GET',
+        data: {
+        'id': doctor_id,
+        },
+        success: function(data) {
+        $('#money-left').text(data.money_left);
+        console.log(data['money_left']);
+        }
+    }).always(function() {
+        $.ajax({
+        url: '/doctor/get-earn-money/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+        },
+        success: function(data) {
+            // console.log(data);
+            $('#earned-money').text(data.income);
+        }
+        });
+    });
+}
+
+$(document).ready(function(){
+    $('#loader-2').show();
+    var doctor_id = $('.get-id').data('id');
+    $.when(
+        $.ajax({
+            url: '/doctor/get-total-patient/',
+            type: 'GET',
+            data: {
+                'id': doctor_id,
+            }
+        }),
+        $.ajax({
+            url: '/doctor/get-total-appointment/',
+            type: 'GET',
+            data: {
+                'id': doctor_id,
+            },
+
+        }),
+        $.ajax({
+            url: '/doctor/get-appoint-next/',
+            type: 'GET',
+            data: {
+                'id': doctor_id,
+            },
+
+        }),
+    ).done(function(response1, response2, response3){
+        $('#loader-2').hide()
+        var total_patient = response1[0].total;
+        var total_appointment = response2[0].total;
+        var next_appointment = response3[0].next;
+        var pending_appointment = response3[0].pending;
+        $('#total-patient').text(total_patient);
+        $('#total-appointment').text(total_appointment);
+        $('#coming-appointment').text(next_appointment);
+        $('#pending-appointment').text(pending_appointment);
+    });
+});
+
+$(document).ready(function(){
+    $('#loader-3').show();
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/get-rate/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+        },
+        success: function(data){
+            $('#loader-3').hide();
+            $('#rate-point').text(data.rate.rate);
+            $('#amount-rate').text(data.amount);
+        }
+    });
+});
+
+function get_appoint_table(doctor_id){
+    var time = get_time_chose();
+    $.ajax({
+        url: '/doctor/get-appoint-table-data/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+            'time': time,
+        },
+        success: function(data){
+            draw_appoint_table(data);
+        },
+    })
+}
+
+function get_time_chose(){
+    var time_chose_id = $('.condition-choose-box.active').attr('id');
+    return time_chose_id;
+}
+$(document).ready(function(){
+    $('#loader-table').show();
+    get_appoint_table($('.get-id').data('id'));
+});
+function draw_appoint_table(data){
+    var table_data = JSON.parse(data.table)
+    console.log(table_data)
+    if ($.fn.dataTable.isDataTable('#doctor-dashboard-appointment')){
+        table = $('#doctor-dashboard-appointment').DataTable();
+    }
+    else {
+        table = $('#doctor-dashboard-appointment').DataTable({
+            "paging": true, // Phân trang
+            "lengthChange": false, // Thay đổi số lượng bản ghi trên mỗi trang
+            "searching": false, // Tìm kiếm
+            "ordering": true, // Sắp xếp
+            "info": false, // Hiển thị thông tin bảng
+            "autoWidth": true, // Điều chỉnh tự động chiều rộng cột
+            "responsive": true,
+            "columns": [
+                {"title": "ID",
+                    "render": function(data, type, row){
+                        return '<div class = "info-appoint appoint-id" data-id =' + row[0] + '>' + row[0] + '</div>'; 
+                    },
+                },
+                {"title": "Tên bệnh nhân",
+                    "render": function(data, type, row){
+                        return '<div class = "info-patient" ><img src = ' + row[1][0] + '</img>' + row[1][1] +' </div>';
+                    }
+                },
+                {"title": "Ngày khám"},
+                {"title": "Nơi khám"},
+                {"title": "Phí"},
+                {"title": "",
+                    "render": function(){
+                        return '<div class = "show__item"><div class ="show-on">Xem</div><div class ="show-off">Xóa</div></div>'
+                    }
+                },
+            ],
+            drawCallback: function(){
+                $('.loader').hide();
+            }
+        });
+    table.clear();
+    table.rows.add(table_data);
+    table.draw();
+    } 
+}
+
+$(document).on('click', '.show-on', function(){
+    var appoint_id = $(this).closest('tr').find('.appoint-id').data('id');
+    $('.appointment-detail-wrapper').toggleClass('hidden');
+    get_appoint_detail(appoint_id);
+})
+
+function get_appoint_detail(appoint_id){
+    $.ajax({
+        url: '/doctor/get-transaction-detail/',
+        type: 'GET',
+        data: {
+            'id': appoint_id,
+        },
+        success: function(data){
+            
+            $('.appointment-detail__item img').attr('src', data['patient'][1]);
+            $('.appointment-detail__item #patient-name').text(data['patient'][0]);
+            $('.appointment-detail__item #birthday').text(data['patient'][2]);
+            $('.appointment-detail__item #gender').text(data['patient'][3]);
+            $('.appointment-detail__item #province').text(data['patient'][4]);
+            $('.appointment-detail__item #book-day').text(data['transaction_time']);
+            $('.appointment-detail__item #appointment-day').text(data['appoint_time']);
+            $('.appointment-detail__item #cost').text(data['amount_transact']);
+            $('.appointment-detail__item #note').text(data['note']);
+            $('.appointment-detail__item #status').text(data['status']);
+        },
+    })
+}

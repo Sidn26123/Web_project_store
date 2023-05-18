@@ -90,10 +90,8 @@ class User(AbstractUser):
     citizen_identification = models.CharField(max_length = 20, null = True)
     date_of_birth = models.DateField(auto_now=False, auto_now_add=False, null =True)
     avatar = models.FileField(upload_to = os.path.join(settings.MEDIA_ROOT, 'images'),default = os.path.join(settings.MEDIA_URL,"images/default.jpeg"), max_length=255)
-    time_join = models.DateTimeField(auto_now_add = True)
     is_admin = models.BooleanField(default = False)
     province = models.CharField(max_length = 20, choices= PROVINCE_CHOICES, default="ha_noi") 
-    # age = models.IntegerField(null=True, blank=True),
     new_age = models.IntegerField(null = True,blank = True)
     address = models.TextField(null = True)
 @receiver(pre_save, sender = User)

@@ -1,0 +1,27 @@
+{% extends 'doctors/doctor_home.html' %}
+
+{% block main_content %}
+    <div class = "content">
+        <div class = "type-choose-box d-row-flex">
+            <div class = "condition-choose-box" id = "all">Tất cả</div>
+            <div class = "condition-choose-box" id = "before">Đã khám</div>
+            <div class = "condition-choose-box" id = "upcoming">Chưa khám</div>
+        </div>
+        <div class = "patient-info-wrapper">
+            <div>
+                <img src="" alt="" class = "patient-avatar">
+                <span class = "patient-info__item" id ="patient-id"></span>
+                <span class = "patient-info__item" id = "age"></span>
+            </div>
+            <span class = "patient-info__item" id = "address"></span>
+            <span class = "patient-info__item" id = "last-time"></span>
+            <span class = "patient-info__item" id = "phone"></span>
+            <span class = "patient-info__item" id = "email"></span>
+            <span class = "patient-info__item" id = "blood-group"></span>
+
+        </div>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor/doctor_review.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}

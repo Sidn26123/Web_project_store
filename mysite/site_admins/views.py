@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from .models import Site_admin, Transaction, Test
+from .models import Site_admin, Transaction, Test, Notification
 from patients.models import Patient
 from doctors.models import Doctor, Specialties
 from users.models import User
@@ -32,13 +32,11 @@ def admin_login_view(request):
         if form.is_valid():
             username = request.POST['username']
             password = request.POST['password']
-            print(password)
             #Hàm auth có sẵn của django trong User class, đưa vào các tham số và trả về 1 obj hoặc None
             user = authenticate(request, username = username, password = password)
             # user_ = Site_admin.objects.get(username = username)
             # if (password == user_.password):
                 # user_1 = User.objects.get(username = username)
-            print(user)
             if user is not None:
                 login(request, user)
                 return redirect(request.GET.get('next', ''))
@@ -748,3 +746,20 @@ def doctor_manage_view(request):
         'spec_labels': spec_labels,
     }
     return render(request, 'site_admins/doctor_manage.html', context)
+
+def get_notification_data(request):
+    id = request.GET.get('id')
+    notices = Notification.objects.filter(receiver_id = id).order_by('-time_notice')
+    table = {}
+    for notice in notices:
+        table[notice.id] = {
+            'id': notice.id,
+            'content': notice.content,
+            'time': notice.time_notice,
+            'is_read': notice.is_read,
+        }
+        
+    data = {
+        'table': json.dumps(table),
+    }
+    return JsonResponse(data)

@@ -1,0 +1,47 @@
+{% extends 'doctors/doctor_home.html' %}
+
+{% block main_content %}
+    <div class = "content">
+        <div class="rate-point">
+            <div class="rate-point-wrapper wrapper">
+                <div class="rate-point__item">
+                    <span>Điểm đánh giá</span>
+                    <span id = "rate-point"></span>
+                </div>
+                <div class="rate-point__item">
+                    <span>Lượt đánh giá</span>
+                    <span id = "amount-rate"></span>
+                </div>
+            </div>
+
+            <div class="detail-rate">
+                <div class="detail-rate__item">
+                    <span>5 sao</span>
+                    <span id = "5-star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>4 sao</span>
+                    <span id = "4-star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>3 sao</span>
+                    <span id = "3-star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>2 sao</span>
+                    <span id = "2-star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>1 sao</span>
+                    <span id = "1-star"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "detail-rating">
+
+        </div>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor_review.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}

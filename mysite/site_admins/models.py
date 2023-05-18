@@ -28,6 +28,7 @@ class Transaction(models.Model):
         ("success", "Thành công"),
         ("failure", "Thất bại"),
         ("waiting", "Đang chờ"),
+        ("pending", "Đang chờ xác nhận"),
         
     ]
     medical_specialties = [
@@ -43,15 +44,15 @@ class Transaction(models.Model):
     amount_transact = models.IntegerField()
     note = models.TextField(null= True, blank = True)
     medical_specialty = models.ForeignKey(Specialties, on_delete= models.CASCADE,  default='nha_khoa')
-    appoint_time = models.DateTimeField(auto_now= False)
+    appoint_time = models.DateTimeField(auto_now_add=True)
     complete_time = models.DateTimeField(auto_now= False, null = True, blank = True)
     state = models.CharField(max_length = 20, choices=appointment_state)
     email = models.EmailField(null = True, blank = True)
     id_transaction = models.IntegerField(default = 1)
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
-    
+    appoint_address = models.TextField(default = "")
     def __str__(self):
-        return f"{self.doctor}-{self.patient}"
+        return f"{self.doctor.real_name}-{self.patient.real_name}"
     def __save__(self, *args, **kwargs):
         self.medical_specialty.name = self.specialties
         super().save(*args, **kwargs)
@@ -79,9 +80,28 @@ class Test(models.Model):
         return self.name
 
 
-class Notification(models.Models):
-    notice = models.TextField()
+class Notification(models.Model):
+    content = models.TextField()
+    receiver_id = models.IntegerField(null = True)
     time_notice = models.DateTimeField(auto_now_add=True)
     is_read = models.BooleanField(default = False)
     def __str__(self):
-        return self.notice
+        return self.id
+    
+class Invoice(models.Model):
+    doctor = models.ForeignKey(Doctor, on_delete = models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    transaction_time = models.DateTimeField(auto_now_add=True)
+    amount_transact = models.IntegerField()
+    medical_specialty = models.ForeignKey(Specialties, on_delete= models.CASCADE,  default='nha_khoa')
+    appoint_time = models.DateTimeField(auto_now= False)
+    complete_time = models.DateTimeField(auto_now= False, null = True, blank = True)
+    email = models.EmailField(null = True, blank = True)
+    id_transaction = models.IntegerField(default = 1)
+    canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
+    
+    def __str__(self):
+        return f"{self.doctor.real_name}-{self.patient.real_name}"
+    def __save__(self, *args, **kwargs):
+        self.medical_specialty.name = self.specialties
+        super().save(*args, **kwargs)

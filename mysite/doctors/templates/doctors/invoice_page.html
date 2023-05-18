@@ -1,0 +1,17 @@
+{% extends 'doctors/home_page.html' %}
+
+{% block main_content %}
+    <div class="filter d-row-flex">
+        <label for="id-patient">ID</label>
+        <input type="text" name = "id-patient" id = "id-patient">
+        <label for="date-start">Từ</label>
+        <input type="date" name = "date-start" id = "date-start">
+        <label for="date-end">Đến</label>
+        <input type="date" name = "date-end" id = "date-end">
+        <input type="submit" name = "submit" id = "submit">
+    </div>
+    <table id = "invoice-table">
+        <tr class = "row">
+        </tr>
+    </table>
+{% endblock %}

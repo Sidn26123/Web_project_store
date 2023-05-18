@@ -1,6 +1,40 @@
 from django.urls import path, include
 
+from .views import (
+    dashboard,
+    doctor_login_view,
+)
+
+from .dashboard import (
+    get_doctor,
+    get_earn_money,
+    get_money_left,
+    get_total_patient,
+    get_total_appointment,
+    get_rate,
+    get_appoint_next,
+    update_doctor_info,
+    get_appoint_table_data,
+    get_transaction_detail,
+)
+
+from .my_patient import (
+    get_patient,
+)
 app_name = "doctor"
 
 urlpatterns = [
+    path('dashboard/', dashboard, name = 'dashboard'),
+    path('login/', doctor_login_view, name = 'login'),
+    path('get-doctor/', get_doctor),
+    path('get-earn-money/', get_earn_money),
+    path('get-money-left/', get_money_left),
+    path('get-total-patient/', get_total_patient),
+    path('get-total-appointment/', get_total_appointment),
+    path('get-rate/', get_rate),
+    path('get-appoint-next/', get_appoint_next),
+    path('update-doctor-info/', update_doctor_info),
+    path('get-appoint-table-data/', get_appoint_table_data),
+    path('get-transaction-detail/', get_transaction_detail),
+    path('get-patient/', get_patient)
 ]

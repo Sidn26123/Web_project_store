@@ -7,7 +7,7 @@ from users.models import User
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from django.core.files.storage import default_storage
 from math import ceil
-from .forms import Login_form
+from .forms import Login_form, Register_form
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -35,6 +35,7 @@ class Register_view(View):
 		form = Register_form(request.POST)
 		if form.is_valid():
 			form.save()
+			print("A")
 			return redirect("../")
 
 		return render(request, 'patients/register_view.html', {'form': form})

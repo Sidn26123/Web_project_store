@@ -1,0 +1,98 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <div class = "content-container">
+        <div class = "d-row-flex">
+            <div class="d-col-flex col-md-4 info-table">
+                <div class="loader"></div>
+                <img src="" alt="Avatar" class="info-table__item avatar" id="doctor-avatar">
+                <span class = "info-table__item" id = "name"></span>
+                <span class = "info-table__item" id = "position"></span>
+                <span class = "info-table__item" id = "work-experience"></span>
+                <span class = "info-table__item" id = "work-place"></span>
+                <a class = "info-table__item" id = "view-as-patient-see" href="">Xem thông tin hiển thị của bạn</a>
+            </div>
+            <div class="d-col-flex col-md-8">
+                <div class="d-row-flex">
+                    <div class="col-md-4 d-col-flex">
+                        <div>
+                            <span>Số tiền kiếm được</span>
+                            <span id = "earned-money"></span>
+                        </div>
+                        <div>
+                            <span>Tiền trong tài khoản</span>
+                            <span id = "money-left"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-col-flex">
+                        <div class="loader" id = "loader-2"></div>
+                        <span>Tổng bệnh nhân</span>
+                        <span id="total-patient"></span>
+                        <span>Tổng cuộc hẹn</span>
+                        <span id="total-appointment"></span>
+                        <span>Cuộc hẹn sắp tơi</span>
+                        <span id = "coming-appointment"></span>
+                        <span>Cuộc hẹn đang chờ</span>
+                        <span id = "pending-appointment"></span>
+                    </div>
+                    <div class="col-md-4 d-col-flex">
+                        <span id = "rate-point">Điểm đánh giá</span>
+                        <span id = "amount-rate">Lượt đánh giá</span>
+                    </div>
+                </div>
+                <div class="doctor-dashboard-appointment-warrper wrapper">
+                    <h3>Cuộc hẹn</h3>
+                    <div class = "d-row-flex ">
+                        <div class = "condition-choose-box active" id = "coming">
+                            Sắp tới
+                        </div>
+                        <div class = "condition-choose-box" id = "today">
+                            Hôm nay
+                        </div>
+                    </div>
+                    <table id = "doctor-dashboard-appointment">
+                    <thead>
+                        <tr role = "row"></tr>
+                    </thead>
+                        <tbody>
+                        </tbody>
+                        <div class = "loader" id="loader-table"></div>
+                    </table>
+                </div>
+                <div class="wrapper appointment-detail-wrapper hidden">
+                    <div class = "appointment-detail__item">
+                        <img src="" alt="Avatar">
+                        <span id ="patient-name"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span id="birthday"></span>
+                        <span id ="province"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ngày đặt</span>
+                        <span id="book-day"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ngày khám</span>
+                        <span id="appointment-day"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Chi phí</span>
+                        <span id="cost"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ghi chú</span>
+                        <span id ="note"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Trạng thái</span>
+                        <span id="status"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor_dashboard.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}
