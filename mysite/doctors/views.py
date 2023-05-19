@@ -50,4 +50,9 @@ def doctor_login_view(request):
         else:
             form = Login_form()
     return render(request, 'doctors/login.html', {'form': form})
-
+@login_required(login_url = '/doctor/login')
+def my_patient(request):
+    return render(request, 'doctors/my_patient.html')
+@login_required(login_url = '/doctor/login')
+def review(request):
+    return render(request, 'doctors/review.html')

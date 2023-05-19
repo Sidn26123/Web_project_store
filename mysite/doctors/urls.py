@@ -3,6 +3,8 @@ from django.urls import path, include
 from .views import (
     dashboard,
     doctor_login_view,
+    my_patient,
+    review,
 )
 
 from .dashboard import (
@@ -26,6 +28,8 @@ app_name = "doctor"
 urlpatterns = [
     path('dashboard/', dashboard, name = 'dashboard'),
     path('login/', doctor_login_view, name = 'login'),
+    path('my-patient/', my_patient, name = 'my-patient'),
+    path('review/', review, name = 'review'),
     path('get-doctor/', get_doctor),
     path('get-earn-money/', get_earn_money),
     path('get-money-left/', get_money_left),

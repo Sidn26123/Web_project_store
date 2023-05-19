@@ -11,16 +11,16 @@
                 </a>
             </li>
             <li class="navbar-item-list__item">
-                <a href = "">Trang chủ</a>
+                <a href = "{% url 'doctor:dashboard'%}">Trang chủ</a>
             </li>
             <li class="navbar-item-list__item">
                 <a href = "">Cuộc hẹn đang chờ</a>
             </li>
             <li class="navbar-item-list__item">
-                <a href = "">Bệnh nhân của tôi</a>
+                <a href = "{% url 'doctor:my-patient' %}">Bệnh nhân của tôi</a>
             </li>
             <li class="navbar-item-list__item">
-                <a href = "">Đánh giá</a>
+                <a href = "{% url 'doctor:review' %}">Đánh giá</a>
             </li>
             <li class="navbar-item-list__item">
                 <a href = "">Hóa đơn</a>

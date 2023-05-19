@@ -42,9 +42,12 @@ def get_patient(request):
         patients = MyPaient.objects.filter(doctor__id = int(id)).filter(time_query)
     else:
         patients = MyPaient.objects.filter(doctor__id = int(id))
+    print(patients)
     patient_dict = {}
     patient_data = []
     for patient in patients:
+        patient_dict['doctor_name'] = patient.doctor.real_name
+        patient_dict['patient_name'] = patient.patient.real_name
         patient_dict['id'] = patient.patient.id
         patient_dict['age'] = patient.patient.new_age
         patient_dict['address'] = patient.patient.address
@@ -53,5 +56,9 @@ def get_patient(request):
         patient_dict['blood_group'] = patient.patient.blood_group
         patient_dict['last_time'] = patient.last_time.strftime("%d/%m/%Y")
         patient_data.append(patient_dict)
-    print(patient_data)
-    return JsonResponse({'success': True})
+        patient_dict = {}
+    data = {
+        'patients': json.dumps(patient_data),
+    }
+    print(data)
+    return JsonResponse(data)
