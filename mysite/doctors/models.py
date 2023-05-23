@@ -6,6 +6,7 @@ from patients.models import Patient
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from datetime import date, datetime
+from django.utils.timezone import now
 # Create your models here.
 class Doctor(User):
     position = models.CharField(max_length=255, null = True, blank = True)
@@ -38,15 +39,18 @@ class Review(models.Model):
     rate = models.FloatField()
     feedback = models.TextField()
     receiver_id = models.ForeignKey(Doctor, on_delete=models.CASCADE, null = False, default= 1)
-    id_send = models.OneToOneField(Patient, on_delete=models.CASCADE, null = False, default = 1)
+    sender_id = models.ForeignKey(Patient, on_delete=models.CASCADE, null = False, default = 1)
     time_feedback = models.DateTimeField(auto_now_add=True)
     def __str__(self):
-        return self.feedback
+        if len(self.feedback) <= 20:
+            return self.feedback
+        else:
+            return self.feedback[:20] + "..."
     
 class MyPaient(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
-    last_time = models.DateTimeField(default= datetime.now(), null = True)
+    last_time = models.DateTimeField(default= now, null = True)
     counter = models.IntegerField(default = 1)
     def __str__(self):
         return f"{self.doctor.real_name}-{self.patient.real_name}"

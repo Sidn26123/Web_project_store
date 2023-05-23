@@ -56,3 +56,7 @@ def my_patient(request):
 @login_required(login_url = '/doctor/login')
 def review(request):
     return render(request, 'doctors/review.html')
+
+@login_required(login_url = '/doctor/login')
+def invoice(request):
+    return render(request, 'doctors/invoice.html')

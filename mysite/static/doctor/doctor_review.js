@@ -54,7 +54,7 @@ function delete_my_patient(patient_id){
         },
         success: function(data) {
             if (data.status == 'ok'){
-                $('.id-store .'+patient_id).remove();
+                $('.id .'+patient_id).remove();
             }
         }
     })
@@ -221,4 +221,65 @@ function delete_my_patient(patient_id){
 // not actually part of the plugin */
 // $('.article-loop').paginate(2);
 
+function get_star_condition(){
+    var star_condition = ""
+    var star_node = $('.filter-item.checked');
+    star_node.each(function(){
+        if ($(this).attr('id') != 'all'){
+            star_condition += $(this).attr('id')[0] + ',';
+        }
+    });
+    return star_condition[0, star_condition.length - 1];
+}
+
+function update_review_stats(doctor_id, star_condition){
+    $.ajax({
+        url: '/doctor/get-review-data/',
+        type: 'GET',
+        data: {
+            'doctor-id': doctor_id,
+            'star-condition': star_condition,
+        },
+        success: function(data) {
+            var star = JSON.parse(data['star_detail'])
+            var star_avg = JSON.parse(data['star_avg'])
+            var reviews = JSON.parse(data['reviews'])
+            console.log(star_avg['avg']);
+            $('#rate-point').text(star_avg['avg']);
+            $('#amount-rate').text(star_avg['count']);
+            $('#5-star').text(star['5']);
+            $('#4-star').text(star['4']);
+            $('#3-star').text(star['3']);
+            $('#2-star').text(star['2']);
+            $('#1-star').text(star['1']);
+            $('#review-area').empty();
+            for (var i = 0; i < reviews.length; i++){
+                var template = $('#review-template').clone();
+                template.find('.reviewer-avatar').attr('class', reviews[i]['avatar']);
+                template.find('.reviewer-name').text(reviews[i]['name']);
+                template.find('.review-time').text(reviews[i]['time_review'])
+                template.find('.rates').text(reviews[i]['rate'])
+                template.find('.review-content').text(reviews[i]['feedback'])
+                $('#review-area').append(template)
+            }
+        }
+    })
+}
+
+$(document).ready(function(){
+    var doctor_id = $('.get-id').data('id');
+    var star_condition = get_star_condition();
+    update_review_stats(doctor_id, star_condition);
+    $('.filter-item').click(function(){
+        console.log($(this));
+        star_condition = get_star_condition();
+        update_review_stats(doctor_id, star_condition);
+    });
+});
+
+function update_star_condition(node){
+    if (node.hasClass('checked') && node.attr('id') == 'all'){
+        node.parent().find('check').removeClass('checked');
+    }
+}
 

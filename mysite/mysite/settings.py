@@ -55,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'site_admins.middleware.Custom404Middleware'
     # "django_htmx.middleware.HtmxMiddleware",
 ]
 
@@ -171,3 +172,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale/'),
 )
+
+PAGE_TEMPLATE_404 = 'site_admins/404.html' 

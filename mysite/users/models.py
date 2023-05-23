@@ -94,6 +94,8 @@ class User(AbstractUser):
     province = models.CharField(max_length = 20, choices= PROVINCE_CHOICES, default="ha_noi") 
     new_age = models.IntegerField(null = True,blank = True)
     address = models.TextField(null = True)
+    account_left = models.FloatField(default = 0)
+    credit_score = models.FloatField(default = 0)
 @receiver(pre_save, sender = User)
 def calculate_age(sender, instance, **kwargs):
     today = date.today()

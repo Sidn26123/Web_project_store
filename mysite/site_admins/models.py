@@ -5,6 +5,7 @@ from doctors.models import Doctor, Specialties
 from patients.models import Patient
 from django.contrib.auth.models import AbstractBaseUser
 from datetime import datetime
+from django.utils.timezone import now
 # Create your models here.
 
 class Site_admin(User):
@@ -29,6 +30,7 @@ class Transaction(models.Model):
         ("failure", "Thất bại"),
         ("waiting", "Đang chờ"),
         ("pending", "Đang chờ xác nhận"),
+        ("denied", "Đã từ chối")
         
     ]
     medical_specialties = [
@@ -38,6 +40,13 @@ class Transaction(models.Model):
         ("mat", "Mắt"),
         ("xuong_khop", "Xương khớp"),
     ]
+    CREATOR = [
+        ("doctor", "Bác sĩ"),
+        ("patient", "Bệnh nhân"),
+        ("admin", "Admin"),
+        ("system", "Hệ thống"),
+    ]
+
     doctor = models.ForeignKey(Doctor, on_delete = models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     transaction_time = models.DateTimeField(auto_now_add=True)
@@ -51,6 +60,7 @@ class Transaction(models.Model):
     id_transaction = models.IntegerField(default = 1)
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
     appoint_address = models.TextField(default = "")
+    creator = models.CharField(max_length = 20, default = "doctor", choices = CREATOR)
     def __str__(self):
         return f"{self.doctor.real_name}-{self.patient.real_name}"
     def __save__(self, *args, **kwargs):
@@ -82,24 +92,36 @@ class Test(models.Model):
 
 class Notification(models.Model):
     content = models.TextField()
-    receiver_id = models.IntegerField(null = True)
-    time_notice = models.DateTimeField(auto_now_add=True)
+    receiver = models.ForeignKey(Doctor, on_delete=models.CASCADE, null = True)
+    sender = models.ForeignKey(Patient, on_delete=models.CASCADE, null = True)
+    time_create = models.DateTimeField(auto_now_add=True)
+    time_notice = models.DateTimeField(auto_now_add=False, null = True, default = None)
     is_read = models.BooleanField(default = False)
     def __str__(self):
         return self.id
     
 class Invoice(models.Model):
+    STATE = [
+        ("success", "Thành công"),
+        ("refund", "Hoàn tiền"),
+    ]
+
     doctor = models.ForeignKey(Doctor, on_delete = models.CASCADE)
     patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
     transaction_time = models.DateTimeField(auto_now_add=True)
     amount_transact = models.IntegerField()
     medical_specialty = models.ForeignKey(Specialties, on_delete= models.CASCADE,  default='nha_khoa')
     appoint_time = models.DateTimeField(auto_now= False)
+    appoint_address = models.TextField(default = "")
     complete_time = models.DateTimeField(auto_now= False, null = True, blank = True)
     email = models.EmailField(null = True, blank = True)
     id_transaction = models.IntegerField(default = 1)
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
-    
+    status = models.CharField(max_length = 20, default = "success", choices = STATE)
+    show_on_doctor = models.BooleanField(default = True)
+    show_on_patient = models.BooleanField(default = True)
+    show_on_admin = models.BooleanField(default = True)
+
     def __str__(self):
         return f"{self.doctor.real_name}-{self.patient.real_name}"
     def __save__(self, *args, **kwargs):

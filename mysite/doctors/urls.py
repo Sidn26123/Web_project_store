@@ -5,6 +5,7 @@ from .views import (
     doctor_login_view,
     my_patient,
     review,
+    invoice,
 )
 
 from .dashboard import (
@@ -23,6 +24,10 @@ from .dashboard import (
 from .my_patient import (
     get_patient,
 )
+from .review import (
+    get_review_data,
+    get_invoice,
+)
 app_name = "doctor"
 
 urlpatterns = [
@@ -30,6 +35,7 @@ urlpatterns = [
     path('login/', doctor_login_view, name = 'login'),
     path('my-patient/', my_patient, name = 'my-patient'),
     path('review/', review, name = 'review'),
+    path('invoice/', invoice, name = 'invoice'),
     path('get-doctor/', get_doctor),
     path('get-earn-money/', get_earn_money),
     path('get-money-left/', get_money_left),
@@ -40,5 +46,7 @@ urlpatterns = [
     path('update-doctor-info/', update_doctor_info),
     path('get-appoint-table-data/', get_appoint_table_data),
     path('get-transaction-detail/', get_transaction_detail),
-    path('get-patient/', get_patient)
+    path('get-patient/', get_patient),
+    path('get-review-data/', get_review_data),
+    path('get-invoice/', get_invoice),
 ]
