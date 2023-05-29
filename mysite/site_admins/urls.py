@@ -24,7 +24,6 @@ from .views import (admin_login_view,
                     update_patient_info,
                     add_patient,
                     get_name_list_chosen_item,
-                    get_notification_data,
                     )
 from .patient_views import (
                     update_overview_chart,
@@ -105,5 +104,4 @@ urlpatterns = [
     path('update-patient-status/', update_patient_status),
     path('get-spec-overview-table-data/', get_spec_overview_table_data),
     path('get-doctor-table-data/', get_doctor_table_data),
-    path('get-notification-data/', get_notification_data),
 ]

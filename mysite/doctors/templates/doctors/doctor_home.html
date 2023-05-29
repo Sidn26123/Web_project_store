@@ -11,10 +11,10 @@
                 </a>
             </li>
             <li class="navbar-item-list__item">
-                <a href = "{% url 'doctor:dashboard'%}">Trang chủ</a>
+                <a href = "{% url 'doctor:dashboard' %}">Trang chủ</a>
             </li>
             <li class="navbar-item-list__item">
-                <a href = "">Cuộc hẹn đang chờ</a>
+                <a href = "{% url 'doctor:approving-appoint' %}">Cuộc hẹn đang chờ</a>
             </li>
             <li class="navbar-item-list__item">
                 <a href = "{% url 'doctor:my-patient' %}">Bệnh nhân của tôi</a>
@@ -26,15 +26,25 @@
                 <a href = "">Hóa đơn</a>
             </li>
         </ul>
-
         <ul class="navbar-item-list">
 			<li class="navbar-item-list__item"></li>
 			<li class="navbar-item-list__item" id = "notification">
 				<div class="loader" id = "notice-loader" style = "display:none"></div>
 				<i class="fa-regular fa-bell" ></i>
-				<div class="notification-container"></div>
-			</li>
+				<div class="notification-container" style = "display:none">
+					<h4>Thông báo</h4>
+					<div class = "notification-area">
 
+					</div>
+				</div>
+				<div id="notification-item-template">
+					<div class="notification-item-wrapper" data-is_read = "F">
+						<div class="content"></div>
+						<span class="time"></span>
+					</div>
+				</div>
+			</li>
+	
 			<li class = "navbar-item-list__item" id = "dropdown-menu-admin">
 				<img src="" alt="" class = "admin-avatar" >
 				<div class="admin-avatar-menu">
@@ -74,6 +84,5 @@
 		</ul>
     </div>
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
-
 	<script src="{% static 'main.js' %}"></script>
 {% endblock %}

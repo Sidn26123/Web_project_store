@@ -158,7 +158,7 @@ function draw_appoint_table(data){
                 },
                 {"title": "Tên bệnh nhân",
                     "render": function(data, type, row){
-                        return '<div class = "info-patient" ><img src = ' + row[1][0] + '</img>' + row[1][1] +' </div>';
+                        return '<div class = "info-patient" ><img src = "`' + row[1][0] + '">' + row[1][1] +' </div>';
                     }
                 },
                 {"title": "Ngày khám"},

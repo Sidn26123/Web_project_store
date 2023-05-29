@@ -747,19 +747,19 @@ def doctor_manage_view(request):
     }
     return render(request, 'site_admins/doctor_manage.html', context)
 
-def get_notification_data(request):
-    id = request.GET.get('id')
-    notices = Notification.objects.filter(receiver_id = id).order_by('-time_notice')
-    table = {}
-    for notice in notices:
-        table[notice.id] = {
-            'id': notice.id,
-            'content': notice.content,
-            'time': notice.time_notice,
-            'is_read': notice.is_read,
-        }
+# def get_notification_data(request):
+#     id = request.GET.get('id')
+#     notices = Notification.objects.filter(receiver = id).order_by('-time_notice')
+#     table = {}
+#     for notice in notices:
+#         table[notice.id] = {
+#             'id': notice.id,
+#             'content': notice.content,
+#             'time': notice.time_notice,
+#             'is_read': notice.is_read,
+#         }
         
-    data = {
-        'table': json.dumps(table),
-    }
-    return JsonResponse(data)
+#     data = {
+#         'table': json.dumps(table),
+#     }
+#     return JsonResponse(data)

@@ -1,6 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from site_admins.models import Site_admin, Transaction
+from site_admins.models import Site_admin, Transaction, Notification
 from patients.models import Patient
 from .models import Doctor, Specialties, Review
 from users.models import User
@@ -145,3 +145,70 @@ def get_transaction_detail(request):
     transact_dict['appoint_time'] = transact.appoint_time.strftime("%d/%m/%Y %H:%M:%S")
     transact_dict['patient'] = [transact.patient.real_name,transact.patient.avatar.url]
     return JsonResponse(transact_dict)
+
+def check_next_appoint(request):
+    doctor_id = request.GET.get('id')
+    now = datetime.now()
+    time_start = now + relativedelta(hours = -8)
+
+    time_s = now + relativedelta(minutes= 25)
+    time_end = now + relativedelta(minutes= 30)
+    transact_st = Transaction.objects.filter(doctor__id = int(doctor_id), state = "waiting", appoint_time__time__gte = time_s, appoint_time__time__lt = time_end).order_by('appoint_time').first()
+    if (transact_st == None):
+        return JsonResponse({'status': 'no_appoint'})
+    else:
+        receiver = f"doctor,{doctor_id}"
+        sender = "sys,0"
+        content = f"Bạn có cuộc hẹn vào lúc {transact_st.appoint_time.strftime('%H:%M:%S')} với bệnh nhân {transact_st.patient.real_name}"
+        obj = Notification.objects.create(receiver = receiver, sender = sender, content = content)
+        obj.save()
+    data = {
+        'status': 'have_appoint',
+        'appoint_id': transact_st.id,
+    }
+    return JsonResponse((data))
+    #Nếu có lịch hẹn hiện tại và trước đó không có cuộc hẹn nào khác đang diễn ra
+def check_upcoming_appoint(request):
+    doctor_id = request.GET.get('id')
+    now = datetime.now()
+    time_start = now + relativedelta(hours = -8)
+    if (time_start.date() != now.date()):
+        time_start = time_start + relativedelta(days=+1)
+        time_start = time_start.replace(hour=0, minute=0, second=0, microsecond=0)
+    print(time_start)
+    transact = Transaction.objects.filter(doctor__id = int(doctor_id), state__in = ["appointing", "waiting"], appoint_time__time__gte = time_start, appoint_time__time__lt = now).order_by('-appoint_time')
+    status = []
+    if len(transact) == 0:
+        return JsonResponse({'status': 'no_appoint'})
+    id_appoint = -1
+    id_appointing = -1
+    for tran in transact:
+        if tran.state == "waiting":
+            id_appoint = tran.id
+        if tran.state == "waiting" and "waiting" not in status:
+            status.append("waiting")
+        else:
+            id_appointing = tran.id
+            status.append("appointing")
+    status_str = ""
+    if status.count("appointing") == len(status):
+        status_str = "appointing"
+    elif len(status) == 2 and status.count("waiting") == 1:
+        status_str = "waiting_and_appointing"
+    elif len(status) == 1 and status.count("waiting") == 1:
+        status_str = "waiting"
+    data = {
+        'status': status_str,
+        'appoint_id': id_appoint,
+        'appointing_id': id_appointing,
+    }
+    return JsonResponse((data))
+
+def get_next_appoint_id(request):
+    doctor_id = request.GET.get('id')
+    now = datetime.now()
+    time_start = now + relativedelta(hours = -8)
+    transact_st = Transaction.objects.filter(doctor__id = doctor_id, state = "waiting", appoint_time__time__gte = now).order_by('appoint_time').first()
+    if transact_st == None:
+        return JsonResponse({'id': -1})
+    return JsonResponse({'id': transact_st.id})

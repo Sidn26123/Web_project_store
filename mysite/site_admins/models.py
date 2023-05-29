@@ -30,7 +30,8 @@ class Transaction(models.Model):
         ("failure", "Thất bại"),
         ("waiting", "Đang chờ"),
         ("pending", "Đang chờ xác nhận"),
-        ("denied", "Đã từ chối")
+        ("denied", "Đã từ chối"),
+        ("appointing", "Đang khám"),
         
     ]
     medical_specialties = [
@@ -53,7 +54,7 @@ class Transaction(models.Model):
     amount_transact = models.IntegerField()
     note = models.TextField(null= True, blank = True)
     medical_specialty = models.ForeignKey(Specialties, on_delete= models.CASCADE,  default='nha_khoa')
-    appoint_time = models.DateTimeField(auto_now_add=True)
+    appoint_time = models.DateTimeField(null = True, blank = True)
     complete_time = models.DateTimeField(auto_now= False, null = True, blank = True)
     state = models.CharField(max_length = 20, choices=appointment_state)
     email = models.EmailField(null = True, blank = True)
@@ -92,13 +93,13 @@ class Test(models.Model):
 
 class Notification(models.Model):
     content = models.TextField()
-    receiver = models.ForeignKey(Doctor, on_delete=models.CASCADE, null = True)
-    sender = models.ForeignKey(Patient, on_delete=models.CASCADE, null = True)
+    receiver = models.CharField(max_length = 20, default = "doc,", null = True, blank = True)
+    sender = models.CharField(max_length = 20, default = "ptn,", null = True, blank = True)
     time_create = models.DateTimeField(auto_now_add=True)
-    time_notice = models.DateTimeField(auto_now_add=False, null = True, default = None)
+    time_notice = models.DateTimeField(auto_now_add=False, null = True, default = None, blank = True)
     is_read = models.BooleanField(default = False)
     def __str__(self):
-        return self.id
+        return str(self.id)
     
 class Invoice(models.Model):
     STATE = [

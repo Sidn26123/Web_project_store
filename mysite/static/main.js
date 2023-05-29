@@ -490,24 +490,6 @@ function get_url(){
     return url;
 }
 
-$(document).ready(function(){
-    var id = parseInt($(".get-id").data('id'));
-    $('#notification').on('click', function(){
-        console.log("A")
-        $('.notification-container').toggleClass('display');
-        $('#notice-loader').show();
-        $.ajax({
-            url: '/ad/get-notification-data',
-            data : {
-                'id': id,
-            },
-            success: function(data){
-                $('#notice-loader').hide();
-                draw_notification_area(data);
-            }
-        })
-    });
-});
 
 function draw_notification_area(data){
     table = JSON.parse(data.table);

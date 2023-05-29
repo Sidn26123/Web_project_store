@@ -25,6 +25,7 @@ import json
 import calendar
 import csv
 import os
+from django.forms.models import model_to_dict
 # Create your views here.
 
 @login_required(login_url = '/doctor/login')
@@ -60,3 +61,87 @@ def review(request):
 @login_required(login_url = '/doctor/login')
 def invoice(request):
     return render(request, 'doctors/invoice.html')
+
+
+@login_required(login_url = '/doctor/login')
+def approving_appoint(request):
+    return render(request, 'doctors/approving_appoint.html')
+def get_notification(request):
+    doctor_id = request.GET.get('id', None)
+    notices = None
+    if doctor_id is not None:
+        notices = Notification.objects.filter(receiver__id = doctor_id).order_by('-time_create')
+        table = []
+        for notice in notices:
+            table.append(model_to_dict(notice))
+        data = {
+            'notices': table,
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({})
+    
+def update_appoint_status_all(request):
+    # appointments = Transaction.objects.all()
+    # for appoint in appointments:
+    pass
+
+def add_notification(request):
+    doctor_id = request.GET.get('id', None)
+    if doctor_id is not None:
+        doctor = Doctor.objects.get(id = doctor_id)
+        notice = Notification.objects.create(receiver = doctor, content = 'Bạn có 1 cuộc hẹn mới bây giờ', time_create = timezone.now())
+        notice.save()
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'fail'})
+    
+def set_status_appointment(request):
+    appoint_id = request.GET.get('appoint_id')
+    status = request.GET.get('status')
+    if (appoint_id == None or status == None):
+        return JsonResponse({'status': 'failure'})
+    appoint = Transaction.objects.get(id = int(appoint_id))
+    appoint.state = status
+    appoint.save()
+    return JsonResponse({'status': 'success'})
+
+def update_notification(request):
+    doctor_id = request.GET.get('id', None)
+    now = datetime.now()
+    if doctor_id is not None:
+        waiting_appoints = Transaction.objects.filter(state = 'waiting', doctor__id = doctor_id, appoint_time__date = now.date())
+        content = 'Bạn có ' + str(len(waiting_appoints)) + ' cuộc hẹn hôm nay'
+        doctor = Doctor.objects.get(id = doctor_id)
+        receiver = f'doc,{doctor_id}'
+        sender = "sys,0"
+        notices = Notification.objects.create(receiver = receiver, content = content, time_create = timezone.now(), sender = sender)
+        return JsonResponse({'status': 'success'})
+    else:
+        return JsonResponse({'status': 'fail'})
+
+
+def get_notification(request):
+    doctor_id = request.GET.get('id', None)
+    table = []
+    count = 0
+    if doctor_id is not None:
+        notices = Notification.objects.filter(receiver = "doc,"+str(doctor_id)).order_by('-time_create')        
+        for notice in notices:
+            table.append(model_to_dict(notice))
+        now = datetime.now()
+        notice_stat = Transaction.objects.filter(doctor__id = int(doctor_id), state = "waiting", appoint_time__date = now.date()).aggregate(count = Count('id'))
+        next_appoint_count = notice_stat['count']
+        data = {
+            'table': json.dumps(table),
+            'next_appoint_count': next_appoint_count,
+        }
+        return JsonResponse(data)
+    else:
+        return JsonResponse({})
+def test_o(request):
+    
+    id = request.GET.get('id', None)
+    o = Notification.objects.filter(receiver__icontains = str(id))
+    print(o)
+    return JsonResponse({'status': 'success'})

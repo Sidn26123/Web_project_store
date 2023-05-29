@@ -6,6 +6,13 @@ from .views import (
     my_patient,
     review,
     invoice,
+    get_notification,
+    approving_appoint,
+    add_notification,
+    update_appoint_status_all,
+    set_status_appointment,
+    update_notification,
+    get_notification,
 )
 
 from .dashboard import (
@@ -19,6 +26,9 @@ from .dashboard import (
     update_doctor_info,
     get_appoint_table_data,
     get_transaction_detail,
+    check_next_appoint,
+    get_next_appoint_id,
+    check_upcoming_appoint,
 )
 
 from .my_patient import (
@@ -27,6 +37,13 @@ from .my_patient import (
 from .review import (
     get_review_data,
     get_invoice,
+)
+
+from .approving_appoint import (
+    get_confirming_appoint,
+    update_appoint_status,
+    test,
+    
 )
 app_name = "doctor"
 
@@ -49,4 +66,17 @@ urlpatterns = [
     path('get-patient/', get_patient),
     path('get-review-data/', get_review_data),
     path('get-invoice/', get_invoice),
+    path('get-notification/', get_notification),
+    path('get-confirming-appointment/', get_confirming_appoint),
+    path('upcoming-appoint/', approving_appoint, name = 'approving-appoint'),
+    path('update-appointment-status/', update_appoint_status, name = 'update-appoint-status'),
+    path('test/', test),
+    path('check-next-appoint/', check_next_appoint),
+    path('get-next-appoint-id/', get_next_appoint_id),
+    path('add-notification/', add_notification),
+    path('update-appoint-status-all/', update_appoint_status_all),
+    path('set-status-appointment/', set_status_appointment),
+    path('check-upcoming-appoint/', check_upcoming_appoint),
+    path('update-notification/', update_notification),
+    path('get-notification/', get_notification),
 ]

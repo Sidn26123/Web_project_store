@@ -91,8 +91,26 @@
                 </div>
             </div>
         </div>
+        <div class="choice-to-appoint" style="display:none">
+            <div class="choices" id = "choice-ok">Ok</div>
+            <div class="choices" id = "choice-cancel">Hủy</div>
+            <div class="choices" id = "choice-wait">Chờ</div>
+        </div>
+        <div class="notice-having-appoint-form" style="display:none">
+            <span>Bạn đang có cuộc hẹn khác</span>
+            <span>Để đặt cuộc hẹn mới, vui lòng hoàn thành hoặc hủy cuộc hẹn hiện tại</span>
+            <div class="choices">
+                <div class="choices choice-cancel">Hủy</div>
+                <div class="choices choice-ok">Ok</div>
+                <a href="">Tới đó</a>
+            </div>
+        </div>
+    </div>
+    <div class="data-appoint-spec-area" style="display:none">
+        <div id="id-appoint-next" data-id="0"></div>
     </div>
     <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'doctor_dashboard.js' %}"></script>
+	<script src="{% static 'doctor.js' %}"></script>	
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 {% endblock %}

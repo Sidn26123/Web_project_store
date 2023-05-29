@@ -413,3 +413,4 @@ function draw_spec_table(data){
     table.rows.add(table_data);
     table.draw();
 }
+
