@@ -2,6 +2,12 @@
 {% load static %}
 {% block main_content %}
     <div class = "content-container">
+        <span class = "test-clone">Thêm thông tin</span>
+        <div class="test-area"></div>
+        <div id = "test-template">
+            <input type="text" class = "info">
+        </div>
+        <ul class="te"></ul>
         <div class = "d-row-flex">
             <div class="d-col-flex col-md-4 info-table">
                 <div class="loader"></div>
@@ -109,6 +115,7 @@
     <div class="data-appoint-spec-area" style="display:none">
         <div id="id-appoint-next" data-id="0"></div>
     </div>
+
     <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'doctor_dashboard.js' %}"></script>
 	<script src="{% static 'doctor.js' %}"></script>	

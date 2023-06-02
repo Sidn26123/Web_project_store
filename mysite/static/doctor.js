@@ -42,8 +42,8 @@ function check_appoint_upcoming() {
     });
 }
 
+
 function set_appoint_status(appoint_id, status) {
-    console.log(appoint_id, status)
     $.ajax({
         url: '/doctor/set-status-appointment/',
         type: 'GET',
@@ -97,14 +97,12 @@ function get_next_appoint_id() {
 }
 var is_showed = false;
 var set_check_loop = setInterval(function () {
-    console.log("looping")
     var status = ""
     var appoint_id = -1
     check_appoint_upcoming().then(function (data){
         status = data.status;
         var appoint_id = data.appoint_id;
         var appointing_id = data.appointing_id;
-        console.log("ing", appointing_id)
         if (status == 'have_appoint') {
             apt_id = data.appoint_id;
             $('#id-appoint-next').ready(function () {
@@ -113,7 +111,6 @@ var set_check_loop = setInterval(function () {
             });
         }
         if (status == 'waiting' && is_showed == false) {
-            console.log("showing")
             $('.choice-to-appoint').show();
             is_showed = true;
         }
@@ -148,7 +145,7 @@ var set_check_loop = setInterval(function () {
             $(this).parent().parent().hide();
         });
     });
-}, 1000*5);
+}, 1000*60*5);
 
 $(document).ready(function () {
 
@@ -191,3 +188,58 @@ function draw_notification(data) {
         $('.notification-area').append(template);
     }
 }
+
+
+$(document).ready(function () {
+    $('.test-clone').click(function () {
+        var template = $('#test-template').clone();
+        $('.test-area').append(template);
+        var text_node = $(document).find('.info');
+        var text = ""
+        $('.info').each(function () {
+            text = text + $(this).val() + ";";
+        });
+        var text_split = text.split(';');
+        for (var i =0; i < text_split.length; i++) {
+            if (text_split[i] != "") {
+                var new_li = $('<li></li>').text(text_split[i]);
+                $('.te').append(new_li);
+            }
+        }
+        $.ajax({
+            url: '/doctor/test/',
+            type: 'GET',
+            data: {
+                'text': text,
+            },
+            success: function (data) {
+                console.log(data)
+            }
+        })
+    });
+});
+
+function get_doctor_info(){
+    var doctor_id = $('.get-id').data('id')
+    var csrfToken = $('[name="csrfmiddlewaretoken"]').val();
+    $.ajax({
+        url: '/doctor/get-doctor-info/',
+        type: 'POST',
+        data: {
+            'id': doctor_id,
+        },
+        headers: {
+            'X-CSRFToken': csrfToken
+        },
+        success: function (data) {
+            // console.log(data.doctor.avatar)
+            $('.admin-avatar').attr('src', data.doctor['avatar']);
+            $('#name-span').text(data.doctor['real_name']);
+        }
+    });
+}
+
+
+$(document).ready(function () {
+    get_doctor_info();
+});

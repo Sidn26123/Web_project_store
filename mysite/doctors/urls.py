@@ -13,6 +13,10 @@ from .views import (
     set_status_appointment,
     update_notification,
     get_notification,
+    logout_view as logout,
+    test_o,
+    get_doctor_info,
+    settings,
 )
 
 from .dashboard import (
@@ -45,6 +49,10 @@ from .approving_appoint import (
     test,
     
 )
+
+from .setting_page import (
+    save_change,
+)
 app_name = "doctor"
 
 urlpatterns = [
@@ -53,6 +61,9 @@ urlpatterns = [
     path('my-patient/', my_patient, name = 'my-patient'),
     path('review/', review, name = 'review'),
     path('invoice/', invoice, name = 'invoice'),
+    path('logout/', logout, name = 'logout'),
+    path('upcoming-appoint/', approving_appoint, name = 'approving-appoint'),
+    path('settings/', settings, name = 'settings'),
     path('get-doctor/', get_doctor),
     path('get-earn-money/', get_earn_money),
     path('get-money-left/', get_money_left),
@@ -68,9 +79,8 @@ urlpatterns = [
     path('get-invoice/', get_invoice),
     path('get-notification/', get_notification),
     path('get-confirming-appointment/', get_confirming_appoint),
-    path('upcoming-appoint/', approving_appoint, name = 'approving-appoint'),
-    path('update-appointment-status/', update_appoint_status, name = 'update-appoint-status'),
-    path('test/', test),
+    path('update-appointment-status/', update_appoint_status),
+    path('test/', test_o),
     path('check-next-appoint/', check_next_appoint),
     path('get-next-appoint-id/', get_next_appoint_id),
     path('add-notification/', add_notification),
@@ -79,4 +89,6 @@ urlpatterns = [
     path('check-upcoming-appoint/', check_upcoming_appoint),
     path('update-notification/', update_notification),
     path('get-notification/', get_notification),
+    path('get-doctor-info/', get_doctor_info),
+    path('save-change/', save_change),
 ]

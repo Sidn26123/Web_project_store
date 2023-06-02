@@ -40,7 +40,6 @@ def update_doctor_info(request):
     doctor_dict['date_of_birth'] = doctor.date_of_birth.strftime("%d/%m/%Y")
     doctor_dict['date_joined'] = doctor.date_joined.strftime("%d/%m/%Y %H:%M:%S")
     doctor_dict['last_login'] = doctor.last_login.strftime("%d/%m/%Y %H:%M:%S")
-    print(doctor_dict)
     doctor_dict['avatar'] = doctor.avatar.url
     rate = Review.objects.filter(receiver_id = doctor_id).aggregate(Avg('rate'))
     data = {
@@ -112,7 +111,6 @@ def get_rate(request):
         'rate': rate_avg,
         'amount': rate_amount,
     }
-    print(data)
     return JsonResponse(data)
 
 def get_appoint_table_data(request):
@@ -175,7 +173,6 @@ def check_upcoming_appoint(request):
     if (time_start.date() != now.date()):
         time_start = time_start + relativedelta(days=+1)
         time_start = time_start.replace(hour=0, minute=0, second=0, microsecond=0)
-    print(time_start)
     transact = Transaction.objects.filter(doctor__id = int(doctor_id), state__in = ["appointing", "waiting"], appoint_time__time__gte = time_start, appoint_time__time__lt = now).order_by('-appoint_time')
     status = []
     if len(transact) == 0:

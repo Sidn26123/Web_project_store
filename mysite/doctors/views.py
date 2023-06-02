@@ -27,14 +27,6 @@ import csv
 import os
 from django.forms.models import model_to_dict
 # Create your views here.
-
-@login_required(login_url = '/doctor/login')
-def dashboard(request):
-    context = {
-        'request': request,
-    }
-    return render(request, 'doctors/dashboard.html', context)
-
 def doctor_login_view(request):
     form = Login_form()
     if request.method == "POST":
@@ -43,14 +35,32 @@ def doctor_login_view(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             doctor = authenticate(request, username = username, password = password)
-            print(doctor)
-            if doctor is not None:
+            class_name = doctor.__class__.__name__
+            if doctor is not None and doctor.is_active and class_name == 'Doctor':
                 login(request, doctor)
-                print(request.user.is_authenticated)
-                return redirect(request.GET.get('next', ''))
+                return redirect(request.GET.get('next', '/doctor/dashboard/'))
+            elif doctor is not None and doctor.is_active and class_name != 'Doctor':
+                return render(request, 'doctors/login.html', {'form': form, 'error': 'Tài khoản của bạn không phải là bác sĩ'})
+            elif doctor is not None and not doctor.is_active:
+                form.add_error('username', 'Tài khoản của bạn đã bị khóa')
+                return render(request, 'doctors/login.html', {'form': form})
         else:
             form = Login_form()
     return render(request, 'doctors/login.html', {'form': form})
+
+
+@login_required(login_url = '/doctor/login')
+def dashboard(request):
+    context = {
+        'request': request,
+    }
+    return render(request, 'doctors/dashboard.html', context)
+
+@login_required(login_url = '/doctor/login')
+def logout_view(request):
+    logout(request)
+    return redirect('/doctor/login')
+
 @login_required(login_url = '/doctor/login')
 def my_patient(request):
     return render(request, 'doctors/my_patient.html')
@@ -62,7 +72,9 @@ def review(request):
 def invoice(request):
     return render(request, 'doctors/invoice.html')
 
-
+@login_required(login_url = '/doctor/login')
+def settings(request):
+    return render(request, 'doctors/settings_page.html')
 @login_required(login_url = '/doctor/login')
 def approving_appoint(request):
     return render(request, 'doctors/approving_appoint.html')
@@ -141,7 +153,15 @@ def get_notification(request):
         return JsonResponse({})
 def test_o(request):
     
-    id = request.GET.get('id', None)
-    o = Notification.objects.filter(receiver__icontains = str(id))
-    print(o)
     return JsonResponse({'status': 'success'})
+
+def get_doctor_info(request):
+    id = request.POST.get('id')
+    print(id)
+    doctor = Doctor.objects.get(id = id)
+    doctor_dict = model_to_dict(doctor)
+    doctor_dict['avatar'] = doctor.avatar.url
+    data = {
+        'doctor': doctor_dict,
+    }
+    return JsonResponse(data)

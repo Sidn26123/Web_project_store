@@ -96,6 +96,7 @@ class User(AbstractUser):
     address = models.TextField(null = True)
     account_left = models.FloatField(default = 0)
     credit_score = models.IntegerField(default = 100)
+    time_join = models.DateTimeField(auto_now = True)
 @receiver(pre_save, sender = User)
 def calculate_age(sender, instance, **kwargs):
     today = date.today()
