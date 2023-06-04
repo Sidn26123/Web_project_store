@@ -32,6 +32,8 @@ from .patient_views import (
                     get_account_status,
                     get_patient_table,
                     update_patient_status,
+                    get_amount_info,
+
                     )
 
 from .appointment_manage import (
@@ -104,4 +106,5 @@ urlpatterns = [
     path('update-patient-status/', update_patient_status),
     path('get-spec-overview-table-data/', get_spec_overview_table_data),
     path('get-doctor-table-data/', get_doctor_table_data),
+    path('get-amount-info/', get_amount_info),
 ]

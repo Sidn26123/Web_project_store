@@ -14,6 +14,8 @@ class Doctor(User):
     income = models.IntegerField(default = 0)
     money_left = models.IntegerField(default = 0)
     fee = models.IntegerField(default = 0)
+    is_auth = models.BooleanField(default = False)
+    available_time = models.TextField(default = "[]")
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 @receiver(pre_save, sender = Doctor)

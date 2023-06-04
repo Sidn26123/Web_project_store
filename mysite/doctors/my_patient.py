@@ -42,7 +42,6 @@ def get_patient(request):
         patients = MyPaient.objects.filter(doctor__id = int(id)).filter(time_query)
     else:
         patients = MyPaient.objects.filter(doctor__id = int(id))
-    print(patients)
     patient_dict = {}
     patient_data = []
     for patient in patients:
@@ -60,5 +59,4 @@ def get_patient(request):
     data = {
         'patients': json.dumps(patient_data),
     }
-    print(data)
     return JsonResponse(data)

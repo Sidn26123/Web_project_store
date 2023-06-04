@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 from .models import Site_admin, Transaction
 from patients.models import Patient
-from doctors.models import Doctor
+from doctors.models import Doctor, Review
 from users.models import User
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from django.core.files.storage import default_storage
@@ -148,8 +148,8 @@ def get_new_register_amount(request):
     start_of_cur_month = today.replace(day=1)
     #So sánh với tháng trước (cùng số ngày với hiện taại)
     end_of_bef_month = start_of_cur_month - relativedelta(days=1)
-    end_of_bef_month = end_of_bef_month.replace(day=today.day)
     start_of_bef_month = end_of_bef_month.replace(day=1)
+    end_of_bef_month = start_of_bef_month + relativedelta(days = today.day)
     #Tính số lượng đăng ký trong tháng hiện tại
     query = Patient.objects.filter(date_joined__date__range=[start_of_cur_month, today]).count()
     #Tính số lượng đăng ký trong tháng trước cùng kỳ
@@ -158,7 +158,7 @@ def get_new_register_amount(request):
     if (query_b == 0):
         diff = query
     else:
-        diff = ((query - query_b)/query_b)*100
+        diff = ((query - query_b)/query_b)
     
     #Truy vấn các đăng ký theo giới tính
     gender_q = Patient.objects.filter(date_joined__date__range = [start_of_cur_month, today]).values('gender').annotate(count = Count('id')).order_by('-count')
@@ -321,3 +321,25 @@ def update_patient_status(request):
     patient.is_active = not status
     patient.save()
     return JsonResponse({'status': 'ok'})
+
+def get_amount_info(request):
+    account_amount = Patient.objects.filter(is_active = True).count()
+    cases = {'zero':0, 'one_more': 0, 'two_more': 0}
+    appoint = Transaction.objects.filter(state = 'success').annotate(count = Count('patient__id')).values('count')
+    for a in appoint:
+        if a['count'] == 0:
+            cases['zero'] += 1
+        elif a['count'] >= 1:
+            cases['one_more'] += 1
+        if a['count'] >= 2:
+            cases['two_more'] += 1
+    cases['zero'] = account_amount - cases['one_more']- cases['two_more']
+    rates = Review.objects.filter(rate__gte = 4).count()
+    data = {
+        'accounts': account_amount,
+        'not_book_yet': cases['zero'],
+        'as_least_one': cases['one_more'],
+        'more_than_one': cases['two_more'],
+        'patient_satisfied': rates,
+    }
+    return JsonResponse(data)

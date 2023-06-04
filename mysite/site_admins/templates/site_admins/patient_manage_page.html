@@ -74,7 +74,8 @@
             </div>
         </div>
         <div class="d-row-flex">
-            <div class="col-md-6 chart-container d-col-flex">
+            
+            <div class="col-md-4 chart-container-pie d-col-flex">
                 <div class="d-row-flex">
                     <span class="header">Đăng ký mới: <span id = "new-register-amount"></span></span>
                     <select name="selector" id="new-patient-register">
@@ -86,7 +87,7 @@
                 </div>
                 <div class = "d-row-flex">
                     <div class="col-md-3 chart-w-3">
-                        <canvas id = "gender-proportion-chart"></canvas>
+                        <canvas id = "gender-proportion-chart" height = "200" width = "200"></canvas>
                     </div>
                     <div class="col-md-3 chart-w-3">
                         <canvas id = "age-proportion-chart"></canvas>
@@ -98,17 +99,16 @@
                     <span>Trạng thái tài khoản</span>
                 </div>
                 <canvas id = "account-status"></canvas>
-                <span class="total-acc-normal">Tổng</span>
-                <span class = "total-acc-locked">Khóa</span>
+                <span class="total-acc-normal">Tổng: <span></span></span>
+                <span class = "total-acc-locked">Khóa: <span></span></span>
             </div>
             <div class="col-md-3 d-col-flex">
-                <span>Tài khoản</span>
-                <span>Lượt đăng ký khám</span>
-                <span class = "not-booked-yet">Không</span>
-                <span class = "at-lease-one">Ít nhất một lần</span>
-                <span class = "more-than-one">Trên 2 lần</span>
-                <span>Hài lòng</span>
-                <canvas class ="patient-satisfied"></canvas>
+                <span class = "accounts">Tài khoản: <span></span></span>
+                <h3>Lượt đăng ký khám</h3>
+                <span class = "not-booked-yet">Chưa: <span></span></span>
+                <span class = "at-least-one">Ít nhất một lần: <span></span></span>
+                <span class = "more-than-one">Trên 2 lần: <span></span></span>
+                <span class = "patient-satisfied">Hài lòng: <span></span></span>
             </div>
         </div>
     </div>
@@ -468,6 +468,7 @@
         <script src="{% static 'form_validations.js' %}"></script>
         <script src="{% static 'patient_chart.js' %}"></script>
         <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+        <link rel="stylesheet" type="text/css" href="{% static 'patient.css' %}">
     </div>
 {% endblock main_content%}
 

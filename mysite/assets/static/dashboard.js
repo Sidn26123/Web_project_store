@@ -191,12 +191,15 @@ function update_appoint_state_chart(selected_value){
     });
 }
 $(document).ready(function(){
-    var selected_value = document.getElementById("appoint-state-choose-box").value
-    update_appoint_state_chart(selected_value);
-    $('#appoint-state-choose-box').on('change', function() {
-        selected_value = $(this).val(); // lấy giá trị đã chọn
+    if (document.getElementById("appoint-state-choose-box")){
+        var selected_value = document.getElementById("appoint-state-choose-box").value
         update_appoint_state_chart(selected_value);
-    });
+        $('#appoint-state-choose-box').on('change', function() {
+            selected_value = $(this).val(); // lấy giá trị đã chọn
+            update_appoint_state_chart(selected_value);
+        });
+    }
+
 });
 
 
@@ -214,15 +217,11 @@ function update_specialities_table(selected_value){
             var tr = document.createElement('tr');
             
             data.data.forEach(obj =>{
-                console.log(obj)
                 var td = document.createElement('td');
                 td.textContent = obj.medical_specialty__name;
                 tr.appendChild(td);
-                console.log(tr)
-
             });
             tbody.appendChild(tr);
-
             }
         });
     }
@@ -276,7 +275,6 @@ function update_spec_income_chart(selected_value){
             'selected_value': selected_value,
         },
         success: function(data){
-            // console.log(data.data)
             var canvas = document.getElementById("specialty-income-chart")
             var span_replace = document.getElementById("specialty-income-chart-wrapper")
             if (span_replace !== null){
@@ -355,18 +353,64 @@ $(document).ready(function(){
 //     });
 // });
 
-$(document).ready(function(){
-    var data_row = [1,2,3,4,5];
-        $.ajax({
-            type: 'POST',
-            url: '../export_file',
-            data:{
-                'data': JSON.stringify(data_row),
-            },
-            success: function(response){
-                console.log(response)
+// $(document).ready(function(){
+//     var data_row = [1,2,3,4,5];
+//         $.ajax({
+//             type: 'POST',
+//             url: '../export_file',
+//             data:{
+//                 'data': JSON.stringify(data_row),
+//             },
+//             success: function(response){
+//                 console.log(response)
+//             }
+//         });
+
+//     });
+
+$('#spec-overview-table').ready(function(){
+    $("#spec-overview-table-loader").show();
+    $.ajax({
+        url: '../get-spec-overview-table-data/',
+        success: function(data){
+            // data_table = data.table;
+            draw_spec_table(data)
+        }
+    });
+});
+function draw_spec_table(data){
+    table_data = JSON.parse(data.table);
+    if ($.fn.dataTable.isDataTable('#spec-overview-table')){
+        table = $('#spec-overview-table').DataTable();
+    }
+    else{
+        table = $('#spec-overview-table').DataTable({
+            "paging": false, // Phân trang
+            "lengthChange": false, // Thay đổi số lượng bản ghi trên mỗi trang
+            "searching": false, // Tìm kiếm
+            "ordering": true, // Sắp xếp
+            "info": false, // Hiển thị thông tin bảng
+            "autoWidth": true, // Điều chỉnh tự động chiều rộng cột
+            "responsive": true, 
+            "columns": [
+                {'title': 'Họ tên ',
+                    'render': function (data, type, row) {
+                        console.log(row[0][0])
+                        return '<img src = ' + row[0][1] + ' ><span>'+row[0][0] +'</span>';
+                    },
+                },
+                { "title": "total_appointments"},
+                { "title": "total_income" },
+            ],
+
+            drawCallback: function(){
+                $("#spec-overview-table-loader").hide();
             }
         });
 
-    });
+    }
+    table.clear();
+    table.rows.add(table_data);
+    table.draw();
+}
 
