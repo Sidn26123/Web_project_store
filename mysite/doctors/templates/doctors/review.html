@@ -1,0 +1,82 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <div class = "content block-div">
+        <div class="rate-point">
+            <div class="rate-point__doctor">
+                <div class="doctor-info">
+                    <img src="" alt="Doctor-avatar">
+                    <div class="doctor-info__item">
+                        <span id = "doctor-name"></span>
+                        <span id = "doctor-speciality"></span>
+                </div>
+                <div class="rate-point-wrapper wrapper">
+                    <div class="rate-point__item">
+                        <span>Điểm đánh giá</span>
+                        <span id = "rate-point"></span>
+                    </div>
+                    <div class="rate-point__item">
+                        <span>Lượt đánh giá</span>
+                        <span id = "amount-rate"></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="detail-rate">
+                <div class="detail-rate__item">
+                    <span>5 sao</span>
+                    <span id = "5-star" class = "star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>4 sao</span>
+                    <span id = "4-star" class = "star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>3 sao</span>
+                    <span id = "3-star" class = "star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>2 sao</span>
+                    <span id = "2-star" class = "star"></span>
+                </div>
+                <div class="detail-rate__item">
+                    <span>1 sao</span>
+                    <span id = "1-star" class = "star"></span>
+                </div>
+            </div>
+        </div>
+        <div class = "detail-rating">
+            <div class="d-row-flex">
+                <span>Lọc</span>
+                <div class="filter-wrapper d-row-flex">
+                    <div class="filter-item checked" id = "all">Tất cả</div>
+                    <div class="btn_active filter-item checked" id = "5-star">5 sao</div>
+                    <div class="filter-item checked" id = "4-star">4 sao</div>
+                    <div class="filter-item checked" id = "3-star">3 sao</div>
+                    <div class="filter-item checked" id = "2-star">2 sao</div>
+                    <div class="filter-item checked" id = "1-star">1 sao</div>
+                </div>
+            </div>
+            <div id="review-area"></div>
+        </div>
+        <div id ="review-template">
+            <div class="review-template__item">
+                <div class="review-template__item__header">
+                    <img src="" alt="" class = "reviewer-avatar">
+                    <div class="review-template__item__header__info">
+                        <span class = "reviewer-name"></span>
+                        <span class = "review-time"></span>
+                    </div>
+                </div>
+                <div class="review-template__item__content">
+                    <span class="rates"></span>
+                    <span class = "review-content"></span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor/doctor_review.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}

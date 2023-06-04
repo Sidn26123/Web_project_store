@@ -1,0 +1,33 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <h3>Hóa đơn</h3>
+    <div class="filter">
+        <div class="filter-item">
+            <input type="text" name = "search-query" id = "search-query" class = "time-condition">
+            <label for="seacrh-query">ID hóa đơn</label>
+        </div>
+        <div class = "filter-item">
+            <div class="filter-item__date-start">
+                <input type="date" name = "date-start" id = "date-start" class = "time-condition">
+                <label for="date-start">Từ ngày</label>
+            </div>
+            <div class="filter-item__date-end">
+                <input type="date" name = "date-end" id = "date-end" class = "time-condition">
+                <label for="date-end">Đến ngày</label>
+            </div>
+        </div>
+        <input type="submit" name="submit-time" id="submit-time">
+    </div>
+    <table id = "invoice-table">
+        <thead>
+            <tr class="row"></tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor/doctor_invoice.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}

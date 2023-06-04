@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar_block %}
+    <div class = "navbr">
+        <ul class = "navbar-item-list">
+            <div class="get-id" data-id = "{% if request.user.is_authenticated %}{{ request.user.id }}{% else %}-1{% endif %}"></div>
+            <li class="navbar-item-list__item" id = "logo">
+                <a href="">
+                    <img>
+                    Logo
+                </a>
+            </li>
+            <li class="navbar-item-list__item">
+                <a href = "{% url 'doctor:dashboard' %}">Trang chủ</a>
+            </li>
+            <li class="navbar-item-list__item">
+                <a href = "{% url 'doctor:approving-appoint' %}">Cuộc hẹn đang chờ</a>
+            </li>
+            <li class="navbar-item-list__item">
+                <a href = "{% url 'doctor:my-patient' %}">Bệnh nhân của tôi</a>
+            </li>
+            <li class="navbar-item-list__item">
+                <a href = "{% url 'doctor:review' %}">Đánh giá</a>
+            </li>
+            <li class="navbar-item-list__item">
+                <a href = "">Hóa đơn</a>
+            </li>
+        </ul>
+        <ul class="navbar-item-list">
+			<li class="navbar-item-list__item"></li>
+			<li class="navbar-item-list__item" id = "notification">
+				<div class="loader" id = "notice-loader" style = "display:none"></div>
+				<i class="fa-regular fa-bell" ></i>
+				<div class="notification-container" style = "display:none">
+					<h4>Thông báo</h4>
+					<div class = "notification-area">
+
+					</div>
+				</div>
+				<div id="notification-item-template">
+					<div class="notification-item-wrapper" data-is_read = "F">
+						<div class="content"></div>
+						<span class="time"></span>
+					</div>
+				</div>
+			</li>
+	
+			<li class = "navbar-item-list__item" id = "dropdown-menu-admin">
+				<img src="" alt="" class = "admin-avatar" >
+				<div class="admin-avatar-menu">
+					<div class="avatar-menu__header">
+						<img src="" alt="" class = "admin-avatar">
+						<span>{{name}}</span> 
+					</div>
+					<hr>
+					<a href="">Cài đặt</a>
+					<hr>
+					<div>
+						<a href="{% url 'site_admin:logout_link' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Thoát</div></a>
+						
+				</div>
+			</li>
+			<script>
+				let dropdown_block = document.querySelector("#dropdown-menu-admin");
+				let dropdown_menu = document.querySelector(".admin-avatar-menu");
+				dropdown_block.addEventListener("click", (event)=>{
+					event.stopPropagation();
+					if (dropdown_menu.style.display == "none"){
+						dropdown_menu.style.display = "block";
+					}
+				});
+				document.addEventListener("click", function(event) {
+					// Kiểm tra xem click vào phần tử nào
+					//var isClickInside =  dropdown_menu.contains(event.target);
+					//if (!isClickInside) {
+					  // Ẩn menu đi nếu click ra ngoài menu
+					//dropdown_menu.style.display = "none";
+					//}
+					if (event.target !== dropdown_menu){
+						dropdown_menu.style.display = "none";
+					}
+				});
+			</script>
+		</ul>
+    </div>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+	<script src="{% static 'main.js' %}"></script>
+{% endblock %}
