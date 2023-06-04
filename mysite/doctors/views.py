@@ -158,10 +158,13 @@ def test_o(request):
 def get_doctor_info(request):
     id = request.POST.get('id')
     print(id)
-    doctor = Doctor.objects.get(id = id)
-    doctor_dict = model_to_dict(doctor)
-    doctor_dict['avatar'] = doctor.avatar.url
+    doctor = Doctor.objects.all()
+    # doctor_dict = model_to_dict(doctor)
+    # doctor_dict['avatar'] = doctor.avatar.url
+    print(doctor)
+    for doc in doctor:
+        print(doc.id, doc.real_name)
     data = {
-        'doctor': doctor_dict,
+        # 'doctor': doctor_dict,
     }
     return JsonResponse(data)

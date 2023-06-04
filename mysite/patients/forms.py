@@ -1,129 +1,136 @@
+# ràng buộc số điện thoại
 from django import forms
-import re
+from django.core.validators import RegexValidator
+
+phone_regex = RegexValidator(
+    regex=r'^\+?1?\d{10,11}$',
+    message="Số điện thoại phải ở định dạng: '+123456789'. Số điện thoại tối thiểu 10 chữ số và tối đa 11 chữ số."
+)
+# Ràng buộc tỉnh/thành phố
+
+
+
+#CODE ĐĂNG KÝ
+from django import forms
+from .models import User
+class RegistrationForm(forms.ModelForm):
+    username = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tên đăng nhập'})
+    )
+    email = forms.EmailField( 
+        error_messages={
+            'invalid': 'Địa chỉ email không hợp lệ.',
+        },
+        label='Email',
+        max_length=254,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Email'}))
+    password = forms.CharField(
+        max_length=50,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Mật Khẩu'}))
+    confirm_password = forms.CharField(
+        max_length=50,
+        widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Xác nhận mật khẩu'}))
+    full_name = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Họ và tên'})
+    )
+    phone_number = forms.CharField(
+        validators=[phone_regex],
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Số điện thoại'})
+    )
+    country = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quốc gia'})
+    )
+    city = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tỉnh/Thành phố'})
+    )
+    district = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Huyện'})
+    )
+    address = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Địa chỉ cụ thể'})
+    )
+    class Meta:
+        model = User
+        fields = ('username', 'email', 'password','confirm_password', 'full_name', 'date_of_birth', 'gender', 'phone_number', 'country', 'city', 'district', 'address')
+        widgets = {'date_of_birth': forms.DateInput(attrs={'type': 'date'})}
+    def clean(self):
+        cleaned_data = super().clean()
+        password = cleaned_data.get('password')
+        confirm_password = cleaned_data.get('confirm_password')
+        if password != confirm_password:
+            raise forms.ValidationError('Mật khẩu không khớp')
+        return cleaned_data
+  # Ràng buộc email
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if not email.endswith('@gmail.com'):  # Ràng buộc email phải kết thúc bằng @example.com
+            raise forms.ValidationError("Email phải kết thúc bằng @gmail.com")
+        return email
+#code đăng nhập
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=30)
+    password = forms.CharField(widget=forms.PasswordInput())
+
+
+
+#code đổi mật khẩu
+from django import forms
+
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(widget=forms.PasswordInput)
+    new_password = forms.CharField(widget=forms.PasswordInput)
+    confirm_password = forms.CharField(widget=forms.PasswordInput)
+
+#code phần chuyên lkhoa đặt khám thông tin bác sĩ
+from doctors.models import Doctor
+
+class DoctorForm(forms.ModelForm):
+    class Meta:
+        model = Doctor
+        fields = '__all__'
+#Code phầnđặt khám
 from .models import Patient
-from site_admins.models import Site_admin
-from django.core.exceptions import ValidationError
+
+class PatientForm(forms.ModelForm):
+    name = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Họ và tên '})
+    )
+    phone_number = forms.CharField(
+       	validators=[phone_regex],
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Số điện thoại'})
+    )
+    country = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quốc gia'})
+    )
+    city = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tỉnh/Thành phố'})
+    )
+    district = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Huyện'})
+    )
+    address = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Địa chỉ cụ thể'})
+    )
+    
+    class Meta:
+        model = Patient
+        fields = ('name','date_of_birth', 'gender', 'phone_number', 'country', 'city', 'district', 'address')
+        widgets = {'date_of_birth': forms.DateInput(attrs={'type': 'date'})}
 
 
-class Register_form(forms.Form):
-	# class Meta:
-	# 	model = User
-	# 	fields = [
-	# 		'username',
-	# 		'password',
-	# 		'email'
-	# 	]
-	username = forms.CharField(
-				widget = forms.TextInput(
-					attrs = {
-						"class": "",
-						}
-					)
-				)
-	password = forms.CharField(
-					label = "Mật khẩu",
-					widget = forms.PasswordInput(
-						attrs = {
-							"class": "",
-							}
-						)
-				)
-	confirm_password = forms.CharField(
-					label = "Nhập lại mật khẩu",
-					widget = forms.PasswordInput(
-						attrs = {
-							"class": "",
-							}
-						)
-					)
-
-	def clean_username(self):
-		username = self.cleaned_data["username"]
-		if 'username' in self.cleaned_data:
-			if len(username) <= 3:
-				raise forms.ValidationError("Tài khoản quá ngắn. Tên tài khoản phái chứa 4-26 ký tự. Chỉ chứa các ký tự 0-9, a-z, A-Z, @, -,+,_") 
-			elif len(username) >= 21:
-				raise forms.ValidationError("Tài khoản quá dài. Tên tài khoản phái chứa 4-26 ký tự. Chỉ chứa các ký tự 0-9, a-z, A-Z, @, -,+,_")
-			elif not re.search(r'^\w+$', username):
-				raise forms.ValidationError("Tên tài khoản chứa kí tự đặc biệt")
-			#Kiểm tra account đã tồn tại trong database hay chưa, dùng try expect để không bị redirect hay xuất lỗi không tồn tại
-			try:
-				Site_admin.objects.get(username = username)
-			except Site_admin.DoesNotExist :
-				return username
-			else:
-				raise forms.ValidationError("Tài khoản đã tồn tại")
-			return username
-		raise forms.ValidationError("Tài khoản")
-
-	def clean_password(self):
-		if "password" in self.cleaned_data:
-			password = self.cleaned_data["password"]
-			if len(password) <= 3:
-				raise forms.ValidationError("Mật khẩu quá ngắn")
-			elif len(password) >= 31:
-				raise forms.ValidationError("Mật khẩu quá dài")
-			return password
-		raise forms.ValidationError("Mật khẩu")
-
-	def clean_confirm_password(self):
-		if "confirm_password" in self.cleaned_data and "password" in self.cleaned_data:
-			if (self.cleaned_data["confirm_password"] != self.cleaned_data["password"]):
-				raise forms.ValidationError("Mật khẩu không trùng khớp")
-			return self.cleaned_data["confirm_password"]
-		raise forms.ValidationError("Không hợp lệ")
-
-	def check_email(self):
-		regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,7}\b'
-		if (re.fullmatch(regex, self.cleaned_data["username"])):
-			return self.cleaned_data["username"]
-		return ""
-	def save(self):
-		Site_admin.objects.create(
-			username = self.cleaned_data["username"],
-			password = self.cleaned_data["password"],
-			)
-
-
-class Login_form(forms.Form):
-	username = forms.CharField(
-				widget = forms.TextInput(
-					attrs = {
-						"class": "",
-						}
-					)
-				)
-	password = forms.CharField(
-					label = "Mật khẩu",
-					widget = forms.PasswordInput(
-						attrs = {
-							"class": "",
-							}
-						)
-				)
-
-	def clean_username(self):
-		if 'username' in self.cleaned_data:
-			username = self.cleaned_data["username"]
-			if len(username) <= 3:
-				raise forms.ValidationError("Tài khoản quá ngắn. Tên tài khoản phái chứa 4-26 ký tự. Chỉ chứa các ký tự 0-9, a-z, A-Z, @, -,+,_") 
-			elif len(username) >= 21:
-				raise forms.ValidationError("Tài khoản quá dài. Tên tài khoản phái chứa 4-26 ký tự. Chỉ chứa các ký tự 0-9, a-z, A-Z, @, -,+,_")
-			elif not re.search(r'^\w+$', username):
-				raise forms.ValidationError("Tên tài khoản chứa kí tự đặc biệt")
-			try:
-				Site_admin.objects.get(username = username)
-			except Site_admin.DoesNotExist:
-				raise forms.ValidationError("Tai khoan khong ton tai")
-			return username
-		raise forms.ValidationError("Tài khoản")
-
-	def clean_password(self):
-		if "password" in self.cleaned_data:
-			password = self.cleaned_data["password"]
-			if len(password) <= 3:
-				raise forms.ValidationError("Mật khẩu quá ngắn")
-			elif len(password) >= 31:
-				raise forms.ValidationError("Mật khẩu quá dài")
-			return password
-		raise forms.ValidationError("Mật khẩu không được để trống")

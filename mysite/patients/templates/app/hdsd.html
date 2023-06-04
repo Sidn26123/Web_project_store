@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+  {% load static %}
+  <head>
+    <title>Hướng dẫn khách hàng</title>
+    <style>
+      .nha img{
+        height: 35px ;
+        width: 30px;
+     }
+     .baiviet-dau {
+         background: #f6f6f6;
+     }
+     .vung-bao {
+         padding-right: 15px;
+         padding-left: 15px;
+         margin-right: auto;
+         margin-left: auto;
+     }
+     ul.sodo {
+         list-style: none;
+         margin: 0;
+         padding: 15px 10px;
+         border-bottom: 1px solid #eee;
+     }
+     .sodo li {
+         display: inline-block;
+         font-size: 25px;
+     }
+     .sodo li+li:before {
+         content: " / ";
+         color: #ccc;
+         padding: 0 7px;
+     }
+     h1 {
+      text-align: center;
+      margin-top: 50px;
+    }
+      .question {
+        font-size: 18px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-bottom: 10px;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #92d778;
+        transition: background-color 0.3s ease;
+      }
+  
+      .question:hover {
+        background-color: #eee;
+      }
+  
+      .answer {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f7f7f7;
+        display: none;
+      }
+    </style>
+  </head>
+  <div class="baiviet-dau">
+    <div class="vung-bao">
+      <ul class="sodo">
+        <li><a class="nha" href="{% url 'patient:home' %}"> 
+          <img src="{% static 'app/images/nha2.jpg' %}">
+        </a></li>
+        <li>Hướng dẫn khách hàng</li>
+      </ul>
+    </div>
+  </div>
+  <body>
+    <h1>Hướng dẫn khách hàng</h1>
+    <ul>
+      <li>
+        <h2 class="question">Tôi đặt lịch nhiều lần nhưng bận không đi khám được có sao không?</h2>
+        <p class="answer">Khi muốn thay đổi lịch khám vui lòng báo lại để Doccure hỗ trợ sắp xếp lịch khám giúp bạn và nhường lịch đặt cho bệnh nhân khác.
+          Nếu bạn hủy lịch mà không thông báo cho Doccure 2 lần liên tiếp, chúng tôi có thể cân nhắc ngừng hỗ trợ đặt khám cho bạn vào lần tiếp theo.</p>
+      </li>
+      <li>
+        <h2 class="question">Nếu muốn khám bác sĩ khác tôi phải làm thế nào?</h2>
+        <p class="answer">Bạn vui lòng chọn lại bác sĩ bạn muốn đặt khám trên hệ thống, sau đó làm thao tác đặt khám như lúc đầu. Sau khi nhận được thông tin, Doccure sẽ liên hệ lại cho bạn để xác nhận về việc thay đổi lịch.</p>
+      </li>
+      <li>
+        <h2 class="question">Nếu quên đi khám theo hẹn tôi nên làm thế nào?</h2>
+        <p class="answer">Bạn vui lòng báo lại để Doccure giúp bạn chuyển lịch khám vào ngày khác.</p>
+      </li>
+      <li>
+        <h2 class="question">Nếu nhập sai thông tin khi đặt lịch, Doccure có thể giúp tôi được không?</h2>
+        <p class="answer">Có. Bạn vui lòng để lại thông tin cho Doccure trong phần "Liên hệ".</p>
+      </li>
+      <li>
+        <h2 class="question">Nếu muốn khám bác sĩ khác tôi phải làm thế nào?</h2>
+        <p class="answer">Bạn vui lòng chọn lại bác sĩ bạn muốn đặt khám trên hệ thống, sau đó làm thao tác đặt khám như lúc đầu. Sau khi nhận được thông tin, Doccure sẽ liên hệ lại cho bạn để xác nhận về việc thay đổi lịch.</p>
+      </li>
+      <li>
+        <h2 class="question">Tôi bận việc nên đến muộn khoảng 30 phút so với Giờ đã hẹn có được không?</h2>
+        <p class="answer">Nếu bạn có việc và đến muộn hơn giờ đặt hẹn, bạn vui lòng báo cho Doccure để tránh ảnh hưởng đến quyền lợi của bạn khi bạn đến khám và để Doccure sắp xếp lịch hẹn cho các bệnh nhân khác.</p>
+      </li>
+      <li>
+        <h2 class="question">Tôi đã đặt khám qua Doccure, vậy tôi có được khám đúng theo giờ hẹn khám không?</h2>
+        <p class="answer">Chúng tôi phối hợp với bác sĩ, cơ sở y tế để cố gắng hỗ trợ người bệnh được khám theo lịch đã hẹn trước.
+
+          Đi khám bác sĩ là một hoạt động đặc thù mà thời gian khám thực tế có thể sai khác với lịch hẹn trước. Việc này xuất phát từ nhiều nguyên nhân khác nhau như là quá tải ở bệnh viện, thời gian khám cho từng bệnh nhân kéo dài hơn dự kiến, bác sĩ cần thêm hội chẩn chuyên môn và có cả sự sắp xếp chưa khoa học ở các cơ sở y tế.
+          
+          Tuy nhiên, chúng tôi luôn cố gắng cập nhật lịch khám bác sĩ theo thời gian thực và tối ưu hóa qui trình để giảm thiểu thời gian chờ khám của bệnh nhân. Ở một số bác sĩ hoặc cơ sở y tế trên Doccure, bệnh nhân có thể chọn dịch vụ hẹn khám chính xác theo giờ đã hẹn.
+          
+          Thực tế, đặt khám qua BookingCare bạn sẽ được ưu tiên khám trước, giảm thiểu thời gian chờ và đi khám có kế hoạch. </p>
+      </li>
+      <li>
+        <h2 class="question">Tôi đã đặt khám qua Doccure, vậy có cần làm lại thủ tục khám khi đến bệnh viện/phòng khám không?</h2>
+        <p class="answer">Bạn cần đến bộ phận tiếp đón tại nơi đến khám để kiểm tra thông tin một lần nữa trước khi vào khám với bác sĩ.</p>
+      </li>
+    </ul>
+    <script>
+      const questions = document.querySelectorAll('.question');
+      questions.forEach((question) => {
+        question.addEventListener('click', () => {
+          const answer = question.nextElementSibling;
+          if (answer.style.display === 'block') {
+            answer.style.display = 'none';
+          } else {
+            answer.style.display = 'block';
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

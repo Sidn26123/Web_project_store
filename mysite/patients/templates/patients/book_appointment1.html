@@ -1,0 +1,53 @@
+{% extends 'app/base1.html'%}
+{% load static %}
+{% block main-register %}
+<div class="register-form">
+    <h2>Đặt khám</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <div class="dauvao-nhom thanh-toan"><p class="tieude-nhom">Hình thức thanh toán</p>
+        <label><input class="dauvao-nhap" type="radio" name="pay_type" value="1" checked="checked"> Thanh toán sau tại cơ sở y tế</label>
+    </div>
+    <p class="dauvao-ghichu chu-giua">Quý khách vui lòng điền đầy đủ thông tin để tiết kiệm thời gian làm thủ tục khám</p>
+    <div class="dauvao-canhbao"><p style="text-align: justify; "><b>LƯU Ý</b></p>
+      <p style="text-align: justify; ">Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám bệnh, khi điền thông tin anh/chị vui lòng:</p><ul>
+        <li style="text-align: justify; ">Ghi rõ họ và tên, viết hoa những chữ cái đầu tiên, ví dụ:<b> Phan Hậu &nbsp;</b></li>
+        <li style="text-align: justify; ">Điền đầy đủ, đúng và vui lòng kiểm tra lại thông tin trước khi ấn "Xác nhận đặt khám"</li></ul>
+      </div>
+      <button type="submit">Xác nhận đặt khám</button>
+    </form>
+  </div>
+  <style>
+    .dauvao-nhom {
+      margin: 10px 0;
+  }
+  .tieude-nhom {
+    color: #337ab7;
+    font-weight: bold;
+    font-size: 12px;
+}
+.dauvao-nhom label {
+  color: #333;
+}
+input {
+  font: 14px/1.5 'Montserrat', sans-serif;
+  outline: none;
+}
+.chu-giua {
+  text-align: center;
+}
+.dauvao-canhbao {
+  background: #D4EFFC;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 3px;
+  margin-bottom: 15px;
+}
+ul {
+  margin: 10px 0px 10px 25px;
+}
+  </style>
+
+{% endblock main-register %}
+  

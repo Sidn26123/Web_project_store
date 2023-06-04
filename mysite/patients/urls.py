@@ -1,10 +1,73 @@
-from django.urls import path, include
-from .views import Login_view, Register_view, test_view, book_appointment
+from django.contrib import admin
+from django.urls import path,include
+from . import views
+#from .views import Login_view, Register_view, test_view, book_appointment
 app_name = "patient"
-
 urlpatterns = [
-	path('login/', Login_view.as_view()),
-	path('register/', Register_view.as_view()),
-	path('test/', test_view),
-	path('book/', book_appointment),
-]
+    path('', views.home, name="home"),
+    path('lienhe', views.lienhe, name="lienhe"),
+    path('lienhe1', views.lienhe1, name="lienhe1"),
+    path('hdsd', views.hdsd, name="hdsd"),
+    path('hdsd1', views.hdsd1, name="hdsd1"),
+    path('dangky', views.dangky, name="dangky"),
+    path('dangnhap', views.dangnhap, name="dangnhap"),
+    path('tintuc', views.tintuc, name="tintuc"),
+    path('tintuc1', views.tintuc1, name="tintuc1"),
+    path('thongbao', views.thongbao, name="thongbao"),
+    path('chuyenkhoa', views.chuyenkhoa, name="chuyenkhoa"),
+    path('chuyenkhoa1', views.chuyenkhoa1, name="chuyenkhoa1"),
+    path('home1', views.home1, name="home1"),
+    path('khieunai', views.khieunai, name="khieunai"),
+    path('khieunai1', views.khieunai1, name="khieunai1"),
+    path('register', views.register, name="register"),
+    path('user_login', views.user_login, name="user_login"),
+    path('thongtin', views.thongtin, name="thongtin"),
+    path('change_password', views.change_password, name="change_password"),
+    #chuyên khoa
+    path('xuongkhop', views.xuongkhop, name="xuongkhop"),
+    path('xuongkhop1', views.xuongkhop1, name="xuongkhop1"),
+    path('thankinh', views.thankinh, name="thankinh"),
+    path('thankinh1', views.thankinh1, name="thankinh1"),
+    path('tieuhoa', views.tieuhoa, name="tieuhoa"),
+    path('tieuhoa1', views.tieuhoa1, name="tieuhoa1"),
+    path('timmach', views.timmach, name="timmach"),
+    path('timmach1', views.timmach1, name="timmach1"),
+    path('taimuihong', views.taimuihong, name="taimuihong"),
+    path('taimuihong1', views.taimuihong1, name="taimuihong1"),
+    path('cotsong', views.cotsong, name="cotsong"),
+    path('cotsong1', views.cotsong1, name="cotsong1"),
+    path('dalieu', views.dalieu, name="dalieu"),
+    path('dalieu1', views.dalieu1, name="dalieu1"),
+    path('hohap', views.hohap, name="hohap"),
+    path('hohap1', views.hohap1, name="hohap1"),
+    path('nhakhoa', views.nhakhoa, name="nhakhoa"),
+    path('nhakhoa1', views.nhakhoa1, name="nhakhoa1"),
+    #bác sĩ 
+    path('BsXuongkhop1', views.BsXuongkhop1, name="BsXuongkhop1"),
+    path('BsXuongkhop2', views.BsXuongkhop2, name="BsXuongkhop2"),
+    path('BsThankinh1', views.BsThankinh1, name="BsThankinh1"),
+    path('BsThankinh2', views.BsThankinh2, name="BsThankinh2"),
+    path('BsTieuhoa1', views.BsTieuhoa1, name="BsTieuhoa1"),
+    path('BsTieuhoa2', views.BsTieuhoa2, name="BsTieuhoa2"),
+    path('BsTimmach1', views.BsTimmach1, name="BsTimmach1"),
+    path('BsTimmach2', views.BsTimmach2, name="BsTimmach2"),
+    path('BsTaimuihong1', views.BsTaimuihong1, name="BsTaimuihong1"),
+    path('BsTaimuihong2', views.BsTaimuihong2, name="BsTaimuihong2"),
+    path('BsCotsong1', views.BsCotsong1, name="BsCotsong1"),
+    path('BsCotsong2', views.BsCotsong2, name="BsCotsong2"),
+    path('BsDalieu1', views.BsDalieu1, name="BsDalieu1"),
+    path('BsDalieu2', views.BsDalieu2, name="BsDalieu2"),
+    path('BsHohapphoi1/', views.BsHohapphoi1, name="BsHohapphoi1"),
+    path('BsHohapphoi2/', views.BsHohapphoi2, name="BsHohapphoi2"),
+    path('BsNhakhoa1', views.BsNhakhoa1, name="BsNhakhoa1"),
+    path('BsNhakhoa2', views.BsNhakhoa2, name="BsNhakhoa2"),
+    #login để đặt khám
+    path('logindedatkham', views.logindedatkham, name="logindedatkham"),
+    #đặt khám
+    path('datkham', views.datkham, name="datkham"),
+    path('datkham1', views.datkham1, name="datkham1"),
+    path('book_appointment', views.book_appointment, name="book_appointment"),
+    path('book_appointment1', views.book_appointment1, name="book_appointment1"),
+    path('success', views.success, name="success"),
+    ]
+

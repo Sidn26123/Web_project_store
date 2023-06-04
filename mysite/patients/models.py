@@ -1,9 +1,20 @@
+
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import pre_save
 from users.models import User
 from datetime import date, datetime
+
+#code bên đăng ký
 # Create your models here.
+from django.db import models
+
+#code lấy thông tin xuất ra
+from django.shortcuts import render
+
+def thongtin(request):
+    user = User.objects.all()
+    return render(request, 'app/thongtin.html', {'user': user})
 
 class Patient(User):
     blood_group = models.CharField(max_length = 5, default = None)

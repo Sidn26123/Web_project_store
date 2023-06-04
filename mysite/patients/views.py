@@ -1,103 +1,295 @@
+from django.shortcuts import render
+from django.http import HttpResponse
+#
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
-from site_admins.models import Site_admin, Transaction
-from .models import Patient
-from doctors.models import Doctor, Specialties
-from users.models import User
+#from patients.models import Patient
+#from .models import Site_admin, Transaction
+#from doctors.models import Doctor
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
-from django.core.files.storage import default_storage
 from math import ceil
-from .forms import Login_form, Register_form
+#from .forms import Login_form
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from datetime import datetime,date
-from dateutil.relativedelta import relativedelta
-from django.http import JsonResponse, HttpResponse
-from django.db.models import Count, Sum, Case, When, F, Value, CharField, DateField, IntegerField
-from django.db.models.functions import TruncMonth, TruncWeek, TruncYear,ExtractMonth, ExtractYear, TruncDate
-from django.core.serializers.json import DjangoJSONEncoder
-from django.core import serializers
-from django.conf import settings
-import json
-import calendar
-import csv
-import os
-from math import floor, ceil
+from datetime import datetime
+#from dateutil.relativedelta import relativedelta
+from django.http import JsonResponse
 
-class Register_view(View):
-	def get(self, request):
-		form = Register_form()
-		return render(request, 'patients/register_view.html', {'form': form})
+# Create your views here.
+def home(request):
+    context= {}
+    return render(request, 'app/home.html',context)
+def lienhe(request):
+    context= {}
+    return render(request, 'app/lienhe.html',context)
+def lienhe1(request):
+    context= {}
+    return render(request, 'app/lienhe1.html',context)
+def hdsd(request):
+    context= {}
+    return render(request, 'app/hdsd.html',context)
+def hdsd1(request):
+    context= {}
+    return render(request, 'app/hdsd1.html',context)
+def dangky(request):
+    context= {}
+    return render(request, 'app/dangky.html',context)
+def dangnhap(request):
+    context= {}
+    return render(request, 'app/dangnhap.html',context)
+def tintuc(request):
+    context= {}
+    return render(request, 'app/tintuc.html',context)
+def tintuc1(request):
+    context= {}
+    return render(request, 'app/tintuc1.html',context)
+def thongbao(request):
+    context= {}
+    return render(request, 'app/thongbao.html',context)
+def chuyenkhoa(request):
+    context= {}
+    return render(request, 'app/chuyenkhoa.html',context)
+def chuyenkhoa1(request):
+    context= {}
+    return render(request, 'app/chuyenkhoa1.html',context)
+def home1(request):
+    context= {}
+    return render(request, 'app/home1.html',context)
+def khieunai(request):
+    context= {}
+    return render(request, 'app/khieunai.html',context)
+def khieunai1(request):
+    context= {}
+    return render(request, 'app/khieunai1.html',context)
+def thongtin(request):
+    context= {}
+    return render(request, 'app/thongtin.html',context)
 
-	def post(self, request):
-		form = Register_form(request.POST)
-		if form.is_valid():
-			form.save()
-			print("A")
-			return redirect("../")
 
-		return render(request, 'patients/register_view.html', {'form': form})
+#chuyên khoa
+def xuongkhop(request):
+    context= {}
+    return render(request, 'CK/xuongkhop.html',context)
+def xuongkhop1(request):
+    context= {}
+    return render(request, 'CK/xuongkhop1.html',context)
+def thankinh(request):
+    context= {}
+    return render(request, 'CK/thankinh.html',context)
+def thankinh1(request):
+    context= {}
+    return render(request, 'CK/thankinh1.html',context)
+def tieuhoa(request):
+    context= {}
+    return render(request, 'CK/tieuhoa.html',context)
+def tieuhoa1(request):
+    context= {}
+    return render(request, 'CK/tieuhoa1.html',context)
+def timmach(request):
+    context= {}
+    return render(request, 'CK/timmach.html',context)
+def timmach1(request):
+    context= {}
+    return render(request, 'CK/timmach1.html',context)
+def taimuihong(request):
+    context= {}
+    return render(request, 'CK/taimuihong.html',context)
+def taimuihong1(request):
+    context= {}
+    return render(request, 'CK/taimuihong1.html',context)
+def cotsong(request):
+    context= {}
+    return render(request, 'CK/cotsong.html',context)
+def cotsong1(request):
+    context= {}
+    return render(request, 'CK/cotsong1.html',context)
+def dalieu(request):
+    context= {}
+    return render(request, 'CK/dalieu.html',context)
+def dalieu1(request):
+    context= {}
+    return render(request, 'CK/dalieu1.html',context)
+def hohap(request):
+    context= {}
+    return render(request, 'CK/hohap.html',context)
+def hohap1(request):
+    context= {}
+    return render(request, 'CK/hohap1.html',context)
+def nhakhoa(request):
+    context= {}
+    return render(request, 'CK/nhakhoa.html',context)
+def nhakhoa1(request):
+    context= {}
+    return render(request, 'CK/nhakhoa1.html',context)
 
+#bác sĩ 
+def BsXuongkhop1(request):
+    context= {}
+    return render(request, 'doctor/BsXuongkhop1.html',context)
+def BsXuongkhop2(request):
+    context= {}
+    return render(request, 'doctor/BsXuongkhop2.html',context)
+def BsThankinh1(request):
+    context= {}
+    return render(request, 'doctor/BsThankinh1.html',context)
+def BsThankinh2(request):
+    context= {}
+    return render(request, 'doctor/BsThankinh2.html',context)
+def BsTieuhoa1(request):
+    context= {}
+    return render(request, 'doctor/BsTieuhoa1.html',context)
+def BsTieuhoa2(request):
+    context= {}
+    return render(request, 'doctor/BsTieuhoa2.html',context)
+def BsTimmach1(request):
+    context= {}
+    return render(request, 'doctor/BsTimmach1.html',context)
+def BsTimmach2(request):
+    context= {}
+    return render(request, 'doctor/BsTimmach2.html',context)
+def BsTaimuihong1(request):
+    context= {}
+    return render(request, 'doctor/BsTaimuihong1.html',context)
+def BsTaimuihong2(request):
+    context= {}
+    return render(request, 'doctor/BsTaimuihong2.html',context)
+def BsCotsong1(request):
+    context= {}
+    return render(request, 'doctor/BsCotsong1.html',context)
+def BsCotsong2(request):
+    context= {}
+    return render(request, 'doctor/BsCotsong2.html',context)
+def BsDalieu1(request):
+    context= {}
+    return render(request, 'doctor/BsDalieu1.html',context)
+def BsDalieu2(request):
+    context= {}
+    return render(request, 'doctor/BsDalieu2.html',context)
+def BsHohapphoi1(request):
+    context= {}
+    return render(request, 'doctor/BsHohapphoi1.html',context)
+def BsHohapphoi2(request):
+    context= {}
+    return render(request, 'doctor/BsHohapphoi2.html',context)
+def BsNhakhoa1(request):
+    context= {}
+    return render(request, 'doctor/BsNhakhoa1.html',context)
+def BsNhakhoa2(request):
+    context= {}
+    return render(request, 'doctor/BsNhakhoa2.html',context)
 
-class Login_view(View):
-	def get(self, request):
-		form = Login_form()
-		return render(request, 'patients/login_test.html', {'form': form})
-
-	def post(self, request):
-		form = Login_form(request.POST)
-		if form.is_valid():
-			username = request.POST['username']
-			password = request.POST['password']
-			#Hàm auth có sẵn của django trong User class, đưa vào các tham số và trả về 1 obj hoặc None
-			user = authenticate(request, username = username, password = password)
-			# user_ = Site_admin.objects.get(username = username)
-			# if (password == user_.password):
-				# user_1 = User.objects.get(username = username)
-			if user is not None:
-				if user.is_admin:
-					login(request, user)
-					return redirect('../../admin/')
-
-				else:
-					login(request, user)
-					return redirect('../../')
-		else:
-			form = Login_form()
-		return render(request, 'patients/login_test.html', {'form': form})
-
-def test_view(request):
-    context = {
-		'request': request,
-	}
-    return render(request, 'patients/book.html', context)
-
+#đăng nhập để đặt khám
+def logindedatkham(request):
+    context= {}
+    return render(request, 'app/logindedatkham.html',context)
+#code phần đặt khám
+def datkham(request):
+    context= {}
+    return render(request, 'patients/datkham.html',context)
+def datkham1(request):
+    context= {}
+    return render(request, 'patients/datkham1.html',context)
 def book_appointment(request):
-    form_data = request.POST.get('form_data')
-    doctor_id = request.POST.get('doctor_id')
-    datas = form_data.split('&')
-    arr = {}
-    for da in datas:
-        da = da.split('=')
-        arr.update({da[0]: da[1]})
-    print(arr)
-    patient_id = int(arr['patient-name'])
-    date_book = request.POST.get('date_book')
-    time_choice = request.POST.get('time_book')
-    if time_choice == '1':
-        time_choice = '09:00:00'
-    elif time_choice == '2':
-        time_choice = '10:00:00'
-    elif time_choice == '3':
-        time_choice = '11:00:00'
-    amount = 113000
-    time_booked = datetime.strptime(time_choice, '%H:%M:%S')
-    date_book = datetime.strptime(date_book, '%Y-%m-%d')
-    date_book = date_book.replace(hour = time_booked.hour, minute = time_booked.minute, second = time_booked.second)
-    doctor = Doctor.objects.get(id = int(doctor_id))
-    spec = doctor.specialty
-    patient = Patient.objects.get(id = int(patient_id))
-    transact = Transaction.objects.create(doctor = doctor, patient = patient, amount_transact = amount, appoint_time = date_book, state = 'waiting', medical_specialty = spec)
-    return JsonResponse({'status': 'success'})
+    context= {}
+    return render(request, 'patients/book_appointment.html',context)
+def success(request):
+    context= {}
+    return render(request, 'patients/success.html',context)
+from django.shortcuts import render, redirect
+from .forms import RegistrationForm
+#code đăng ký
+def register(request):
+    if request.method == 'POST':
+        form = RegistrationForm(request.POST)
+        if form.is_valid():
+            user = form.save(commit=False)
+            # Gán password và lưu User vào database
+            user.set_password(form.cleaned_data['password'])
+            user.save()
+            return redirect('user_login')
+    else:
+        form = RegistrationForm()
+
+    return render(request, 'app/register.html', {'form': form})
+
+
+
+#code đăng nhập
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+from .forms import LoginForm
+
+def user_login(request):
+    if request.method == 'POST':
+        form = LoginForm(request=request, data=request.POST)
+        if form.is_valid():
+            # Lấy thông tin đăng nhập từ form
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            # Xác thực thông tin đăng nhập
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                login(request,user)
+                return redirect('home1')
+    else:
+        form = LoginForm()
+
+    return render(request, 'app/user_login.html', {'form': form})
+#from django.shortcuts import render
+#from .models import User
+#def thongtin(request):
+ #   user = User.objects.all()
+ #   return render(request, 'app/thongtin.html', {'user': user})
+
+
+#code đổi mật khẩu
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render, redirect
+from django.contrib import messages
+from .forms import ChangePasswordForm
+
+@login_required
+def change_password(request):
+    if request.method == 'POST':
+        form = ChangePasswordForm(request.POST)
+        if form.is_valid():
+            old_password = form.cleaned_data['old_password']
+            new_password = form.cleaned_data['new_password']
+            confirm_password = form.cleaned_data['confirm_password']
+            
+            # Kiểm tra mật khẩu cũ có đúng không
+            if not request.user.check_password(old_password):
+                messages.error(request, 'Mật khẩu cũ không đúng')
+                return redirect('change_password')
+            
+            # Kiểm tra mật khẩu mới và xác nhận mật khẩu
+            if new_password != confirm_password:
+                messages.error(request, 'Mật khẩu mới không khớp')
+                return redirect('change_password')
+            
+            # Cập nhật mật khẩu mới
+            request.user.set_password(new_password)
+            request.user.save()
+            
+            messages.success(request, 'Mật khẩu đã được thay đổi thành công')
+            return redirect('user_login')
+    else:
+        form = ChangePasswordForm()
+    
+    return render(request, 'app/change_password.html', {'form': form})
+
+#code phần đặt khám thông tin bác sĩ
+from django.shortcuts import render
+from .forms import PatientForm
+
+def book_appointment1(request):
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'patients/success.html')
+    else:
+        form = PatientForm()
+    return render(request, 'patients/book_appointment1.html', {'form': form})

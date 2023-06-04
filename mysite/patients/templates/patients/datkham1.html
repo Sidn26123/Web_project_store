@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+{% extends 'app/base1.html'%}
+{% load static %}
+{% block main-register %}
+<html>
+<head>
+  <title>Trang Chuyên Khoa</title>
+  <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f4;
+      }
+      h1 {
+        text-align: center;
+      }
+      .specialty {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 57px;
+        background-color: #f5f5f5;
+      }
+      .specialty img {
+        display: block;
+        margin: 0 auto;
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+      }
+      .specialty h2 {
+        text-align: center;
+        margin-top: 10px;
+      }
+  </style>
+</head>
+<body>
+  <h1>Chuyên Khoa</h1>
+  <div class="specialty">
+    <a href="{% url 'patient:xuongkhop1'%}">
+    <img src="{%static 'app/images/CK1.jpg'%}" alt="Chuyen khoa Cơ Xương Khớp">
+    <h2>Chuyên Khoa Cơ Xương Khớp</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:thankinh1'%}">
+    <img src="{%static 'app/images/CK2.jpg'%}" alt="Chuyên Khoa thần kinh">
+    <h2>Chuyên Khoa Thần Kinh</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:tieuhoa1'%}">
+    <img src="{%static 'app/images/CK3.jpg'%}" alt="Chuyên khoa tiêu hóa">
+    <h2>Chuyên Khoa Tiêu Hóa</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:timmach1'%}">
+    <img src="{%static 'app/images/CK4.jpg'%}" alt="Chuyen khoa tim mạch">
+    <h2>Chuyên Khoa Tim Mạch</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:taimuihong1'%}">
+    <img src="{%static 'app/images/CK5.jpg'%}" alt="Chuyên khoa tai mũi họng">
+    <h2>Chuyên Khoa Tai Mũi Họng</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:cotsong1'%}">
+    <img src="{%static 'app/images/CK6.jpg'%}" alt="Chuyên cột sống">
+    <h2>Chuyên Khoa Cột Sống</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:dalieu1'%}">
+    <img src="{%static 'app/images/CK7.jpg'%}" alt="Chuyen khoa da liễu">
+    <h2>Chuyên Khoa Da Liễu</h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:hohap1'%}">
+    <img src="{%static 'app/images/CK8.jpg'%}" alt="Chuyên khoa hô hấp - phổi">
+    <h2>Chuyên Khoa Hô Hấp - Phổi </h2>
+  </div>
+  <div class="specialty">
+    <a href="{% url 'patient:nhakhoa1'%}">
+    <img src="{%static 'app/images/CK9.jpg'%}" alt="Chuyên khoa nha khoa">
+    <h2>Chuyên Khoa Nha Khoa</h2>
+  </div>
+  <!-- Thêm các chuyên khoa khác tại đây -->
+</body>
+</html>
+{% endblock main-register %}
