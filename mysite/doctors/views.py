@@ -154,16 +154,14 @@ def get_notification(request):
 def test_o(request):
     
     return JsonResponse({'status': 'success'})
-
+@login_required(login_url = '/doctor/login')
 def get_doctor_info(request):
     id = request.POST.get('id')
     print(id)
-    doctor = Doctor.objects.all()
-    # doctor_dict = model_to_dict(doctor)
-    # doctor_dict['avatar'] = doctor.avatar.url
-    print(doctor)
-    for doc in doctor:
-        print(doc.id, doc.real_name)
+    doctor = Doctor.objects.get(id = int(id))
+    doctor_dict = model_to_dict(doctor)
+    doctor_dict['avatar'] = doctor.avatar.url
+
     data = {
         # 'doctor': doctor_dict,
     }

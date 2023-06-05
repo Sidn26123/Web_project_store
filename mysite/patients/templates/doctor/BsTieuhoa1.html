@@ -5,7 +5,7 @@
 <div class="baiviet-dau">
     <div class="vung-bao">
       <ul class="sodo">
-        <li><a class="nha" href="{% url 'tieuhoa1' %}"> 
+        <li><a class="nha" href="{% url 'patient:tieuhoa1' %}"> 
           <img src="{% static 'app/images/QV1.png' %}">
         </a></li>
       </ul>
@@ -19,7 +19,7 @@
     </div>
     <div class="appointment-info">
       <p>Địa chỉ khám: {{user.address}}</p>
-     <p><a href="{% url 'home' %}">Giá khám: </a></p>
+     <p><a href="{% url 'patient:home' %}">Giá khám: </a></p>
       <p>Loại bảo hiểm áp dụng: </p>
     </div>
   </div>

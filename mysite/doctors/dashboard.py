@@ -209,3 +209,31 @@ def get_next_appoint_id(request):
     if transact_st == None:
         return JsonResponse({'id': -1})
     return JsonResponse({'id': transact_st.id})
+
+
+def get_period_available(request):
+    id = request.GET.get('id')
+    doctor = Doctor.objects.get(id = id)
+    available_time = doctor.available_time
+    amount = doctor.time_per_appoint
+    available_time = json.loads(available_time)
+    period = []
+    for day in available_time:
+        times = day['time']
+        for a in times:
+            temp = {}
+            temp['time_start'] = a['time-start']
+            temp['time_end'] = a['time-end']
+            count = a['count']
+            time_start = datetime.strptime(a['time-start'], "%H:%M")
+            time_end = datetime.strptime(a['time-end'], "%H:%M")
+            left = floor((floor((time_end-time_start).total_seconds()/60) - amount*count)/amount)
+            temp['left'] = left
+            period.append(temp)
+    data = {
+        'period': json.dumps(period),
+    }
+    return JsonResponse(data)
+
+def update_period_available(request):
+    pass

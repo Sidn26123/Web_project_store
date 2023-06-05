@@ -213,7 +213,6 @@ $(document).ready(function () {
                 'text': text,
             },
             success: function (data) {
-                console.log(data)
             }
         })
     });
@@ -232,7 +231,7 @@ function get_doctor_info(){
             'X-CSRFToken': csrfToken
         },
         success: function (data) {
-            // console.log(data.doctor.avatar)
+            console.log(data.doctor['avatar'])
             $('.admin-avatar').attr('src', data.doctor['avatar']);
             $('#name-span').text(data.doctor['real_name']);
         }

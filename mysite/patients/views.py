@@ -35,10 +35,10 @@ def hdsd1(request):
     return render(request, 'app/hdsd1.html',context)
 def dangky(request):
     context= {}
-    return render(request, 'app/dangky.html',context)
+    return render(request, 'app/register.html',context)
 def dangnhap(request):
     context= {}
-    return render(request, 'app/dangnhap.html',context)
+    return render(request, 'app/logindedatkham.html',context)
 def tintuc(request):
     context= {}
     return render(request, 'app/tintuc.html',context)
@@ -208,7 +208,7 @@ def register(request):
             # Gán password và lưu User vào database
             user.set_password(form.cleaned_data['password'])
             user.save()
-            return redirect('user_login')
+            return redirect('patient:user_login')
     else:
         form = RegistrationForm()
 
@@ -232,7 +232,7 @@ def user_login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 login(request,user)
-                return redirect('home1')
+                return redirect('patient:home1')
     else:
         form = LoginForm()
 
@@ -262,19 +262,19 @@ def change_password(request):
             # Kiểm tra mật khẩu cũ có đúng không
             if not request.user.check_password(old_password):
                 messages.error(request, 'Mật khẩu cũ không đúng')
-                return redirect('change_password')
+                return redirect('patient:change_password')
             
             # Kiểm tra mật khẩu mới và xác nhận mật khẩu
             if new_password != confirm_password:
                 messages.error(request, 'Mật khẩu mới không khớp')
-                return redirect('change_password')
+                return redirect('patient:change_password')
             
             # Cập nhật mật khẩu mới
             request.user.set_password(new_password)
             request.user.save()
             
             messages.success(request, 'Mật khẩu đã được thay đổi thành công')
-            return redirect('user_login')
+            return redirect('patient:user_login')
     else:
         form = ChangePasswordForm()
     

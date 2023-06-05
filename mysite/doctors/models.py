@@ -16,6 +16,7 @@ class Doctor(User):
     fee = models.IntegerField(default = 0)
     is_auth = models.BooleanField(default = False)
     available_time = models.TextField(default = "[]")
+    time_per_appoint = models.IntegerField(default = 30)
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
 @receiver(pre_save, sender = Doctor)

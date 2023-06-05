@@ -55,7 +55,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'site_admins.middleware.Custom404Middleware'
+    'site_admins.middleware.Custom404Middleware',
+    # 'site_admins.middleware.ClassRequiredMiddleware',
     # "django_htmx.middleware.HtmxMiddleware",
 ]
 

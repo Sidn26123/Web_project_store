@@ -2,12 +2,6 @@
 {% load static %}
 {% block main_content %}
     <div class = "content-container">
-        <span class = "test-clone">Thêm thông tin</span>
-        <div class="test-area"></div>
-        <div id = "test-template">
-            <input type="text" class = "info">
-        </div>
-        <ul class="te"></ul>
         <div class = "d-row-flex">
             <div class="d-col-flex col-md-4 info-table">
                 <div class="loader"></div>
@@ -111,11 +105,59 @@
                 <a href="">Tới đó</a>
             </div>
         </div>
+        <div class="set-time">
+            <h3>Điều chỉnh thời gian khám</h3>
+            <br>
+            <div class="time-period">
+                <span>Thời gian khám mỗi ca</span>
+                <select name="time-period" id="time-per-period">
+                    <option value="15" default>15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                </select>
+                <span>phút</span>
+            </div>
+            <div class = "time-frame">
+                <div class="days-frame">
+                    <span class = "day-label" value = "1">Thứ 2</span>
+                    <span class = "day-label" value = "2">Thứ 3</span>
+                    <span class = "day-label" value = "3">Thứ 4</span>
+                    <span class = "day-label" value = "4">Thứ 5</span>
+                    <span class = "day-label" value = "5">Thứ 6</span>
+                    <span class = "day-label" value = "6">Thứ 7</span>
+                    <span class = "day-label" value = "7">Chủ nhật</span>
+
+                    <span>Khung giờ</span>
+                    <div class = "btn-wrapper">
+                        <div class="edit-btn">
+                            <span>Thêm</span>
+                            <div class="add-form">
+                                <i id = "close-add-form" class="fa-regular fa-circle-xmark close-btn"></i>
+                                <div class="d-row-flex">
+                                    <span>Gio bat dau</span>
+                                    <input type="time" name="start-time" id="start-time">
+                                    <span>Gio ket thuc</span>
+                                    <input type="time" name="end-time" id="end-time">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="period-area">
+                    </div>
+                    <div style="display:none">
+                        <div id ="period-item-template">
+                            <span></span>
+                            <i class="fa-regular fa-xmark"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="data-appoint-spec-area" style="display:none">
         <div id="id-appoint-next" data-id="0"></div>
     </div>
-
+    
     <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'doctor_dashboard.js' %}"></script>
 	<script src="{% static 'doctor.js' %}"></script>	

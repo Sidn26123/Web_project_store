@@ -335,6 +335,7 @@ def get_amount_info(request):
             cases['two_more'] += 1
     cases['zero'] = account_amount - cases['one_more']- cases['two_more']
     rates = Review.objects.filter(rate__gte = 4).count()
+    
     data = {
         'accounts': account_amount,
         'not_book_yet': cases['zero'],

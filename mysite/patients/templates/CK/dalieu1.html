@@ -7,7 +7,7 @@
             <div class="baiviet-dau">
                 <div class="vung-bao">
                   <ul class="sodo">
-                    <li><a class="nha" href="{% url 'chuyenkhoa1' %}"> 
+                    <li><a class="nha" href="{% url 'patient:chuyenkhoa1' %}"> 
                       <img src="{% static 'app/images/QV1.png' %}">
                     </a></li>
                     <li>Da liễu</li>
@@ -53,13 +53,13 @@
         <div class="chuyenkhoakham">
           <div class="doctor-info">
               <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
-            <h2><a href="{% url 'BsDalieu1' %}">Bác sĩ ABC</h2>
+            <h2><a href="{% url 'patient:BsDalieu1' %}">Bác sĩ ABC</h2>
             <p>Thông tin bác sĩ...</p>
           </div>
           <div class="appointment-info">
             <h3>Lịch khám: {{ user.address }}</h3>
             <p>Địa chỉ khám: </p>
-           <p><a href="{% url 'book_appointment1' %}">Giá khám: </a></p>
+           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
             <p>Loại bảo hiểm áp dụng: </p>
           </div>
         </div>
@@ -67,13 +67,13 @@
         <div class="chuyenkhoakham">
           <div class="doctor-info">
               <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
-            <h2><a href="{% url 'BsDalieu2' %}">Bác sĩ ABC</h2>
+            <h2><a href="{% url 'patient:BsDalieu2' %}">Bác sĩ ABC</h2>
             <p>Thông tin bác sĩ...</p>
           </div>
           <div class="appointment-info">
             <h3>Lịch khám: {{ user.address }}</h3>
             <p>Địa chỉ khám: </p>
-           <p><a href="{% url 'book_appointment1' %}">Giá khám: </a></p>
+           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
             <p>Loại bảo hiểm áp dụng: </p>
           </div>
         </div>

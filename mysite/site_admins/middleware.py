@@ -28,8 +28,31 @@ class Custom404Middleware:
                 'previous_page': previous_page
             }
             return render(request, settings.PAGE_TEMPLATE_404, context, status=404)
-
+        next_url = request.path_info
+        print(next_url)
+        condition = True
+        class_name = request.user.__class__.__name__
+        if class_name == 'Doctor' and (next_url[1:3] != "do"):
+            condition = False
+        elif class_name == 'Patient' and (next_url[1:3] != "pa"):
+            condition = False
+        elif class_name == 'Site_admin' and (next_url[1:3] != "ad"):
+                condition = False
         return response
 
 
 
+
+class ClassRequiredMiddleware:
+    def __init__(self, get_response):
+        self.get_response = get_response
+        
+    def __call__(self, request):
+        response = self.get_response(request)
+        # # Kiểm tra điều kiện của bạn
+
+
+
+        # if condition == False:
+        #     return redirect('page_not_allowed')  # Chuyển hướng đến trang không cho phép
+        return response

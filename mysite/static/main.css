@@ -706,6 +706,9 @@ th i::after{
 	width: 30%;
 }
 
+.add-form{
+	display:none;
+}
 
 /* 
 - btn_active: nút được kích hoạt 

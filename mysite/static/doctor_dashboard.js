@@ -208,3 +208,46 @@ function get_appoint_detail(appoint_id){
         },
     })
 }
+
+
+$('#close-add-form').on('click', function(event){
+    console.log("A")
+    $('.add-form').hide();
+})
+
+$(document).ready(function(){
+    get_period_available();
+    $(document).on('click', '.edit-btn', function(event){
+        $('.add-form').show();
+    });
+    // $(document).on('click', function(event){
+    //     if (event.target !== $('.add-form')){
+    //         $('.add-form').hide();
+    //     }
+    // })
+});
+
+
+function get_period_available(){
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/get-period-available/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+        },
+        success: function(data){
+            data = JSON.parse(data.period);
+            for (var i=0; i < data.length; i++){
+                var template = $('#period-item-template').clone();
+                template.find('span').text(data[i]['time_start'] + "-" + data[i]['time_end']);
+                if (data[i]['left'] <= 0){
+                    template.addClass('unavailable period-item-unavailable');
+                }
+                $('.period-area').append(template);
+
+            }
+        }
+    })
+}
+
