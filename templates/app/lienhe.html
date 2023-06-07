@@ -1,0 +1,30 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block main-lienhe %}
+<main>
+  <div class="baiviet-dau">
+    <div class="vung-bao">
+      <ul class="sodo">
+        <li><a class="nha" href="{% url 'patient:home' %}"> 
+          <img src="{% static 'app/images/nha2.jpg' %}">
+        </a></li>
+        <li>liên hệ</li>
+      </ul>
+    </div>
+  </div>
+  <div class='vung-bao'>
+    <h1 class="baiviet-ten">Liên hệ</h1>
+    <div class="register-form">
+     <p style="text-align:justify">
+      <strong>Nền tảng Đặt khám Doccure </strong></p>
+      <p style="text-align:justify">ĐT: 0123456789</p>
+      <p style="text-align:justify">Email: support@doccure.vn</p>
+      <p style="text-align:justify"><strong><em>Trực thuộc:</em></strong></p>
+      <p style="text-align:justify">Công ty CP Công nghệ Doccure</p>
+      <p style="text-align:justify">ĐKKD số: 0106790291, Sở&nbsp; KH-ĐT Hồ Chí Minh cấp ngày: 22/03/2023</p>
+      <p style="text-align:justify">Địa chỉ: 97 Man Thiện, Hiệp Phú, TP Thủ Đức</p>
+    </div>
+  </div> 
+</div>
+  <main>
+{% endblock main-lienhe %}

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+{% extends 'app/base.html'%}
+{% load static %}
+{% block main-success %}
+<div class="register-form">
+<html>
+<head>
+    <title>Thành công</title>
+</head>
+<style>
+   
+</style>
+<body>
+    <div class="register-form">
+    <h2>Đặt khám thành công</h2>
+    <h2>Cảm ơn bạn đã đặt khám.</h2>
+    <a href="{% url 'home1' %}" class="btnt">Quay lại trang chủ</a>
+    </div>
+</body>
+<style>
+    a{
+      color:red;
+      text-decoration: underline;
+    }
+  </style>
+</html>
+{% endblock main-success %}

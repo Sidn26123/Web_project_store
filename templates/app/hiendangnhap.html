@@ -1,0 +1,121 @@
+{% load static %}
+<title>web đặt lịch khám online</title>
+<link href="{% static 'app/css/chuyenkhoa1.css' %}" rel="stylesheet" />
+<body>
+	<div class="baiviet-dau">
+		<div class="vung-bao">
+		  <ul class="sodo">
+			<li><a class="nha" href="{% url 'patient:home' %}"> 
+			  <img src="{% static 'app/images/nha2.jpg' %}">
+			</a></li>
+			<li>Chuyên khoa</li>
+		  </ul>
+		</div>
+	  </div>
+	<div class="container">
+		<h1>Chuyên khoa</h1>
+		<div class="specialties">
+			<div class="specialty">
+				<img src="{%static 'app/images/CK1.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Cơ Xương Khớp</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK2.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Thần Kinh</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK3.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Tiêu Hóa</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK4.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Tim mạch</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK5.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Tai Mũi Họng</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK6.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Cột Sống</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div><div class="specialty">
+				<img src="{%static 'app/images/CK7.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Da Liễu</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK8.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Hô hấp-Phổi</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK9.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Nha khoa</h3>
+				<a> <button onclick="showPopup()">Đặt lịch khám</button></a>
+			</div>
+			<!--cần đang nhập để đặt khám-->
+			<div id="popup" class="popup">
+				<div class="popup-content">
+				  <span class="close" onclick="hidePopup()">&times;</span>
+				  <p>Bạn cần đăng nhập để đặt khám.</p>
+				  <a href="{%url 'patient:user_login'%}">Đăng nhập</a>
+				</div>
+			  </div>
+			  <style>  
+				  .popup {
+					display: none;
+					position: fixed;
+					z-index: 1;
+					left: 0;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					overflow: auto;
+					background-color: rgba(0, 0, 0, 0.4);
+				  }
+				  
+				  .popup-content {
+					background-color: #fefefe;
+					margin: 15% auto;
+					padding: 20px;
+					border: 1px solid #888;
+					width: 80%;
+					max-width: 500px;
+				  }
+				  
+				  .close {
+					color: #aaa;
+					float: right;
+					font-size: 28px;
+					font-weight: bold;
+				  }
+				  
+				  .close:hover,
+				  .close:focus {
+					color: black;
+					text-decoration: none;
+					cursor: pointer;
+				  }
+				  
+			  </style>
+			  <script>
+				function showPopup() {
+					var popup = document.getElementById("popup");
+					popup.style.display = "block";
+				  }
+				  
+				  function hidePopup() {
+					var popup = document.getElementById("popup");
+					popup.style.display = "none";
+				  }
+				  
+			  </script>
+			  <!--========-->
+        </body>
+			

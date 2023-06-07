@@ -1,0 +1,168 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-lienhe1 %}
+<!-- code đang sửa-->
+        <head>
+
+            <div class="baiviet-dau">
+                <div class="vung-bao">
+                  <ul class="sodo">
+                    <li><a class="nha" href="{% url 'patient:chuyenkhoa1' %}"> 
+                      <img src="{% static 'app/images/QV1.png' %}">
+                    </a></li>
+                    <li>Cột sống</li>
+                  </ul>
+                </div>
+              </div>
+
+
+            <div class="khamchuyenkhoa">
+            <div id="content">
+              <h2>Cột sống</h2>
+                <h2 style="text-align: justify; line-height: 1;">
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bác sĩ Chuyên khoa Cột sống</b>
+                 <br></h2>
+                  <p style="text-align: justify; line-height: 1.2;">
+                   <span style="font-size: 14px;">Danh sách các bác sĩ Cột sống uy tín đầu ngành tại Việt Nam.</span></p>
+                   <ul>
+                    <li style="text-align: justify; line-height: 1.2;">
+                    <span style="font-size: 14px;">Các chuyên gia có quá trình đào tạo bài bản, kinh nghiệm công tác tại các bệnh viện lớn về chuyên khoa Thần kinh - Cột sống - Xương khớp tại Hà Nội</span></li>
+                    <li style="text-align: justify; line-height: 1.2;"><span style="font-size: 14px;">Các giáo sư, tiến sĩ, bác sĩ là giảng viên Đại học Y khoa Hà Nội, Học viện Quân Y.</span></li>
+                    <li style="text-align: justify;"><span style="font-size: 14px;">Các bác sĩ đã, đang công tác tại chuyên Khoa Thần Kinh, Cột sống, Xương Khớp - Bệnh viện Bạch Mai, Bệnh Viện Việt Đức, Bệnh Viện Trung ương Quân đội 108, Bệnh viện 103...</span></li></p>
+
+             <div class="hidden">
+                <li style="text-align: justify;"><span style="font-size: 14px;">Được nhà nước công nhận các danh hiệu Thầy thuốc Nhân dân, Thầy thuốc Ưu tú, Bác sĩ Cao cấp,...</span></li>
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bệnh Thần kinh - Cột sống</b>
+        
+                <li style="text-align: justify;">Đau cột sống, đau thắt lưng</li>
+                <li style="text-align: justify;">Chấn thương cột sống</li>
+                <li style="text-align: justify;">Cột sống bị đau, sưng, cong, vẹo</li>
+                <li style="text-align: justify;">Đau mỏi cổ vai gáy, bả vai</li>
+                <li style="text-align: justify;">Đau tê mông xuống chân</li>
+                <li style="text-align: justify;">Phồng đĩa đệm</li>
+                <li style="text-align: justify;">Tê bì tay chân</li>
+                <li style="text-align: justify;">Thóa hóa đốt sống</li>
+                <li style="text-align: justify;">Thoái hóa L4, L5</li>
+                <li style="text-align: justify;">Thoát vị đĩa đệm</li>
+                <li style="text-align: justify;">Vôi hóa cột sống</li>
+                <li style="text-align: justify;">Xẹp cột sống</li>
+                <li style="text-align: justify;">...</li>
+             </div>
+            </div>
+            <button id="read-more-btn">Đọc thêm</button>
+            <button id="hide-btn" class="hidden">Ẩn</button>
+        </div>
+          
+        
+        
+        <div class="chuyenkhoakham">
+          <div class="doctor-info">
+              <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
+            <h2><a href="{% url 'patient:BsCotsong1' %}">Bác sĩ ABC</h2>
+            <p>Thông tin bác sĩ...</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: {{ user.address }}</h3>
+            <p>Địa chỉ khám: </p>
+           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
+
+        <div class="chuyenkhoakham">
+          <div class="doctor-info">
+              <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
+            <h2><a href="{% url 'patient:BsCotsong2' %}">Bác sĩ ABC</h2>
+            <p>Thông tin bác sĩ...</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: {{ user.address }}</h3>
+            <p>Địa chỉ khám: </p>
+           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
+          
+            <!--js nhấn vào đọc thêm để hiện và nhấn ẩn để ẩn-->
+            <script>
+                var readMoreBtn = document.getElementById("read-more-btn");
+                var hideBtn = document.getElementById("hide-btn");
+                var hiddenContent = document.querySelector("#content .hidden");
+            
+                readMoreBtn.addEventListener("click", function() {
+                  hiddenContent.classList.remove("hidden");
+                  readMoreBtn.classList.add("hidden");
+                  hideBtn.classList.remove("hidden");
+                });
+            
+                hideBtn.addEventListener("click", function() {
+                  hiddenContent.classList.add("hidden");
+                  readMoreBtn.classList.remove("hidden");
+                  hideBtn.classList.add("hidden");
+                });
+              </script>
+            </body>
+  
+  
+          <style>
+              .hidden {
+                    display: none;
+                  }
+              #read-more-btn {
+                      color: blue;
+              }
+              #hide-btn {
+                      color: blue;
+                    }
+              .khamchuyenkhoa {
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 35px solid #ccc;
+                  border-radius: 57px;
+                  background-color: #f5f5f5;
+                }
+                
+                .khamchuyenkhoa h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  margin-bottom: 5px;
+                }
+              ul {
+                  margin: 10px 0px 10px 25px;
+              }
+  
+              .chuyenkhoakham {
+                  display: flex;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                }
+                
+                .doctor-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                .appointment-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                img {
+                  width: 50px;
+                  height: 50px;
+                }
+                
+                h2, h3 {
+                  margin-top: 0;
+                }
+                
+                p {
+                  margin: 10px 0;
+                }
+                
+          </style>
+{% endblock main-lienhe1 %}

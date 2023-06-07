@@ -1,0 +1,64 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-lienhe1 %}
+
+<div class="baiviet-dau">
+    <div class="vung-bao">
+      <ul class="sodo">
+        <li><a class="nha" href="{% url 'patient:home' %}"> 
+          <img src="{% static 'app/images/QV1.png' %}">
+        </a></li>
+        <li>Thông tin bác sĩ</li>
+      </ul>
+    </div>
+  </div>
+
+
+  <div class="chuyenkhoakham">
+    <div class="doctor-info">
+        <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
+      <h2><a href="{% url 'patient:BsCotsong1' %}">{{data.real_name}}</h2>
+      <p>Thông tin bác sĩ...</p>
+    </div>
+    <div class="appointment-info">
+      <h3>Lịch khám: </h3>
+      <p>Địa chỉ khám: {{data.address}} </p>
+     <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+      <p>Loại bảo hiểm áp dụng: </p>
+    </div>
+  </div>
+
+  <style>
+      .chuyenkhoakham {
+                  display: flex;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                }
+                
+                .doctor-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                .appointment-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                img {
+                  width: 50px;
+                  height: 50px;
+                }
+                
+                h2, h3 {
+                  margin-top: 0;
+                }
+                
+                p {
+                  margin: 10px 0;
+                }
+  </style>
+  {% endblock main-lienhe1 %}

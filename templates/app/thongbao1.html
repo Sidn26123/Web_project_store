@@ -1,0 +1,23 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-thongbao %}
+<body>
+	<div class="register-form">
+	<div class="thonbao">
+		<h2>Thông báo đặt lịch thành công</h2>
+		<p>Cảm ơn bạn đã sử dụng dịch vụ đặt lịch khám bác sĩ trực tuyến của chúng tôi. Dưới đây là thông tin về lịch hẹn của bạn:</p>
+		<ul>
+			<li><strong>Thời gian:</strong> 10:00 AM ngày 10/04/2023</li>
+			<li><strong>Bác sĩ:</strong> {{ user.address }}</li>
+			<li><strong>Địa chỉ:</strong> 123 Đường ABC, Quận 1, TP. Hồ Chí Minh</li>
+		</ul>
+		<a href="{% url 'patient:home1' %}" class="btnt">Quay lại trang chủ</a>
+	</div>
+</div>
+</body>
+<style>
+	a{
+		color:blue;
+	}
+</style>
+{% endblock main-thongbao %}

@@ -1,0 +1,25 @@
+{% extends 'app/base.html'%}
+{% load static %}
+{% block main-register %}
+<div class="register-form">
+    <h2>Đăng ký tài khoản</h2>
+    <form method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Đăng ký</button>
+    </form>
+    <a href="#">Đăng ký của bác sĩ</a>
+    <style>
+      a{
+        color:red;
+        text-decoration: underline;
+      }
+    </style>
+  </div>
+    <script src="{% static 'form_validations.js' %}"></script>
+{% endblock main-register %}
+  
+
+
+
+

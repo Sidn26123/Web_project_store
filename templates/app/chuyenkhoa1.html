@@ -1,0 +1,63 @@
+{% load static %}
+<title>web đặt lịch khám online</title>
+<link href="{% static 'app/css/chuyenkhoa1.css' %}" rel="stylesheet" />
+<body>
+	<div class="baiviet-dau">
+		<div class="vung-bao">
+		  <ul class="sodo">
+			<li><a class="nha" href="{% url 'patient:home1' %}"> 
+			  <img src="{% static 'app/images/nha2.jpg' %}">
+			</a></li>
+			<li>Chuyên khoa</li>
+		  </ul>
+		</div>
+	  </div>
+	<div class="container">
+		<h1>Chuyên khoa</h1>
+		<div class="specialties">
+			<div class="specialty">
+				<img src="{%static 'app/images/CK1.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Cơ Xương Khớp</h3>
+				<a href="{% url 'patient:xuongkhop1'%}">Đặt lịch khám</a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK2.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Thần Kinh</h3>
+				<a href="{% url 'patient:thankinh1'%}">Đặt lịch khám</a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK3.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Tiêu Hóa</h3>
+				<a href="{% url 'patient:tieuhoa1'%}">Đặt lịch khám</a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK4.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Tim mạch</h3>
+				<a href="{% url 'patient:timmach1'%}">Đặt lịch khám</a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK5.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Tai Mũi Họng</h3>
+				<a href="{%url 'patient:taimuihong1'%}">Đặt lịch khám</a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK6.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Cột Sống</h3>
+				<a href="{% url 'patient:cotsong1'%}">Đặt lịch khám</a>
+			</div><div class="specialty">
+				<img src="{%static 'app/images/CK7.jpg'%}" alt="Chuyen khoa 1">
+				<h3>Da Liễu</h3>
+				<a href="{% url 'patient:dalieu1'%}">Đặt lịch khám</a>
+			</div>
+			<div class="specialty">
+				<img src="{%static 'app/images/CK8.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Hô hấp-Phổi</h3>
+				<a href="{% url 'patient:hohap1'%}">Đặt lịch khám</a>
+			</div>
+            <div class="specialty">
+				<img src="{%static 'app/images/CK9.jpg'%}" alt="Chuyen khoa 2">
+				<h3>Nha khoa</h3>
+				<a href="{% url 'patient:nhakhoa1'%}">Đặt lịch khám</a>
+			</div>
+        </body>
+			

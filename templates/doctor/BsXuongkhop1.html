@@ -1,0 +1,158 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-lienhe1 %}
+a
+<div class="baiviet-dau">
+    <div class="vung-bao">
+      <ul class="sodo">
+        <li><a class="nha" href="{% url 'patient:xuongkhop1' %}"> 
+          <img src="{% static 'app/images/QV1.png' %}">
+        </a></li>
+      </ul>
+    </div>
+  </div>
+
+
+<div class="chuyenkhoakham">
+    <div class="doctor-info">
+      <h2>Lịch khám</h2>
+    </div>
+    <div class="appointment-info">
+      <p>Địa chỉ khám: {{user.address}}</p>
+     <p><a href="{% url 'patient:home' %}">Giá khám: </a></p>
+      <p>Loại bảo hiểm áp dụng: </p>
+    </div>
+  </div>
+
+  <div class="khamchuyenkhoa">
+    <b style="color: inherit; font-family: inherit; font-size: 16px;">Khám và điều trị </b>
+        <h2 style="text-align: justify; line-height: 1;">
+        <b style="color: inherit; font-family: inherit; font-size: 16px;">Bệnh về Khớp</b>
+         <br></h2>
+           <ul>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Gout, Viêm cột sống dính khớp, thoái hóa khớp, viêm khoanh khớp vai</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau khớp vai, đau vai gáy, Lupus ban đỏ, đau thắt lưng, đau xương khớp</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Thoát vị đĩa đệm, viêm khớp</span></li>
+            </ul>
+        <h2 style="text-align: justify; line-height: 1;">
+        <b style="color: inherit; font-family: inherit; font-size: 14px;">Bệnh về Xương</b>
+         <br></h2>
+        <ul>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Loãng xương, đau nhức xương</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm xương, gai xương, vôi hóa cột sống</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Chấn thương thể thao</span></li>
+            </ul>
+        <h2 style="text-align: justify; line-height: 1;">
+        <b style="color: inherit; font-family: inherit; font-size: 14px;">Bệnh về Cơ</b>
+         <br></h2>
+        <ul>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Chứng đau mỏi cơ</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Yếu cơ, Loạn dưỡng cơ</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm cơ, Teo cơ</span></li>
+            </ul>
+        <h2 style="text-align: justify; line-height: 1;">
+        <b style="color: inherit; font-family: inherit; font-size: 16px;">Các triệu chứng - biểu hiện sau:</b>
+          <br></h2>
+        <ul>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Thoái hóa khớp (khớp gối, cột sống thắt lưng, cột sống cổ)</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Loãng xương</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau vai gáy, Đau thắt lưng, Đau gối, Đau háng, Đau cột sống cổ, Đau hông</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau cổ chân, Đau khủy tay, Đau bàn tay, cổ tay, Đau các ngón tay</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau khớp thái dương hàm</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau lưng, Đau vai, Đau các ngón chân, Đau cổ chân, bàn chân</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau thần kinh tọa</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Thoát vị đĩa đệm cột sống cổ, cột sống thắt lưng</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau cánh tay</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Hội chứng vai tay, Hội chứng cổ vai cánh tay</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau thần kinh liên sườn, Đau ngực, Đau sụn ức sườn,Viêm sụn ức sườn, Đau bả vai</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Bệnh Gout</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm khớp dạng thấp, Viêm đa khớp, Viêm gân</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau nhiều khớp</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Hoại tử vô khuẩn chỏm xương đùi, Hoại tử vô mạch</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Đau xương bánh chè</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Luput ban đỏ hệ thống, Lulus ban đỏ hệ thống</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Xơ cứng bì toàn thân</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm đa cơ, Viêm da cơ, tổn thương da</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm khớp vùng chậu</span></li>
+            <li style="text-align: justify; line-height: 1.2;">
+            <span style="font-size: 16px;">Viêm khớp thiếu niên (đi khập khiễng)</span></li>
+            </ul>
+            
+     </div>
+    </div>
+
+  <style>
+    .chuyenkhoakham {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      .doctor-info {
+        flex: 1;
+        padding: 20px;
+        background-color: #e6e6e6;
+      }
+      
+      .appointment-info {
+        flex: 1;
+        padding: 20px;
+        background-color: #e6e6e6;
+      }
+      
+      h2, h3 {
+        margin-top: 0;
+      }
+      
+      p {
+        margin: 10px 0;
+      }
+      .khamchuyenkhoa {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+        border: 35px solid #ccc;
+        border-radius: 57px;
+        background-color: #f5f5f5;
+      }
+      
+      .khamchuyenkhoa h2 {
+        text-align: center;
+        font-size: 24px;
+        margin-bottom: 5px;
+      }
+    ul {
+        margin: 10px 0px 10px 25px;
+    }
+  </style>
+  {% endblock main-lienhe1 %}
