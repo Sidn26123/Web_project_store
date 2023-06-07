@@ -1,0 +1,219 @@
+{% extends 'site_admins/home_page.html' %}
+{% load static %}
+{% block main_content %}
+    <div class = "container">
+        <!-- <div class="fixed-menu"></div> -->
+        <div class = "content d-col-flex">
+            <div class="d-row-flex">
+                <div>
+                    <h3>Tổng quát</h3>
+                    <div style="height: 400px; width: 600px; display: inline-block">
+                        <select name="appoint-chart" id="appoint-bar-chart-selector">
+                            <option value="week">Theo tuần</option>
+                            <option value="month">Theo tháng</option>
+                            <option value="total">Tổng</option>
+                        </select>
+                        <canvas id = "appoint-bar-chart"></canvas>
+                    </div>
+                </div>
+                <div style="height: 300px; width: 300px;display: inline-block">
+                    <canvas id = "appoint-status-chart"></canvas>
+                </div>
+            </div>
+            <div class="d-row-flex">
+                <div>
+                    <div >
+                        <h3>Cuộc hẹn sắp tới</h3>
+                        <select name="upcoming_appoint-chart" id="upcoming-appoint-chart-selector">
+                            <option value="next-7-days">7 ngày tới</option>
+                            <option value="next-30-days">30 ngày tới</option>
+                            <option value="custom">Tùy chỉnh</option>
+                        </select>
+                        <div class = "time-range-selector">
+                            <div>
+                                <span>Bắt đầu</span><input type="date" name="start-date" id="upcoming-appoint-chart-start-date" pattern="\d{1,2}/\m{1,2}/\y{4}" required>
+                            </div>
+                            <div>
+                                <span>Kết thúc</span><input type="date" name="end-date" id="upcoming-appoint-chart-end-date" pattern="\d{1,2}/\d{1,2}/\d{4}" required>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="details-pagi" >
+                        <table id = "upcoming-appoint-table">
+                            <thead>
+                                <tr role = "row">
+                                    <th>ID</th>
+                                    <th>Bác sĩ</th>
+                                    <th>Bệnh nhân</th>
+                                    <th>Thời gian</th>
+                                    <th>Số tiền</th>
+                                    <th>Chuyên khoa</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+
+                        <!-- <table>
+                            <thead>
+                                <tr role = "row">
+                                    <th>STT</th>
+                                    <th>Ngày</th>
+                                    <th>Giờ</th>
+                                    <th>Bệnh nhân</th>
+                                    <th>Bác sĩ</th>
+                                    <th>Trạng thái</th>
+                                </tr>
+                            </thead>
+                            <tbody id="upcoming-appoint-table">
+                            </tbody>
+                        </table> -->
+                    </div>
+                </div>
+                <div style="height: 300px; width: 300px;display: inline-block">
+
+                    <canvas id = "upcoming-appoint-chart"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- <select name="status-chart" id="appoint-status-chart-selector">
+        <option value="week">Theo tuần</option>
+        <option value="month">Theo tháng</option>
+        <option value="total">Tổng</option>
+    </select> -->
+    <div class="d-row-flex success-chart">
+        <div class="d-row-flex">
+            <h3>Cuộc hẹn đã hoàn thành</h3>
+            <select name="success-chart" id="success-appoint-chart-selector">
+                <option value="7-days-before">7 ngày trước</option>
+                <option value="custom">Tùy chỉnh</option>
+            </select>
+            <div class = "time-range-selector">
+                <div>
+                    <span>Bắt đầu</span><input type="date" name="start-date" id="success-appoint-chart-start-date" pattern="\d{1,2}/\m{1,2}/\y{4}" required>
+                </div>
+                <div>
+                    <span>Kết thúc</span><input type="date" name="end-date" id="success-appoint-chart-end-date" pattern="\d{1,2}/\d{1,2}/\d{4}" required>
+                </div>
+            </div>
+        </div>
+        <table id="success-appoint-table">
+            <thead>
+                <tr role = "row">
+                    <th>ID</th>
+                    <th>Bác sĩ</th>
+                    <th>Bệnh nhân</th>
+                    <th>Thời gian khám</th>
+                    <th>Thời gian hoàn thành</th>
+                    <th>Số tiền</th>
+                    <th>Chuyên khoa</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div>
+        </div>
+        <div style="height: 300px; width: 300px;">
+            <canvas id = "success-appoint-chart"></canvas>
+        </div>
+    </div>
+    <div class="d-row-flex failed-chart">
+        <div>
+            <div class="d-row-flex">
+                <h3>Cuộc hẹn không thành công</h3>
+                <select name="failed-appoint" id="failed-appoint-chart-selector">
+                    <option value="7-days-next">7 ngày tới</option>
+                    <option value="7-days-before">7 ngày trước</option>
+                    <option value="custom">Tùy chỉnh</option>
+                </select>
+            </div>
+            <div class = "time-range-selector">
+                <div>
+                    <span>Bắt đầu</span><input type="date" name="start-date" id="failed-appoint-chart-start-date" pattern="\d{1,2}/\m{1,2}/\y{4}" required>
+                </div>
+                <div>
+                    <span>Kết thúc</span><input type="date" name="end-date" id="failed-appoint-chart-end-date" pattern="\d{1,2}/\d{1,2}/\d{4}" required>
+                </div>
+            </div>
+        </div>
+        <table id = "failed-appoint-table">
+            <thead>
+                <tr role = "row">
+                    <th>ID</th>
+                    <th>Bác sĩ</th>
+                    <th>Bệnh nhân</th>
+                    <th>Thời gian khám</th>
+                    <th>Thời gian hủy</th>
+                    <th>Số tiền</th>
+                    <th>Chuyên khoa</th>
+                    <th>Lý do hủy</th>
+                    <th>Người hủy</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+        <div style="height: 300px; width: 300px;">
+            <canvas id = "failed-appoint-chart"></canvas>
+        </div>
+    </div>
+
+    <div style="height: 300px; width: 300px;">
+        <div class="selector">
+            <select name="spec-appoint-chart" id="spec-appoint-chart-selector">
+                <option value="7-days-next">7 ngày tới</option>
+                <option value="7-days-before">7 ngày trước</option>
+                <option value="custom">Tùy chỉnh</option>
+
+            <div class="spec-selector scrollable">
+                <input type="checkbox" class = "spec-selector-checkbox" id = "spec-all" checked>
+                <label for="spec-all">Tất cả</label>
+                {% for spec in specializations %}
+                    <input type="checkbox" class = "spec-selector-checkbox" id = "{{spec.0}}" checked>
+                    <label for="{{spec.0}}">{{spec.1}}</label>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="d-row-flex">
+            <canvas id = "spec-appoint-chart"></canvas>
+            <canvas id = "spec-appoint-pie-chart"></canvas>
+
+        </div>
+    </div>
+    <div style="height: 300px; width: 300px;">
+        <div class="d-row-flex">
+            <h3>Phân bố cuộc hẹn</h3>
+            <div class="selector">
+                <select name="dispose-appoint-chart" id="dispose-appoint-chart-selector">
+                    <option value="15-before-next">15</option>
+                    <option value="30-days-next">30 ngày tới</option>
+                    <option value="30-days-before">30 ngày trước</option>
+                    <option value="custom">Tùy chỉnh</option>
+                </select>
+            </div>
+        </div>
+        <canvas id = "dispose-appoint-chart"></canvas>
+
+        <div class="d-row-flex">
+            <div class="d-col-flex">
+                <h4>Thống kê</h4>
+                <span>Khung giờ mật độ cao nhất</span>
+                <span>Khung giờ mật độ thấp nhất</span>
+                <span>Trung bình</span>
+                <span>Dài nhất</span>
+                <span>Ngắn nhất</span>
+                <span>Trung bình</span>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="{% static 'appointment_chart.js' %}"></script>
+	<link rel="stylesheet" type="text/css" href="{% static 'appointment.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+
+{% endblock %}
