@@ -30,7 +30,8 @@ def get_patient(request):
     id = request.GET.get('id')
     condition = request.GET.get('condition')
     today = date.today()
-
+    doctor = Doctor.objects.get
+    Trasaction.objects.doct
     time_query = Q()
     if condition == "all":
         time_query = Q()

@@ -50,33 +50,21 @@
           
         
         
+        {% for item in doc %}
         <div class="chuyenkhoakham">
           <div class="doctor-info">
-              <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
-            <h2><a href="{% url 'patient:BsDalieu1' %}">Bác sĩ ABC</h2>
-            <p>Thông tin bác sĩ...</p>
+              <img src="{{item.avatar}}" alt="Logo">
+            <h2><a href="{% url 'patient:BsDalieu2' %}"></h2>
+            <p>{{item.username}}.</p>
           </div>
           <div class="appointment-info">
-            <h3>Lịch khám: {{ user.address }}</h3>
-            <p>Địa chỉ khám: </p>
-           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+            <h3>Lịch khám: </h3>
+            <p>Địa chỉ khám: {{item.address}}</p>
+          <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{item.fee}} </a></p>
             <p>Loại bảo hiểm áp dụng: </p>
           </div>
         </div>
-
-        <div class="chuyenkhoakham">
-          <div class="doctor-info">
-              <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
-            <h2><a href="{% url 'patient:BsDalieu2' %}">Bác sĩ ABC</h2>
-            <p>Thông tin bác sĩ...</p>
-          </div>
-          <div class="appointment-info">
-            <h3>Lịch khám: {{ user.address }}</h3>
-            <p>Địa chỉ khám: </p>
-           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
-            <p>Loại bảo hiểm áp dụng: </p>
-          </div>
-        </div>
+      {% endfor %}
           
             <!--js nhấn vào đọc thêm để hiện và nhấn ẩn để ẩn-->
             <script>

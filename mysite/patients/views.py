@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-#
+from site_admins.models import Site_admin, Transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 #from patients.models import Patient
@@ -16,6 +16,12 @@ from django.utils import timezone
 from datetime import datetime
 #from dateutil.relativedelta import relativedelta
 from django.http import JsonResponse
+import json
+import calendar
+import csv
+import os
+from math import floor, ceil
+from django.forms.models import model_to_dict
 
 # Create your views here.
 def home(request):
@@ -91,53 +97,364 @@ def xuongkhop1(request):
     }
     return render(request, 'CK/xuongkhop1.html',context)
 def thankinh(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/thankinh.html',context)
 def thankinh1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/thankinh1.html',context)
 def tieuhoa(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/tieuhoa.html',context)
 def tieuhoa1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/tieuhoa1.html',context)
 def timmach(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/timmach.html',context)
 def timmach1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/timmach1.html',context)
 def taimuihong(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/taimuihong.html',context)
 def taimuihong1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/taimuihong1.html',context)
 def cotsong(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "cot_song")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/cotsong.html',context)
 def cotsong1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "cot_song")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/cotsong1.html',context)
 def dalieu(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "da_lieu")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/dalieu.html',context)
 def dalieu1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "da_lieu")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/dalieu1.html',context)
 def hohap(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/hohap.html',context)
 def hohap1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/hohap1.html',context)
 def nhakhoa(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "nha_khoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/nhakhoa.html',context)
 def nhakhoa1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "nha_khoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/nhakhoa1.html',context)
+
+#chuyên khoa đặt khám
+def xuongkhopdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/xuongkhopdk.html',context)
+def xuongkhopdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/xuongkhopdk1.html',context)
+def thankinhdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/thankinhdk.html',context)
+def thankinhdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/thankinhdk1.html',context)
+def tieuhoadk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/tieuhoadk.html',context)
+def tieuhoadk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/tieuhoadk1.html',context)
+def timmachdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/timmach.html',context)
+def timmachdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/timmach1.html',context)
+def taimuihongdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/taimuihong.html',context)
+def taimuihongdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/taimuihong1.html',context)
+def cotsongdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "cot_song")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/cotsong.html',context)
+def cotsongdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "cot_song")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/cotsong1.html',context)
+def dalieudk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "da_lieu")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/dalieu.html',context)
+def dalieudk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "da_lieu")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/dalieu1.html',context)
+def hohapdk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/hohap.html',context)
+def hohapdk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/hohap1.html',context)
+def nhakhoadk(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "nha_khoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/nhakhoa.html',context)
+def nhakhoadk1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "nha_khoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKdatkham/nhakhoa1.html',context)
+
+#Code 5 chuyên khoa  trang home 
+def xuongkhophome(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/xuongkhophome.html',context)
+def xuongkhophome1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/xuongkhophome1.html',context)
+def thankinhhome(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/thankinhhome.html',context)
+def thankinhhome1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "than_kinh")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/thankinhhome1.html',context)
+def tieuhoahome(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/tieuhoahome.html',context)
+def tieuhoahome1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tieu_hoa")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/tieuhoahome1.html',context)
+def timmachhome(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/timmachhome.html',context)
+def timmachhome1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tim_mach")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/timmachhome1.html',context)
+def taimuihonghome(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/taimuihonghome.html',context)
+def taimuihonghome1(request):
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
+    return render(request, 'CKhome/taimuihonghome1.html',context)
+
+
+
 
 #bác sĩ 
 def BsXuongkhop1(request):
@@ -212,6 +529,25 @@ def datkham(request):
 def datkham1(request):
     context= {}
     return render(request, 'patients/datkham1.html',context)
+
+def datkhamid(request, id, time):
+    doctor = Doctor.objects.get(id = id)
+    doctor_dict = model_to_dict(doctor)
+    doctor_dict['avatar'] = doctor.avatar.url
+    if request.method == 'POST':
+        form = PatientForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return render(request, 'patients/success.html')
+    else:
+        form = PatientForm()
+    context = {
+        'doctor': doctor_dict,
+        'time': time,
+        'avatar': doctor.avatar.url,
+        'form': form,
+    }
+    return render(request, 'patients/book_appointment1.html', context)
 def book_appointment(request):
     context= {}
     return render(request, 'patients/book_appointment.html',context)
@@ -354,3 +690,58 @@ def home1(request):
     return render(request, 'app/home1.html', context)
 
 
+def get_time_available(request):
+    id = request.GET.get('id')
+    doctor = Doctor.objects.get(id=id)
+    available_time = doctor.available_time
+    available_time = json.loads(available_time)
+    amount = doctor.time_per_appoint
+    data = {
+        'available_time': available_time,
+        'amount': amount,
+    }
+    return JsonResponse(data)
+
+def check_available_to_book(request):
+    id = request.GET.get('id')
+    time = request.GET.get('time')
+    time_arr = time.split('-')
+    day = time_arr[0]
+    time_start = time_arr[1]
+    doctor = Doctor.objects.get(id=id)
+    available_time = doctor.available_time
+    available_time = json.loads(available_time)
+    for time in available_time:
+        if time['day'] == int(day):
+            for t in time['time']:
+                if t['time-start'] == time_start:
+                    time_start_datetime = datetime.strptime(t['time-start'], '%H:%M')
+                    time_end_datetime = datetime.strptime(t['time-end'], '%H:%M')
+                    amount = doctor.time_per_appoint
+                    count = t['count']
+                    left = left = floor((floor((time_end_datetime-time_start_datetime).total_seconds()/60) - amount*count)/amount)
+                    print(left)
+                    if left > 0:
+                        return JsonResponse({'available': True})
+                    else:
+                        return JsonResponse({'available': False})
+    return JsonResponse({'available': False})
+
+
+def save_appoint(request):
+    info = {}
+    if request.method == 'POST':
+        for key, value in request.POST.items():
+            if key != "csrfmiddlewaretoken":
+                info[key] = value
+    try:
+        newest_record = Transaction.objects.latest('id')
+        newest_record = newest_record.id_transaction
+    except:
+        newest_record = 0
+    doctor = Doctor.objects.get(id=int(info['doctor-id']))
+    time = info['time-frame'].split('-')
+
+    Transaction.objects.create(doctor = doctor, amount_transact = doctor.fee, medical_specialty = doctor.specialty, state = "pending", id_transaction = newest_record  +1, info_patient = info, appoint_address = info['address'])
+    print(info)
+    return JsonResponse({'success': True})

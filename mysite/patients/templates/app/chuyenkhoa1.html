@@ -2,6 +2,10 @@
 <title>web đặt lịch khám online</title>
 <link href="{% static 'app/css/chuyenkhoa1.css' %}" rel="stylesheet" />
 <body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+	<div class = "refer-url">A</div>
+
 	<div class="baiviet-dau">
 		<div class="vung-bao">
 		  <ul class="sodo">
@@ -12,6 +16,12 @@
 		  </ul>
 		</div>
 	  </div>
+	  <script>
+		var previousUrl = document.referrer;
+		$('.refer-url').on('click', function(){
+		  window.location.href = previousUrl;
+		})
+	  </script>
 	<div class="container">
 		<h1>Chuyên khoa</h1>
 		<div class="specialties">

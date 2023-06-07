@@ -1,0 +1,150 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block main-lienhe %}
+<!-- code đang sửa-->
+        <head>
+
+            <div class="baiviet-dau">
+                <div class="vung-bao">
+                  <ul class="sodo">
+                    <li><a class="nha" href="{% url 'patient:datkham' %}"> 
+                      <img src="{% static 'app/images/QV1.png' %}">
+                    </a></li>
+                    <li>Nha khoa</li>
+                  </ul>
+                </div>
+              </div>
+
+
+            <div class="khamchuyenkhoa">
+            <div id="content">
+              <h2>Nha khoa</h2>
+                <h2 style="text-align: justify; line-height: 1;">
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bác sĩ Nha khoa giỏi</b>
+                 <br></h2>
+                  <p style="text-align: justify; line-height: 1.2;">
+                   <span style="font-size: 14px;">Danh sách  bác sĩ Nha khoa uy tín tại Việt Nam:</span></p>
+                   <ul>
+                    <li style="text-align: justify; line-height: 1.2;">
+                    <span style="font-size: 14px;">Các chuyên gia có quá trình đào tạo bài bản, nhiều năm kinh nghiệm và khám, điều trị các bệnh lý nha khoa và răng thẩm mỹ tại Hà Nội.</span></li>
+                    <li style="text-align: justify; line-height: 1.2;"><span style="font-size: 14px;">Các bác sĩ đã hoặc đang công tác tại các bệnh viện, phòng khám nha khoa uy tín, với các trang thiết bị hiện đại.</span></li>
+
+             <div class="hidden">
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bác sĩ Cơ Xương Khớp giỏi</b>
+        
+                <li style="text-align: justify;">Nhổ răng</li>
+                <li style="text-align: justify;">Hàn răng</li>
+                <li style="text-align: justify;">Điều trị tủy</li>
+                <li style="text-align: justify;">Điều trị Viêm nha chu</li>
+                <li style="text-align: justify;">Bọc răng sứ</li>
+                <li style="text-align: justify;">Làm răng giả</li>
+                <li style="text-align: justify;">Dán sứ Veneer</li>
+                <li style="text-align: justify;">Niềng răng (nắn chỉnh răng)</li>
+                <li style="text-align: justify;">...</li>
+             </div>
+            </div>
+            <button id="read-more-btn">Đọc thêm</button>
+            <button id="hide-btn" class="hidden">Ẩn</button>
+        </div>
+          
+        
+        
+        {% for item in doc %}
+        <div class="chuyenkhoakham">
+          <div class="doctor-info">
+              <img src="{{item.avatar}}" alt="Logo">
+            <h2><a href="{% url 'patient:BsNhakhoa1' %}"></h2>
+            <p>{{item.username}}.</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: </h3>
+            <p>Địa chỉ khám: {{item.address}}</p>
+          <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{item.fee}} </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
+      {% endfor %}
+          
+            <!--js nhấn vào đọc thêm để hiện và nhấn ẩn để ẩn-->
+            <script>
+                var readMoreBtn = document.getElementById("read-more-btn");
+                var hideBtn = document.getElementById("hide-btn");
+                var hiddenContent = document.querySelector("#content .hidden");
+            
+                readMoreBtn.addEventListener("click", function() {
+                  hiddenContent.classList.remove("hidden");
+                  readMoreBtn.classList.add("hidden");
+                  hideBtn.classList.remove("hidden");
+                });
+            
+                hideBtn.addEventListener("click", function() {
+                  hiddenContent.classList.add("hidden");
+                  readMoreBtn.classList.remove("hidden");
+                  hideBtn.classList.add("hidden");
+                });
+              </script>
+            </body>
+  
+  
+          <style>
+              .hidden {
+                    display: none;
+                  }
+              #read-more-btn {
+                      color: blue;
+              }
+              #hide-btn {
+                      color: blue;
+                    }
+              .khamchuyenkhoa {
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 35px solid #ccc;
+                  border-radius: 57px;
+                  background-color: #f5f5f5;
+                }
+                
+                .khamchuyenkhoa h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  margin-bottom: 5px;
+                }
+              ul {
+                  margin: 10px 0px 10px 25px;
+              }
+  
+              .chuyenkhoakham {
+                  display: flex;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                }
+                
+                .doctor-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                .appointment-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                img {
+                  width: 50px;
+                  height: 50px;
+                }
+                
+                h2, h3 {
+                  margin-top: 0;
+                }
+                
+                p {
+                  margin: 10px 0;
+                }
+                
+          </style>
+{% endblock main-lienhe %}

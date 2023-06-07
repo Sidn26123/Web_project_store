@@ -49,7 +49,7 @@ class Transaction(models.Model):
     ]
 
     doctor = models.ForeignKey(Doctor, on_delete = models.CASCADE)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null = True)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null = True, blank = True)
     transaction_time = models.DateTimeField(auto_now_add=True)
     amount_transact = models.IntegerField()
     note = models.TextField(null= True, blank = True)
@@ -62,8 +62,12 @@ class Transaction(models.Model):
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
     appoint_address = models.TextField(default = "")
     creator = models.CharField(max_length = 20, default = "doctor", choices = CREATOR)
+    info_patient = models.CharField(max_length = 30, null = True, blank = True)
+    city = models.CharField(max_length = 30, null = True, blank = True)
+    district = models.CharField(max_length = 30, null = True, blank = True)
+    address = models.TextField(null = True, blank = True)
     def __str__(self):
-        return f"{self.doctor.real_name}-{self.patient.real_name}"
+        return f"{self.doctor.real_name}-{self.id}"
     def __save__(self, *args, **kwargs):
         self.medical_specialty.name = self.specialties
         super().save(*args, **kwargs)

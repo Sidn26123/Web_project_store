@@ -2,22 +2,34 @@
 {% load static %}
 {% block main-register %}
 <div class="register-form">
+    <script>
+      var previousUrl = document.referrer;
+      $('#refer-url').on('click', function(){
+        window.location.href = previousUrl;
+      })
+    </script>
     <h2>Đặt khám</h2>
-    <form method="post">
+    <img src="{{avatar}}" alt="">
+    {{time}}
+    <form id = "info-appointment" method="post" action = "{% url 'patient:save-appoint' %}">
       {% csrf_token %}
       {{ form.as_p }}
       <div class="dauvao-nhom thanh-toan"><p class="tieude-nhom">Hình thức thanh toán</p>
         <label><input class="dauvao-nhap" type="radio" name="pay_type" value="1" checked="checked"> Thanh toán sau tại cơ sở y tế</label>
-    </div>
+      </div>
     <p class="dauvao-ghichu chu-giua">Quý khách vui lòng điền đầy đủ thông tin để tiết kiệm thời gian làm thủ tục khám</p>
     <div class="dauvao-canhbao"><p style="text-align: justify; "><b>LƯU Ý</b></p>
       <p style="text-align: justify; ">Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám bệnh, khi điền thông tin anh/chị vui lòng:</p><ul>
         <li style="text-align: justify; ">Ghi rõ họ và tên, viết hoa những chữ cái đầu tiên, ví dụ:<b> Phan Hậu &nbsp;</b></li>
         <li style="text-align: justify; ">Điền đầy đủ, đúng và vui lòng kiểm tra lại thông tin trước khi ấn "Xác nhận đặt khám"</li></ul>
       </div>
+      <input type="text" name = "doctor-id" value = {{doctor.id}} style="display:none">
+      <input type="text" name = "time-frame" value = {{time}} style="display:none">
       <button type="submit">Xác nhận đặt khám</button>
+
     </form>
   </div>
+  <script src = "{% static 'patient.js' %}"></script>
   <style>
     .dauvao-nhom {
       margin: 10px 0;

@@ -14,7 +14,12 @@
                   </ul>
                 </div>
               </div>
-
+              <script>
+                var previousUrl = document.referrer;
+                $('.refer-url').on('click', function(){
+                  window.location.href = previousUrl;
+                })
+                </script>
 
             <div class="khamchuyenkhoa">
             <div id="content">
@@ -50,8 +55,10 @@
             <button id="read-more-btn">Đọc thêm</button>
             <button id="hide-btn" class="hidden">Ẩn</button>
         </div>
-          
-        {% for item in doc %}
+        {% include 'doctor/detail.html' %}
+        {% block detail %}
+        {% endblock detail%}
+        {% comment %} {% for item in doc %}
           <div class="chuyenkhoakham">
             <div class="doctor-info">
                 <img src="{{item.avatar}}" alt="Logo">
@@ -61,11 +68,11 @@
             <div class="appointment-info">
               <h3>Lịch khám: {{ user.address }}</h3>
               <p>Địa chỉ khám: {{item.address}}</p>
-            <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+            <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{item.fee}}</a></p>
               <p>Loại bảo hiểm áp dụng: </p>
             </div>
           </div>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
 
 
           

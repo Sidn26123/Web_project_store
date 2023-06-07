@@ -13,9 +13,9 @@ from django.db import models
 
 
 class Patient(User):
- blood_group = models.CharField(max_length = 5, default = "O")
- district = models.CharField(max_length=50,null=True)
- XA = models.CharField(max_length=50,null=True)
+    blood_group = models.CharField(max_length = 5, default = "O")
+    district = models.CharField(max_length=50,null=True)
+    XA = models.CharField(max_length=50,null=True)
 @receiver(pre_save, sender = Patient)
 def calculate_age(sender, instance, **kwargs):
     today = datetime.today()

@@ -44,6 +44,39 @@ urlpatterns = [
     path('hohap1', views.hohap1, name="hohap1"),
     path('nhakhoa', views.nhakhoa, name="nhakhoa"),
     path('nhakhoa1', views.nhakhoa1, name="nhakhoa1"),
+
+
+    #chuyên khoa đặt khám
+    path('xuongkhopdk', views.xuongkhopdk, name="xuongkhopdk"),
+    path('xuongkhopdk1', views.xuongkhopdk1, name="xuongkhopdk1"),
+    path('thankinhdk', views.thankinhdk, name="thankinhdk"),
+    path('thankinhdk1', views.thankinhdk1, name="thankinhdk1"),
+    path('tieuhoadk', views.tieuhoadk, name="tieuhoadk"),
+    path('tieuhoadk1', views.tieuhoadk1, name="tieuhoadk1"),
+    path('timmachdk', views.timmachdk, name="timmachdk"),
+    path('timmachdk1', views.timmachdk1, name="timmachdk1"),
+    path('taimuihongdk', views.taimuihongdk, name="taimuihongdk"),
+    path('taimuihongdk1', views.taimuihongdk1, name="taimuihongdk1"),
+    path('cotsongdk', views.cotsongdk, name="cotsongdk"),
+    path('cotsongdk1', views.cotsongdk1, name="cotsongdk1"),
+    path('dalieudk', views.dalieudk, name="dalieudk"),
+    path('dalieudk1', views.dalieudk1, name="dalieudk1"),
+    path('hohapdk', views.hohapdk, name="hohapdk"),
+    path('hohapdk1', views.hohapdk1, name="hohapdk1"),
+    path('nhakhoadk', views.nhakhoadk, name="nhakhoadk"),
+    path('nhakhoa1dk', views.nhakhoadk1, name="nhakhoadk1"),
+
+     # 5 chuyên khoa ngoài trang home
+    path('xuongkhophome', views.xuongkhophome, name="xuongkhophome"),
+    path('xuongkhophome1', views.xuongkhophome1, name="xuongkhophome1"),
+    path('thankinhhome', views.thankinhhome, name="thankinhhome"),
+    path('thankinhhome1', views.thankinhhome1, name="thankinhhome1"),
+    path('tieuhoahome', views.tieuhoahome, name="tieuhoahome"),
+    path('tieuhoahome1', views.tieuhoahome1, name="tieuhoahome1"),
+    path('timmachhome', views.timmachhome, name="timmachhome"),
+    path('timmachhome1', views.timmachhome1, name="timmachhome1"),
+    path('taimuihonghome', views.taimuihonghome, name="taimuihonghome"),
+    path('taimuihonghome1', views.taimuihonghome1, name="taimuihonghome1"),
     #bác sĩ 
     path('BsXuongkhop1', views.BsXuongkhop1, name="BsXuongkhop1"),
     path('BsXuongkhop2', views.BsXuongkhop2, name="BsXuongkhop2"),
@@ -70,8 +103,12 @@ urlpatterns = [
     path('datkham1', views.datkham1, name="datkham1"),
     path('book_appointment', views.book_appointment, name="book_appointment"),
     path('book_appointment1', views.book_appointment1, name="book_appointment1"),
+    path('book_appointment1/<int:id>/<str:time>/', views.datkhamid, name="book_appointment1"),
     path('success', views.success, name="success"),
     #code tìm kiếm bác sĩ
-    path('test-info/<int:id>', views.thongtinBS, name="thongtinBS")
+    path('test-info/<int:id>', views.thongtinBS, name="thongtinBS"),
+    path('get-time-available/', views.get_time_available),
+    path('check-available-to-book/', views.check_available_to_book),
+    path('save-appoint/', views.save_appoint, name = "save-appoint"),
     ]
 

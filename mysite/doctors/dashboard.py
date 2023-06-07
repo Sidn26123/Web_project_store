@@ -11,7 +11,7 @@ from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
-from datetime import datetime,date
+from datetime import datetime
 from dateutil.relativedelta import relativedelta
 from django.http import JsonResponse, HttpResponse
 from django.db.models import Count, Sum, Case, When, F, Value, CharField, DateField, IntegerField, Avg

@@ -80,7 +80,7 @@ class RegistrationForm(forms.ModelForm):
         if password != confirm_password:
             raise forms.ValidationError('Mật khẩu không khớp')
         return cleaned_data
-  # Ràng buộc email
+# Ràng buộc email
     def clean_email(self):
         email = self.cleaned_data.get('email')
         # if not email.endswith('@gmail.com'):  # Ràng buộc email phải kết thúc bằng @example.com
@@ -93,6 +93,74 @@ class RegistrationForm(forms.ModelForm):
         if len(email) > 120:
             raise forms.ValidationError("Email không hợp lệ")
         return email
+    def clean_username(self):
+        username = self.cleaned_data.get('username')
+        
+        if len(username) > 50:
+            raise forms.ValidationError("Tên đăng nhập không hợp lệ")
+        elif len(username) < 5:
+            raise forms.ValidationError("Tên đăng nhập không hợp lệ")
+
+        validator = RegexValidator(
+            regex='^[a-zA-Z0-9,;-]+$',
+            message='Trường này chỉ được chứa chữ cái, số và dấu ,;-'
+        )
+        validator(username)
+        return username
+    
+    def clean_password(self):
+        password = self.cleaned_data.get('password')
+        if len(password) < 5:
+            raise forms.ValidationError("Mật khẩu phải có ít nhất 5 ký tự")
+        elif len(password) > 30:
+            raise forms.ValidationError("Mật khẩu không được vượt quá 30 ký tự")
+        # validator_1 = RegexValidator(
+        #     regex = '[^\s!"#$%&\'()*+,\-.\/:;<=>?@[\\]^_`{|}~]+$',
+        #     message= "Mật khẩu phải chứa ít nhất 1 chữ cái, 1 số và 1 ký tự đặc biệt trong @$!%*#?&",
+        # )
+        validator_2 = RegexValidator(
+            regex = '(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.\@#$!%*#?&]).*$',
+            message= "Mật khẩu phải chứa ít nhất 1 chữ in hoa, 1 chữ thường, 1 ký tự đặc biệt và 1 số",
+        )
+        # validator_1(password)
+        validator_2(password)
+        return password
+    def clean_real_name(self):
+        real_name = self.cleaned_data.get('real_name')
+        if len(real_name) < 4:
+            raise forms.ValidationError("Tên không hợp lệ")
+        elif len(real_name) > 50:
+            raise forms.ValidationError("Tên không hợp lệ")
+        validator = RegexValidator(
+            regex='^[a-zA-Z0-9 ,;-]+$',
+            message='Trường này chỉ được chứa chữ cái, số, khoảng cách và dấu ,;-'
+        )
+        validator(real_name)
+        return real_name
+    # def clean_citizen_identification(self):
+    #     pass
+    
+    # def clean_phone(self):
+    #     pass
+    
+
+    def clean_XA(self):
+        text = self.cleaned_data['XA']
+        
+        # Kiểm tra các điều kiện validate
+        validator = RegexValidator(
+            regex='^[a-zA-Z0-9 ,;-]+$',
+            message='Trường này chỉ được chứa chữ cái, số và khoảng trắng.'
+        )
+        validator(text)  # Kiểm tra và raise ValidationError nếu không hợp lệ
+        
+        if len(text) < 2:
+            raise forms.ValidationError('Trường này phải có ít nhất 5 ký tự.')
+        
+        if len(text) > 100:
+            raise forms.ValidationError('Trường này không được vượt quá 100 ký tự.')
+        
+        return text
 #code đăng nhập
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm
