@@ -1,0 +1,56 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <input type="text" class="search-condition">
+    <button class="search-button">Search</button>
+    <table id="confirming-appoint-table">
+        <thead>
+            <tr class = "row"></tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+        <div class="loader"></div>
+    </table>
+    <div class="background-flat">
+        <div class="deny-confirm" id = "deny-confirm" style="display:none">
+            <div class="close-form">Ẩn</div>
+            <div class="confirm-div-content">
+                <p>Từ chối cuộc hẹn này?</p>
+                <button class="confirm-btn confirm-btn--yes">Yes</button>
+                <button class="confirm-btn confirm-btn--no">No</button>
+            </div>
+        </div>
+    </div>
+    <div class="background-flat">
+        <div class="accept-confirm" id = "accept-confirm" style="display:none">
+            <div class="close-form">Ẩn</div>
+            <div class="confirm-div-content">
+                <p>Xác nhận cuộc hẹn này?</p>
+                <button class="confirm-btn confirm-btn--yes">Yes</button>
+                <button class="confirm-btn confirm-btn--no">No</button>
+            </div>
+        </div>
+    </div>
+    <div class="background-flat">
+        <div class="success-notice" style="display:none">
+            <i class="fa-regular fa-circle-xmark close-btn"></i>
+            <span>Đã nhận cuộc hẹn mã só <span class="transaction-id-span"></span> thành công</span>
+            <div class = "btn ok-btn">Okay</div>
+        </div>
+    </div>
+    <div class="background-flat">
+        <div class="denied-success-notice" style = "display:none">
+            <i class="fa-regular fa-circle-xmark close-btn"></i>
+            <span>Đã bỏ cuộc hẹn mã só <span class="transaction-id-span"></span> thành công</span>
+            <div class = "btn ok-btn">Okay</div>
+        </div>
+    </div>
+
+    
+
+
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor/doctor_approving_appoint.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}
