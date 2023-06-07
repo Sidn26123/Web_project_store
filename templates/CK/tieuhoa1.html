@@ -1,0 +1,154 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-lienhe1 %}
+<!-- code đang sửa-->
+        <head>
+
+            <div class="baiviet-dau">
+                <div class="vung-bao">
+                  <ul class="sodo">
+                    <li><a class="nha" href="{% url 'patient:chuyenkhoa1' %}"> 
+                      <img src="{% static 'app/images/QV1.png' %}">
+                    </a></li>
+                    <li>Tiêu hóa</li>
+                  </ul>
+                </div>
+              </div>
+
+
+            <div class="khamchuyenkhoa">
+            <div id="content">
+              <h2>Tiêu hóa</h2>
+                <h2 style="text-align: justify; line-height: 1;">
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bác sĩ Chuyên khoa Tiêu hóa</b>
+                 <br></h2>
+                  <p style="text-align: justify; line-height: 1.2;">
+                   <span style="font-size: 14px;">Danh sách các bác sĩ Tiêu hóa uy tín đầu ngành tại Việt Nam:</span></p>
+                   <ul>
+                    <li style="text-align: justify; line-height: 1.2;">
+                    <span style="font-size: 14px;">Các chuyên gia có quá trình đào tạo bài bản, kinh nghiệm công tác tại các bệnh viện lớn về chuyên ngành Tiêu hóa tại Hà Nội</span></li>
+                    <li style="text-align: justify; line-height: 1.2;"><span style="font-size: 14px;">Các giáo sư, phó giáo sư là giảng viên Đại học Y khoa Hà Nội</span></li>
+                    <li style="text-align: justify;"><span style="font-size: 14px;">Các bác sĩ đã, đang công tác tại các bệnh viện hàng đầu như Bệnh viện Bạch Mai, Bệnh Viện Việt Đức, Bệnh Viện Nhi Trung ương, Bệnh viện Y học Cổ truyền Việt Nam...</span></li></p>
+
+             <div class="hidden">
+                <li style="text-align: justify;"><span style="font-size: 14px;">Được nhà nước công nhận các danh hiệu Thầy thuốc nhân dân, thầy thuốc ưu tú, bác sĩ cao cấp,...</span></li>
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Tư vấn, khám và điều trị các Bệnh Tiêu hóa</b>
+        
+                <li style="text-align: justify;">Ăn uống kém, không ngon</li>
+                <li style="text-align: justify;">Rối loạn tiêu hóa, táo bón, trĩ</li>
+                <li style="text-align: justify;">Viêm khớp dạng thấp, Viêm đa khớp, Viêm gân</li>
+                <li style="text-align: justify;">Nhiễm vi khuẩn HP (Helicobacter pylori)</li>
+                <li style="text-align: justify;">Nội soi dạ dày, đại tràng, tiêu hóa</li>
+                <li style="text-align: justify;">Buồn nôn, chướng bụng, đầy bụng ợ chua, đầy hơi</li>
+                <li style="text-align: justify;">Co thắt thực quản, Hội chứng ruột kích thích</li>
+                <li style="text-align: justify;">Đau bụng, dạ dày, đại tràng, thượng vị<br></li>
+                <li style="text-align: justify;">Viêm đại tràng, dạ dày, tá tràng<br></li>
+                <li style="text-align: justify;">Ung thư dạ dày, U nang tuyến tụy<br></li>
+                <li style="text-align: justify;">Bệnh lý về gan, mật<br></li>
+                <li style="text-align: justify;">...</li>
+             </div>
+            </div>
+            <button id="read-more-btn">Đọc thêm</button>
+            <button id="hide-btn" class="hidden">Ẩn</button>
+        </div>
+          
+        
+        
+        {% for item in doc %}
+        <div class="chuyenkhoakham">
+          <div class="doctor-info">
+              <img src="{{item.avatar}}" alt="Logo">
+            <h2><a href="{% url 'patient:BsXuongkhop2' %}"></h2>
+            <p>{{item.username}}.</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: {{ user.address }}</h3>
+            <p>Địa chỉ khám: {{item.address}}</p>
+          <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{item.fee}} </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
+      {% endfor %}
+            <!--js nhấn vào đọc thêm để hiện và nhấn ẩn để ẩn-->
+            <script>
+                var readMoreBtn = document.getElementById("read-more-btn");
+                var hideBtn = document.getElementById("hide-btn");
+                var hiddenContent = document.querySelector("#content .hidden");
+            
+                readMoreBtn.addEventListener("click", function() {
+                  hiddenContent.classList.remove("hidden");
+                  readMoreBtn.classList.add("hidden");
+                  hideBtn.classList.remove("hidden");
+                });
+            
+                hideBtn.addEventListener("click", function() {
+                  hiddenContent.classList.add("hidden");
+                  readMoreBtn.classList.remove("hidden");
+                  hideBtn.classList.add("hidden");
+                });
+              </script>
+            </body>
+  
+  
+          <style>
+              .hidden {
+                    display: none;
+                  }
+              #read-more-btn {
+                      color: blue;
+              }
+              #hide-btn {
+                      color: blue;
+                    }
+              .khamchuyenkhoa {
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 35px solid #ccc;
+                  border-radius: 57px;
+                  background-color: #f5f5f5;
+                }
+                
+                .khamchuyenkhoa h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  margin-bottom: 5px;
+                }
+              ul {
+                  margin: 10px 0px 10px 25px;
+              }
+  
+              .chuyenkhoakham {
+                  display: flex;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                }
+                
+                .doctor-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                .appointment-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                img {
+                  width: 50px;
+                  height: 50px;
+                }
+                
+                h2, h3 {
+                  margin-top: 0;
+                }
+                
+                p {
+                  margin: 10px 0;
+                }
+                
+          </style>
+{% endblock main-lienhe1 %}

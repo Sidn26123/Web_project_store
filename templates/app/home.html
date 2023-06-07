@@ -1,0 +1,351 @@
+{% extends 'app/base.html' %}
+{% load static %}
+{% block main-content %}
+<html>
+  
+        <style>
+          /* styles.css */
+        form {
+        margin-bottom: 10px;
+        }
+        
+        input[type="text"] {
+        width: 150px;
+        padding: 10px;
+        border-radius: 5px;
+        width: 400px;
+        background-color: #b2b2b2;
+        }
+        
+        button[type="submit"] {
+      
+  
+          right: 0;
+          height: 100%;
+          background-color: #333333;
+          border: none;
+          color: #ffffff;
+          padding: 10px;
+          border-radius: 0 5px 5px 0;
+          cursor: pointer;
+        }
+        
+        h2 {
+        margin-top: 20px;
+        }
+        
+        ul {
+        list-style: none;
+        padding: 0;
+        }
+        
+        li {
+        margin-bottom: 5px;
+        }
+        
+        </style>
+    <body>
+      <div class="background-image">
+        <div class="container">
+          <form method="GET" action="{% url 'patient:home' %}"class="search-bar">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit">Tìm kiếm</button>
+          </form>
+        
+          {% if results %}
+          <div class="search-results">
+            <h1>Kết quả tìm kiếm:</h1>
+            <ul>
+              {% for doctor in results %}
+              <a href = "/patient/test-info/{{doctor.id}}">  <li>{{ doctor.real_name }}</li></a>  
+            
+
+              {% endfor %}
+            </ul>
+          </div>
+        {% elif form.is_bound %}
+          <p>Không có kết quả tìm kiếm.</p>
+        {% endif %}
+        </form>
+          <h2>NỀN TẢNG Y TẾ</h2>
+          <h1>Chăm Sóc Sức Khỏe Toàn Diện</h1>
+        </div>
+      </div>
+</body>
+<!--css ảnh nền-->
+<style>
+  .background-image {
+    background-image: url("{% static 'app/images/anhnen.jpg' %}");
+    background-repeat: no-repeat;
+    background-size: cover;
+    width:100% ;
+    height: 566px;
+
+  }
+  
+  .container {
+    text-align: center;
+    margin: auto;
+    max-width: 1000px;
+    padding: 26px;
+  }
+  
+  h1 {
+      color: #fff;
+      font-size: 30px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 1px #333;
+  }
+  h2 {
+   
+      color: #fff;
+      font-size: 40px;
+      margin-bottom: -10px;
+      text-transform: uppercase;
+      text-shadow: 1px 1px 1px #333;
+  }
+</style>
+<section class="news-sections">
+  <div class="containers">
+    <h2 class="section-titles">Tin tức mới nhất</h2>
+    <div class="rows">
+      <div class="col-4s">
+        <div class="news-itemss">
+          <img src="{%static 'app/images/tintuc1.jpg'%}" alt="Hình ảnh tin tức">
+          <h3 class="news-titles">Các loại cây dược liệu quý hiếm ở Việt Nam.</h3>
+          <p class="news-summarys">Cây cối có nhiều loại khác nhau được ứng dụng cho nhiều mục đích, mang những giá trị khác biệt...</p>
+          <a href="https://caodangykhoa.com.vn/cac-loai-cay-duoc-lieu-quy-hiem-o-viet-nam/" class="read-more-links">Đọc thêm</a>
+        </div>
+      </div>
+      <div class="col-4s">
+        <div class="news-itemss">
+          <img src="{%static 'app/images/tintuc2.jpg'%}" alt="Hình ảnh tin tức">
+          <h3 class="news-titles">Sinh viên khắc phục khả năng nhớ tên thuốc bằng cách nào?</h3>
+          <p class="news-summarys">Học Đại học, Cao đẳng đã khó; học chuyên về bên Y hay Dược thì lại càng khó hơn...</p>
+          <a href="https://caodangykhoa.com.vn/chia-se-cach-nho-ten-thuoc/" class="read-more-links">Đọc thêm</a>
+        </div>
+      </div>
+      <div class="col-4s">
+        <div class="news-itemss">
+          <img src="{%static 'app/images/tintuc3.jpg'%}" alt="Hình ảnh tin tức">
+          <h3 class="news-titles">Những ứng dụng công nghệ 4.0 trong y học hiện nay.</h3>
+          <p class="news-summarys">Với công cuộc cách mạng công nghệ 4.0 trong y học hiện nay thì đã và đang dần dần thay đổi rất...</p>
+          <a href="https://caodangykhoa.com.vn/ung-dung-cong-nghe-4-0-trong-y-khoa/" class="read-more-links">Đọc thêm</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!--css tin tức dưới ảnh nền-->
+  <style>
+    .news-sections {
+      background-color: #f8f8f8;
+    }
+    
+    .section-titles {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: -4px;
+      color:  #281717;
+    }
+    
+    .news-itemss {
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0 2px 5px rgba(0,0,0,.1);
+      padding: 20px;
+      margin-bottom: 30px;
+      }.news-itemss img{
+      width:300px ;
+      height: 150px;
+     }
+    
+    .news-titles {
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 10px;
+    }
+    
+    .news-summarys {
+      font-size: 16px;
+      line-height: 1.5;
+      margin-bottom: 20px;
+    }
+    
+    .read-more-links {
+      color: #007bff;
+      font-size: 16px;
+      text-decoration: none;
+      display: inline-block;
+      margin-top: 10px;
+    }
+    
+    .rows {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 0 -15px;
+    }
+    
+    .col-4s {
+      width: calc(100% / 3);
+      padding: 0 15px;
+    }
+ </style>
+</section>
+<h2 class="section-titles">Chuyên Khoa phổ biến</h2>
+<div class="chuyen-khoa">
+  
+  <a href="{% url 'patient:xuongkhophome'%}">
+    <img src="{% static 'app/images/CK1.jpg' %}" alt="Chuyên khoa 1">
+    <h3>Cơ Xương Khớp</h3>
+  </a>
+  
+  <a href="{% url 'patient:thankinhhome'%}">
+    <img src="{% static 'app/images/CK2.jpg' %}" alt="Chuyên khoa 2">
+    <h3>Thần Kinh</h3>
+  </a>
+  
+  <a href="{% url 'patient:tieuhoahome'%}">
+    <img src="{% static 'app/images/CK3.jpg' %}" alt="Chuyên khoa 3">
+    <h3>Tiêu Hóa</h3>
+  </a>
+  
+  <a href="{% url 'patient:timmachhome'%}">
+    <img src="{% static 'app/images/CK4.jpg' %}" alt="Chuyên khoa 4">
+    <h3>Tim Mạch</h3>
+  </a>
+  
+  <a href="{% url 'patient:taimuihonghome'%}">
+    <img src="{% static 'app/images/CK5.jpg' %}" alt="Chuyên khoa 5">
+    <h3>Tai Mũi Họng</h3>
+  </a>
+</div>
+<!--chuyên khoa dưới tin tức-->
+<style>
+  .chuyen-khoa {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f2f2f2;
+  padding: 20px;
+}
+
+.chuyen-khoa a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: #333;
+  width: 20%;
+  transition: all 0.3s ease;
+}
+
+.chuyen-khoa a:hover {
+  transform: scale(1.1);
+}
+
+.chuyen-khoa img {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
+  height: auto;
+}
+
+.chuyen-khoa h3 {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+</style>
+<div class="support-bar">
+  <a href="{% url 'patient:khieunai'%}">Hỗ trợ giải quyết khiếu nại</a>
+  <a href="{% url 'patient:hdsd'%}">Câu hỏi thường gặp</a>
+</div>
+<!--CSS hỗ trợ khách hàng và câu hỏi-->
+<style>
+  .support-bar {
+    background-color: #f2f2f2;
+    color:#1529b8;
+    font-size: 20px;
+    text-align: center;
+    padding: 10px 0;
+  }
+  .support-bar a {
+    color: #1529b8;
+    text-decoration: underline;
+    margin: 0 10px;}
+</style>
+<div class="header">
+  <div class="company-info">
+    <img src="{% static 'app/images/logo.png'%}" alt="Logo công ty" class="company-logo">
+    <div class="company-details">
+      <div class="company-name">
+        Công ty cổ phần công nghệ Doccure
+      </div>
+      <div class="company-regno">
+        ĐKKD số: 0106790291. Sở KHĐT Hồ Chí Minh cấp ngày 22/03/2023
+      </div>
+    </div>
+  </div>
+
+  <div class="contact-info">
+    <div class="contact-phone">
+      Số điện thoại: 0123456789
+    </div>
+    <div class="contact-email">
+      Email: support@doccure.vn
+    </div>
+  </div>
+
+  <div class="company-address">
+    Địa chỉ: 97 Man Thiện, Hiệp Phú, TP Thủ Đức
+  </div>
+</div>
+<!--CSS thanh cuối của trang-->
+<style>
+  .header {
+    display: flex; /* Sử dụng flexbox để căn giữa các ô */
+    justify-content: space-between; /* Các ô được căn cách đều nhau */
+    align-items: center; /* Căn giữa các ô theo chiều dọc */
+    background-color: #88c28d; /* Màu nền của thanh bảng */
+    height: 100px; /* Chiều cao của thanh bảng */
+  
+    /* Thêm padding cho phần tử div */
+    padding: 10px;
+  }
+  
+  .company-info {
+    display: flex; /* Hiển thị hình ảnh và thông tin công ty cùng một hàng */
+    align-items: center; /* Căn giữa hình ảnh và thông tin công ty theo chiều dọc */
+  }
+  
+  .company-logo {
+    height: 50px; /* Chiều cao của hình ảnh công ty */
+    margin-right: 10px; /* Khoảng cách giữa hình ảnh công ty và thông tin công ty */
+  }
+  
+  .company-name {
+    font-size: 20px; /* Cỡ chữ của tên công ty */
+    font-weight: bold; /* In đậm tên công ty */
+  }
+  
+  .company-regno {
+    font-size: 14px; /* Cỡ chữ số đăng ký */
+  }
+  
+  .contact-info {
+    font-size: 14px; /* Cỡ chữ thông tin liên hệ */
+  }
+  
+  .contact-phone {
+    margin-bottom: 5px; /* Khoảng cách giữa số điện thoại và email */
+  }
+  
+  .company-address {
+    font-size: 14px; /* Cỡ chữ địa chỉ công ty */
+  }
+  
+  
+</style>
+</html>
+{%endblock main-content %}

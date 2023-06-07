@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <!--CSS-->
+    <link href="{% static 'app/css/dathu103.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/owl.carousel.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/t.css' %}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
+    <!--Js-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.4/jquery.min.js" integrity="sha512-pumBsjNRGGqkPzKHndZMaAG+bir374sORyzM3uulLV14lN5LyykqNk8eEeUlUkB3U0M4FApyaHraT65ihJhDpQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js" integrity="sha384-oBqDVmMz9ATKxIep9tiCxS/Z9fNfEXiDAYTujMAeBAsjFuCZSmKbSSUnQlmh/jp3" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.min.js" integrity="sha384-mQ93GR66B00ZXjt0YO5KlohRA5SY2XofN4zfuZxLkoj1gXtW8ANNCe9d5Y3eG5eD" crossorigin="anonymous"></script>
+    <script src="{% static 'app/js/owl.carousel.min.js' %}" > </script>
+    <script src="{% static 'app/js/myscript.js' %}" > </script>
+    <script src="{% static 'app/js/all.min.js' %}" > </script>
+    <!--Tên web-->
+    <title>web đặt lịch khám online</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+    <header>
+  <nav>
+          <ul>
+            <li class = "logo"><a href="{% url 'patient:home' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a></li>
+            <li><a href="{% url 'patient:home' %}">Doccure</a></li>
+            <li><a href="{% url 'patient:chuyenkhoa' %}">Chuyên khoa</a></li>
+            <li><a href="{% url 'patient:datkham' %}">Đặt khám</a></li>
+            <li><a href="{% url 'patient:tintuc' %}">Tin tức</a></li>
+            <li><a href="{% url 'patient:thongbao' %}">Thông báo</a></li>
+            <li><a href="{% url 'patient:hdsd' %}">Hướng dẫn khách hàng</a></li>
+            <li><a href="{% url 'patient:lienhe' %}">Liên hệ</a></li>
+           <li><a href="{% url 'patient:user_login' %}">Đăng nhập</a></li>
+           <li><a href="{% url 'patient:register' %}">Đăng ký</a></li>
+          </ul>
+        </nav>
+      </header>
+      <style>
+     
+        
+      </style>
+      {% block main-content %} {%endblock main-content%}
+      {% block main-lienhe %} {% endblock main-lienhe %}
+      {% block main-hdsd %} {% endblock main-hdsd %}
+      {% block main-dangky %} {% endblock main-dangky%}
+      {% block main-dangnhap %}{% endblock main-dangnhap %}
+      {% block main-tintuc %} {% endblock main-tintuc %}
+      {% block main-thongbao %} {% endblock main-thongbao %}
+      {% block main-datkham %} {% endblock main-datkham %}
+      {% block main-register %} {% endblock main-register %}
+      {% block main-login %} {% endblock main-login %}
+      {% block main-change_password %} {% endblock main-change_password %}
+      {% block main-book_appointment %} {% endblock main-book_appointment %}
+      {% block main-success %} {% endblock main-success %}
+  </html>

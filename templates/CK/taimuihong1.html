@@ -1,0 +1,154 @@
+{% extends 'app/base1.html' %}
+{% load static %}
+{% block main-lienhe1 %}
+<!-- code đang sửa-->
+        <head>
+
+            <div class="baiviet-dau">
+                <div class="vung-bao">
+                  <ul class="sodo">
+                    <li><a class="nha" href="{% url 'patient:chuyenkhoa1' %}"> 
+                      <img src="{% static 'app/images/QV1.png' %}">
+                    </a></li>
+                    <li>Tai mũi họng</li>
+                  </ul>
+                </div>
+              </div>
+
+
+            <div class="khamchuyenkhoa">
+            <div id="content">
+              <h2>Tai mũi họng</h2>
+                <h2 style="text-align: justify; line-height: 1;">
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Bác sĩ Chuyên khoa Tai Mũi Họng</b>
+                 <br></h2>
+                  <p style="text-align: justify; line-height: 1.2;">
+                   <span style="font-size: 14px;">Danh sách các bác sĩ uy tín đầu ngành tại Việt Nam:</span></p>
+                   <ul>
+                    <li style="text-align: justify; line-height: 1.2;">
+                    <span style="font-size: 14px;">Các chuyên gia có quá trình đào tạo bài bản, kinh nghiệm công tác tại các bệnh viện lớn về chuyên ngành Tai Mũi Họng tại Hà Nội</span></li>
+                    <li style="text-align: justify; line-height: 1.2;"><span style="font-size: 14px;">Các giáo sư, phó giáo sư là giảng viên Đại học Y khoa Hà Nội</span></li>
+                    <li style="text-align: justify;"><span style="font-size: 14px;">Các bác sĩ đã, đang công tác tại các bệnh viện hàng đầu như Bệnh viện Bạch Mai, Bệnh Viện Tai Mũi Họng Trung ương, Bệnh viện Quân Y 108...</span></li></p>
+
+             <div class="hidden">
+                <li style="text-align: justify;"><span style="font-size: 14px;">Được nhà nước công nhận các danh hiệu Thầy thuốc Nhân dân, Thầy thuốc Ưu tú, Bác sĩ cao cấp,..</span></li>
+                <b style="color: inherit; font-family: inherit; font-size: 14px;">Các bệnh Tai Mũi Họng</b>
+        
+                <li style="text-align: justify;">Ù tai, đau tai, chảy máu tai</li>
+                <li style="text-align: justify;">Thủng màng nhĩ, điếc đột ngột</li>
+                <li style="text-align: justify;">Viêm tai giữa</li>
+                <li style="text-align: justify;">Amidan, V.A</li>
+                <li style="text-align: justify;">Viêm xoang</li>
+                <li style="text-align: justify;">Nghẹt mũi</li>
+                <li style="text-align: justify;">Hay bị chảy máu cam</li>
+                <li style="text-align: justify;">Đau cổ họng, khó nuốt<br></li>
+                <li style="text-align: justify;">Ho kéo dài<br></li>
+                <li style="text-align: justify;">Ngủ ngáy<br></li>
+                <li style="text-align: justify;">...</li>
+             </div>
+            </div>
+            <button id="read-more-btn">Đọc thêm</button>
+            <button id="hide-btn" class="hidden">Ẩn</button>
+        </div>
+          
+        
+        
+        {% for item in doc %}
+        <div class="chuyenkhoakham">
+          <div class="doctor-info">
+              <img src="{{item.avatar}}" alt="Logo">
+            <h2><a href="{% url 'patient:BsTaimuihong2' %}"></h2>
+            <p>{{item.username}}.</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: </h3>
+            <p>Địa chỉ khám: {{item.address}}</p>
+          <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{item.fee}} </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
+      {% endfor %}
+          
+            <!--js nhấn vào đọc thêm để hiện và nhấn ẩn để ẩn-->
+            <script>
+                var readMoreBtn = document.getElementById("read-more-btn");
+                var hideBtn = document.getElementById("hide-btn");
+                var hiddenContent = document.querySelector("#content .hidden");
+            
+                readMoreBtn.addEventListener("click", function() {
+                  hiddenContent.classList.remove("hidden");
+                  readMoreBtn.classList.add("hidden");
+                  hideBtn.classList.remove("hidden");
+                });
+            
+                hideBtn.addEventListener("click", function() {
+                  hiddenContent.classList.add("hidden");
+                  readMoreBtn.classList.remove("hidden");
+                  hideBtn.classList.add("hidden");
+                });
+              </script>
+            </body>
+  
+  
+          <style>
+              .hidden {
+                    display: none;
+                  }
+              #read-more-btn {
+                      color: blue;
+              }
+              #hide-btn {
+                      color: blue;
+                    }
+              .khamchuyenkhoa {
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                  border: 35px solid #ccc;
+                  border-radius: 57px;
+                  background-color: #f5f5f5;
+                }
+                
+                .khamchuyenkhoa h2 {
+                  text-align: center;
+                  font-size: 24px;
+                  margin-bottom: 5px;
+                }
+              ul {
+                  margin: 10px 0px 10px 25px;
+              }
+  
+              .chuyenkhoakham {
+                  display: flex;
+                  max-width: 1200px;
+                  margin: 0 auto;
+                  padding: 20px;
+                }
+                
+                .doctor-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                .appointment-info {
+                  flex: 1;
+                  padding: 20px;
+                  background-color: #e6e6e6;
+                }
+                
+                img {
+                  width: 50px;
+                  height: 50px;
+                }
+                
+                h2, h3 {
+                  margin-top: 0;
+                }
+                
+                p {
+                  margin: 10px 0;
+                }
+                
+          </style>
+{% endblock main-lienhe1 %}

@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+    {% load static%}
+  <head>
+    <meta charset="UTF-8">
+    <title>Trang web hỗ trợ giải quyết khiếu nại</title>
+    <div class="baiviet-dau">
+		<div class="vung-bao">
+		  <ul class="sodo">
+			<li><a class="nha" href="{% url 'patient:home1' %}"> 
+			  <img src="{% static 'app/images/nha2.jpg' %}">
+			</a></li>
+			<li>Hỗ trợ</li>
+		  </ul>
+		</div>
+	  </div>
+      <!--CSS thanh quay về trang chủ-->
+      <style>
+        .nha img{
+            height: 35px ;
+            width: 30px;
+         }
+         .baiviet-dau {
+             background: #f6f6f6;
+         }
+         .vung-bao {
+             padding-right: 15px;
+             padding-left: 15px;
+             margin-right: auto;
+             margin-left: auto;
+         }
+         ul.sodo {
+             list-style: none;
+             margin: 0;
+             padding: 15px 10px;
+             border-bottom: 1px solid #eee;
+         }
+         .sodo li {
+             display: inline-block;
+             font-size: 25px;
+         }
+         .sodo li+li:before {
+             content: " / ";
+             color: #ccc;
+             padding: 0 7px;
+         }
+        
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+        }
+      </style>
+      <!--CSS nội dung khiếu nại-->
+    <style>
+      /* CSS cho trang web */
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+      }
+      .header {
+        background-color: #f2f2f2;
+        padding: 20px;
+        text-align: center;
+      }
+      .main {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      h1 {
+        font-size: 28px;
+        font-weight: bold;
+        margin-top: 0;
+      }
+      h2 {
+        font-size: 24px;
+        font-weight: bold;
+        margin-top: 20px;
+      }
+      p {
+        font-size: 16px;
+        line-height: 1.5;
+        margin-top: 0;
+      }
+      ul {
+        margin-top: 0;
+        margin-left: 20px;
+      }
+      li {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header class="header">
+      <h1>Hỗ trợ giải quyết khiếu nại</h1>
+    </header>
+    <div class="main">
+      <h2>Giới thiệu</h2>
+      <p>Trang web này được thiết kế để hỗ trợ người dùng giải quyết các khiếu nại về sản phẩm hoặc dịch vụ. Chúng tôi luôn cố gắng cung cấp thông tin chính xác và hữu ích để giúp các bạn giải quyết các vấn đề đang gặp phải.</p>
+      <p>Bookingcare.vn và Phòng khám/ Bác sĩ có trách nhiệm tiếp nhận khiếu nại và hỗ trợ khách hàng liên quan đến giao dịch tại Website Bookingcare.vn.</p>
+      <p>Khi phát sinh tranh chấp, Công ty đề cao giải pháp thương lượng, hòa giải giữa các bên nhằm duy trì sự tin cậy của thành viên vào chất lượng dịch vụ của Doccure.vn và thực hiện theo các bước sau:</p>
+      <ul>
+        <li>Bước 1:Thành viên khách hàng khiếu nại về dịch vụ của phòng khám/ bệnh viện qua email: support@Doccure.vn</li>
+        <li>Bước 2: Bộ phận Chăm sóc Khách hàng của Doccure.vn sẽ tiếp nhận các khiếu nại của thành viên khách hàng, tùy theo tính chất và mức độ của khiếu nại thì bên Doccure.vn sẽ có những biện pháp cụ thể hỗ trợ khách hàng để giải quyết tranh chấp đó.</li>
+        <li>Bước 3: Trong trường hợp nằm ngoài khả năng và thẩm quyền của Doccure.vn thì ban quản trị sẽ yêu cầu khách hàng đưa vụ việc này ra cơ quan nhà nước có thẩm quyền giải quyết theo pháp luật.</li>
+      </ul>
+      <h2>Khách hàng gửi khiếu nại tại địa chỉ : </h2>
+      <ul>
+        <li>Khách hàng gửi khiếu nại tại địa chỉ : </li>
+        <li>Địa chỉ: 97 Man Thiện, Hiệp Phú, TP Thủ Đức</li>
+        <li>ĐT: 0123456789-Email: support@doccure.vn</li>
+      </ul>
+      <p>Khách hàng có thể gửi thông tin khiếu nại trực tiếp theo thông tin tại mục “Liên hệ”. Thông tin của khách hàng sẽ được gửi đến ban quản trị  Doccure.vn. Trong thời gian sớm nhất có thể ban quản trị Doccure.vn sẽ có email phải hồi lại ý kiến phản ánh của khách hàng. </p>
+      <p>Doccure.vn tôn trọng và nghiêm túc thực hiện các quy định của pháp luật về bảo vệ quyền lợi của khách hàng (người tiêu dùng). Vì vậy, đề nghị các thành viên đăng tin dịch vụ trên sàn cung cấp đầy đủ, chính xác, trung thực và chi tiết các thông tin liên quan đến dịch vụ. Mọi hành vi lừa đảo, gian lận trong kinh doanh đều bị lên án và phải chịu hoàn toàn trách nhiệm trước pháp luật.</p>
+      <p>Các bên bao gồm Phòng khám, khách hàng sẽ phải có vai trò trách nhiệm trong việc tích cực giải quyết vấn đề. Đối với Phòng khám cần có trách nhiệm cung cấp văn bản giấy tờ chứng thực thông tin liên quan đến sự việc đang gây mâu thuẫn cho khách hàng. Đối với Doccure.vn sẽ có trách cung cấp những thông tin liên quan đến khách hàng và Phòng khám nếu được khách hàng hoặc Phòng khám (liên quan đến tranh chấp đó) yêu cầu.</p>
+      <p>Tùy theo mức độ vi phạm của Phòng khám, Ban quản trị sẽ quyết định gõ bỏ toàn bộ thông tin của Phòng khám đó, đồng thời sẽ chấm dứt quyền thành viên.</p>
+      <p>Nếu thông qua hình thức thỏa thuận mà vẫn không thể giải quyết được mâu thuẫn phát sinh từ giao dịch giữa 2 bên khách hàng, Phòng khám, thì một trong 2 bên khách hàng và Phòng khám sẽ có quyền nhờ đến cơ quan pháp luật có thẩm quyền can thiệp nhằm đảm bảo lợi ích hợp pháp của các bên nhất là cho khách hàng.</p>
+      <ul>
