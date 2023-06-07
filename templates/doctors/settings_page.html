@@ -1,0 +1,46 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <h3>Cài đặt</h3>
+    <div class="d-col-flex wrapper">
+        <div class="avatar d-col-flex doctor-info-field">
+            <img src="" alt="" class = "doctor-avatar" id = "avatar">
+            <input type="file" accept="image/*" id = "avatar-chose" style="display: none;">
+            <span>Nhấn vào ảnh để sửa hình</span>
+            <span>Ảnh không nặng quá 1MB</span>
+        </div>
+        <script>
+            $(document).on('click', '.doctor-avatar', function(){
+                $('#avatar-chose').trigger('click');
+                console.log("click");
+            })
+        </script>
+        <div class = "doctor-info-field d-col-flex">
+            <span>Tên hiển thị</span>
+            <input type="text" name="name" id="username" class = "doctor-name">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+            <span>Tên</span>
+            <input type="text" name="" id="real_name" class = "doctor-real-name">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+            <span>Ngày sinh</span>
+            <input type="date" name="" id="date_of_birth" class = "doctor-birthday">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+            <span>Số điện thoại</span>
+            <input type="text" name="" id="phone" class = "doctor-phone">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+            <span>Email</span>
+            <input type="text" name="" id="email" class = "doctor-email">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+        </div>
+        <div class = "doctor-info-field d-col-flex">
+        </div>
+        <button id = "save-change" class = "btn save-btn">Lưu thay đổi</button>
+    </div>
+    <script src = "{% static 'doctor/doctor_settings.js' %}"></script>
+    <script src = "{% static 'doctor.js' %}"></script>
+{% endblock %}
