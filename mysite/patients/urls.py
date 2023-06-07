@@ -14,6 +14,7 @@ urlpatterns = [
     path('tintuc', views.tintuc, name="tintuc"),
     path('tintuc1', views.tintuc1, name="tintuc1"),
     path('thongbao', views.thongbao, name="thongbao"),
+    path('thongbao1', views.thongbao1, name="thongbao1"),
     path('chuyenkhoa', views.chuyenkhoa, name="chuyenkhoa"),
     path('chuyenkhoa1', views.chuyenkhoa1, name="chuyenkhoa1"),
     path('home1', views.home1, name="home1"),
@@ -23,6 +24,7 @@ urlpatterns = [
     path('user_login', views.user_login, name="user_login"),
     path('thongtin', views.thongtin, name="thongtin"),
     path('change_password', views.change_password, name="change_password"),
+    path('chaomung', views.chaomung, name="chaomung"),
     #chuyên khoa
     path('xuongkhop', views.xuongkhop, name="xuongkhop"),
     path('xuongkhop1', views.xuongkhop1, name="xuongkhop1"),
@@ -69,5 +71,7 @@ urlpatterns = [
     path('book_appointment', views.book_appointment, name="book_appointment"),
     path('book_appointment1', views.book_appointment1, name="book_appointment1"),
     path('success', views.success, name="success"),
+    #code tìm kiếm bác sĩ
+    path('test-info/<int:id>', views.thongtinBS, name="thongtinBS")
     ]
 

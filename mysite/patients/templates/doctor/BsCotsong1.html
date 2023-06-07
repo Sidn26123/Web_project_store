@@ -14,15 +14,18 @@
 
 
 <div class="chuyenkhoakham">
-    <div class="doctor-info">
-      <h2>Lịch khám</h2>
-    </div>
-    <div class="appointment-info">
-      <p>Địa chỉ khám: {{user.address}}</p>
-     <p><a href="{% url 'patient:home' %}">Giá khám: </a></p>
-      <p>Loại bảo hiểm áp dụng: </p>
-    </div>
-  </div>
+          <div class="doctor-info">
+              <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
+            <h2><a href="{% url 'patient:BsCotsong1' %}">Bác sĩ ABC</h2>
+            <p>Thông tin bác sĩ...</p>
+          </div>
+          <div class="appointment-info">
+            <h3>Lịch khám: {{ user.address }}</h3>
+            <p>Địa chỉ khám: </p>
+           <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
+            <p>Loại bảo hiểm áp dụng: </p>
+          </div>
+        </div>
 
   <div class="khamchuyenkhoa">
     <b style="color: inherit; font-family: inherit; font-size: 16px;">Khám và điều trị </b>

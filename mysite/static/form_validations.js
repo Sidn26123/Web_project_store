@@ -145,4 +145,19 @@ $(document).ready(function() {
             error.insertAfter(element);
         }
     });
+
+    $('.register-form').validate({
+        rules: {
+            "real_name":{
+                required: true,
+                minlength: 3,
+                maxlength: 40,
+            },
+        },
+        messages: {
+                required: "Vui lòng nhập họ tên",
+                minlength: "Họ tên phải có ít nhất 3 ký tự",
+                maxlength: "Họ tên không được vượt quá 40 ký tự",
+            }
+    });
 });

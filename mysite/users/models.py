@@ -87,7 +87,7 @@ class User(AbstractUser):
     real_name = models.CharField(max_length=255, verbose_name="Tên", null = True)
     gender = models.CharField(max_length = 20, choices = GENDER_CHOICES, default = THEM)
     phone = models.CharField(max_length = 15, default = None, null = True, blank = True, unique= True)
-    citizen_identification = models.CharField(max_length = 20, null = True)
+    citizen_identification = models.CharField(max_length = 20, null = True, unique=True)
     date_of_birth = models.DateField(auto_now=False, auto_now_add=False, null =True)
     avatar = models.FileField(upload_to = os.path.join(settings.MEDIA_ROOT, 'images'),default = os.path.join(settings.MEDIA_URL,"images/default.jpeg"), max_length=255)
     is_admin = models.BooleanField(default = False)
@@ -97,6 +97,7 @@ class User(AbstractUser):
     account_left = models.FloatField(default = 0)
     credit_score = models.IntegerField(default = 100)
     time_join = models.DateTimeField(auto_now = True)
+    email = models.EmailField(null = True, blank = True, unique = True)
 @receiver(pre_save, sender = User)
 def calculate_age(sender, instance, **kwargs):
     today = date.today()

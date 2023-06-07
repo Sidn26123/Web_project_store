@@ -210,23 +210,40 @@ function get_appoint_detail(appoint_id){
 }
 
 
-$('#close-add-form').on('click', function(event){
-    console.log("A")
-    $('.add-form').hide();
-})
+// $('').on('click', function(event){
+//     $('.add-form').hide();
+
+// })
 
 $(document).ready(function(){
     get_period_available();
     $(document).on('click', '.edit-btn', function(event){
-        $('.add-form').show();
+        var date = new Date();
+        var hour_1 = date.getHours();
+        var hour_2 = hour_1;
+        if (hour_1 === 23){
+            hour_2 = 0;
+        }
+        else{
+            hour_2 = hour_1 + 1;
+        }
+        var minute = date.getMinutes();
+        var time = hour_1 + ":" + minute;
+        $('#start-time').val(time);
+        time = hour_2 + ":" + minute;
+        $('#end-time').val(time);
+        $('.add-form').addClass('show');
     });
+    $(document).on('click', '.close-btn-form', function(event){
+        $('.add-form').toggleClass('show');
+    })
+    
     // $(document).on('click', function(event){
     //     if (event.target !== $('.add-form')){
     //         $('.add-form').hide();
     //     }
     // })
 });
-
 
 function get_period_available(){
     var doctor_id = $('.get-id').data('id');
@@ -251,3 +268,56 @@ function get_period_available(){
     })
 }
 
+$(document).on('click', '.delete-time-frame',function(){
+    var chose_day = $('span.chose-day').attr('value');
+    var chose_time = $(this).parent().find('span').text();
+    var time_arr = chose_time.split('-');
+    delete_time_frame(chose_day, time_arr[0], time_arr[1]);
+    $(this).parent().remove();
+})
+
+$(document).on('click', '.add-time-frame', function(){
+    var chose_day = $('span.chose-day').attr('value');
+    var time_start = $('#start-time').val();
+    var time_end = $('#end-time').val();
+    if (time_start > time_end){
+        var temp = time_start;
+        time_start = time_end;
+        time_end = temp;
+        $('#start-time').val(time_start);
+        $('#end-time').val(time_end);
+    }
+    add_time_frame(chose_day, time_start, time_end);
+})
+function delete_time_frame(day, time_start, time_end){
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/delete-time-frame/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+            'day': day,
+            'time_start': time_start,
+            'time_end': time_end,
+        },
+        success: function(data){
+            console.log(data);
+        }
+    })
+}
+
+function add_time_frame(day, time_start, time_end){
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/add-period-available/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+            'day': day,
+            'time_start': time_start,
+            'time_end': time_end,
+        },
+        success: function(data){
+        }
+    });
+}

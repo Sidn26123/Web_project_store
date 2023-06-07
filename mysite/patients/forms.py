@@ -1,7 +1,8 @@
 # ràng buộc số điện thoại
 from django import forms
 from django.core.validators import RegexValidator
-
+from site_admins.models import Transaction
+from django.core.validators import validate_email
 phone_regex = RegexValidator(
     regex=r'^\+?1?\d{10,11}$',
     message="Số điện thoại phải ở định dạng: '+123456789'. Số điện thoại tối thiểu 10 chữ số và tối đa 11 chữ số."
@@ -12,7 +13,7 @@ phone_regex = RegexValidator(
 
 #CODE ĐĂNG KÝ
 from django import forms
-from .models import User
+from .models import Patient
 class RegistrationForm(forms.ModelForm):
     username = forms.CharField(
         max_length=50,
@@ -31,34 +32,46 @@ class RegistrationForm(forms.ModelForm):
     confirm_password = forms.CharField(
         max_length=50,
         widget=forms.PasswordInput(attrs={'class': 'form-control', 'placeholder': 'Xác nhận mật khẩu'}))
-    full_name = forms.CharField(
-        max_length=50,
+    real_name = forms.CharField(
+        max_length=255,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Họ và tên'})
     )
-    phone_number = forms.CharField(
+    citizen_identification = forms.CharField(
+        max_length=15,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Căn cước công dân'})
+    )
+    phone = forms.CharField(
         validators=[phone_regex],
         max_length=15,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Số điện thoại'})
     )
-    country = forms.CharField(
-        max_length=50,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Quốc gia'})
-    )
-    city = forms.CharField(
-        max_length=50,
-        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tỉnh/Thành phố'})
-    )
+    # province = forms.CharField(
+    #     max_length=50,
+    #     widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Tỉnh/Thành phố'})
+    # )
+    #CHOICES = (
+    #    ('1',1),
+    #    ('2',2),
+    #)
+    #province = forms.ChoiceField(
+    #                            choices = CHOICES,
+    #                            widget = forms.Select(attrs={'class': 'form-control', 'placeholder': 'Tỉnh/Thành phố'})
+    #                            )
     district = forms.CharField(
         max_length=50,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Huyện'})
+    )
+    XA = forms.CharField(
+        max_length=50,
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'XA'})
     )
     address = forms.CharField(
         max_length=50,
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Địa chỉ cụ thể'})
     )
     class Meta:
-        model = User
-        fields = ('username', 'email', 'password','confirm_password', 'full_name', 'date_of_birth', 'gender', 'phone_number', 'country', 'city', 'district', 'address')
+        model = Patient
+        fields = ('username', 'email', 'password','confirm_password', 'real_name','phone','citizen_identification','date_of_birth', 'gender', 'province', 'district', 'XA','address')
         widgets = {'date_of_birth': forms.DateInput(attrs={'type': 'date'})}
     def clean(self):
         cleaned_data = super().clean()
@@ -70,8 +83,15 @@ class RegistrationForm(forms.ModelForm):
   # Ràng buộc email
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if not email.endswith('@gmail.com'):  # Ràng buộc email phải kết thúc bằng @example.com
-            raise forms.ValidationError("Email phải kết thúc bằng @gmail.com")
+        # if not email.endswith('@gmail.com'):  # Ràng buộc email phải kết thúc bằng @example.com
+        #     raise forms.ValidationError("Email phải kết thúc bằng @gmail.com")
+        # return email
+        try:
+            validate_email(email)
+        except:
+            raise forms.ValidationError("Email không hợp lệ")
+        if len(email) > 120:
+            raise forms.ValidationError("Email không hợp lệ")
         return email
 #code đăng nhập
 from django import forms
@@ -132,5 +152,9 @@ class PatientForm(forms.ModelForm):
         model = Patient
         fields = ('name','date_of_birth', 'gender', 'phone_number', 'country', 'city', 'district', 'address')
         widgets = {'date_of_birth': forms.DateInput(attrs={'type': 'date'})}
+#code tìm kiếm bác sĩ
+from django import forms
 
+class DoctorSearchForm(forms.Form):
+    search_keyword = forms.CharField(label='', max_length=100)
 

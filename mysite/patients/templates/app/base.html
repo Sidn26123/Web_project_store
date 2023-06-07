@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--CSS-->
-    <link href="{% static 'app/css/dathu170.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/dathu103.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/owl.carousel.min.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/t.css' %}" rel="stylesheet" />
@@ -24,31 +24,25 @@
     <link rel="stylesheet" href="">
 </head>
     <header>
-        <div class="logo">
-          <a href="{% url 'patient:home' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a>
-        </div>
-        <nav>
+  <nav>
           <ul>
+            <li class = "logo"><a href="{% url 'patient:home' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a></li>
             <li><a href="{% url 'patient:home' %}">Doccure</a></li>
             <li><a href="{% url 'patient:chuyenkhoa' %}">Chuyên khoa</a></li>
             <li><a href="{% url 'patient:datkham' %}">Đặt khám</a></li>
             <li><a href="{% url 'patient:tintuc' %}">Tin tức</a></li>
+            <li><a href="{% url 'patient:thongbao' %}">Thông báo</a></li>
+            <li><a href="{% url 'patient:hdsd' %}">Hướng dẫn khách hàng</a></li>
+            <li><a href="{% url 'patient:lienhe' %}">Liên hệ</a></li>
+           <li><a href="{% url 'patient:user_login' %}">Đăng nhập</a></li>
+           <li><a href="{% url 'patient:register' %}">Đăng ký</a></li>
           </ul>
         </nav>
-        <div class="search-boxss">
-          <form>
-            <input type="text" placeholder="Tìm kiếm...">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
-        </div>
-        <div class="user-toolsss">
-          <a href="{% url 'patient:thongbao' %}">Thông báo</a>
-          <a href="{% url 'patient:hdsd' %}">Hướng dẫn khách hàng</a>
-          <a href="{% url 'patient:lienhe' %}">Liên hệ</a>
-          <a href="{% url 'patient:user_login' %}">Đăng nhập</a>
-          <a href="{% url 'patient:register' %}">Đăng ký</a>
-        </div>
       </header>
+      <style>
+     
+        
+      </style>
       {% block main-content %} {%endblock main-content%}
       {% block main-lienhe %} {% endblock main-lienhe %}
       {% block main-hdsd %} {% endblock main-hdsd %}

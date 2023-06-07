@@ -34,6 +34,8 @@ from .dashboard import (
     get_next_appoint_id,
     check_upcoming_appoint,
     get_period_available,
+    delete_time_frame,
+    add_period_available,
 )
 
 from .my_patient import (
@@ -93,4 +95,6 @@ urlpatterns = [
     path('get-doctor-info/', get_doctor_info),
     path('save-change/', save_change),
     path('get-period-available/', get_period_available),
+    path('delete-time-frame/', delete_time_frame),
+    path('add-period-available/', add_period_available),
 ]

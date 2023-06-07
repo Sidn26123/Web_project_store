@@ -48,6 +48,9 @@ def tintuc1(request):
 def thongbao(request):
     context= {}
     return render(request, 'app/thongbao.html',context)
+def thongbao1(request):
+    context= {}
+    return render(request, 'app/thongbao1.html',context)
 def chuyenkhoa(request):
     context= {}
     return render(request, 'app/chuyenkhoa.html',context)
@@ -66,14 +69,26 @@ def khieunai1(request):
 def thongtin(request):
     context= {}
     return render(request, 'app/thongtin.html',context)
-
+def chaomung(request):
+    context= {}
+    return render(request, 'app/chaomung.html',context)
 
 #chuyên khoa
 def xuongkhop(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/xuongkhop.html',context)
 def xuongkhop1(request):
-    context= {}
+    print("a")
+    doctor = Doctor.objects.filter(specialty = "xuong_khop")
+    print(doctor)
+    context= {
+        'doc': doctor,
+    }
     return render(request, 'CK/xuongkhop1.html',context)
 def thankinh(request):
     context= {}
@@ -180,6 +195,12 @@ def BsNhakhoa2(request):
     context= {}
     return render(request, 'doctor/BsNhakhoa2.html',context)
 
+#code xuất thông tin bác sĩ
+def thongtinBS(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
+    return render(request, 'patients/thongtinBS.html',context)
 #đăng nhập để đặt khám
 def logindedatkham(request):
     context= {}
@@ -293,3 +314,43 @@ def book_appointment1(request):
     else:
         form = PatientForm()
     return render(request, 'patients/book_appointment1.html', {'form': form})
+
+
+#code tìm kiếm bác sĩ
+from django.shortcuts import render
+from .forms import DoctorSearchForm
+from doctors.models import Doctor
+
+def home(request):
+    form = DoctorSearchForm(request.GET or None)
+    results = []
+
+    if request.method == 'GET' and form.is_valid():
+        keyword = form.cleaned_data['search_keyword']
+        results = Doctor.objects.filter(real_name__icontains=keyword)
+
+    context = {
+        'form': form,
+        'results': results,
+    }
+    return render(request, 'app/home.html', context)
+#code tìm kiếm bác sĩ home1
+from django.shortcuts import render
+from .forms import DoctorSearchForm
+from doctors.models import Doctor
+
+def home1(request):
+    form = DoctorSearchForm(request.GET or None)
+    results = []
+
+    if request.method == 'GET' and form.is_valid():
+        keyword = form.cleaned_data['search_keyword']
+        results = Doctor.objects.filter(real_name__icontains=keyword)
+
+    context = {
+        'form': form,
+        'results': results,
+    }
+    return render(request, 'app/home1.html', context)
+
+

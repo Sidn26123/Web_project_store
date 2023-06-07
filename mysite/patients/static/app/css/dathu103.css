@@ -1,39 +1,44 @@
 /* thanh công cu*/
-header {
- 
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 20px;
+
+header nav {
+  background-color: #f5f5f5;
+  padding: 10px;
+}
+
+header nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
   display: flex;
+  align-items: center;
+  justify-content: space-between;
   flex-wrap: wrap;
 }
 
-.logo img {
-  width:100px;
-  height:50px;
+header nav ul li {
+  margin-right: 10px;
 }
 
-nav ul {
-  list-style: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-}
-
-nav li {
-  margin-right: 30px;
-}
-
-nav li:last-child {
-  margin-right: 0;
-}
-
-nav a {
-  color: #333333;
+header nav ul li a {
+  display: block;
+  padding: 10px 15px;
   text-decoration: none;
+  color: #000;
   font-size: 18px;
 }
+
+header nav ul li.logo {
+  display: inline;
+}
+
+header nav ul li.logo a img {
+  height: 40px;
+  width: 130px;
+}
+
+
+
+
 
 .search-boxss {
   position: relative;

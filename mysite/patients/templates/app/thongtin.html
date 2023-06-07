@@ -67,7 +67,7 @@
     <h2>Thông tin người dùng</h2>
         <table>
             <tr>
-                <th>Username:</th>
+                <th>Tên đăng nhập:</th>
           
                 <td>{{ user.username }}</td>
             </tr>
@@ -76,35 +76,31 @@
             </tr>
          
             <tr>
-              <th>Full_name:</th> <td>{{ user.full_name }}</td>
+              <th>Họ và tên:</th> <td>{{ user.real_name }}</td>
             </tr>
             <tr>
-                <th>gender:</th>
+                <th>Ngày sinh:</th>
                 <td>{{ user.gender }}</td>
             </tr>
             <tr>
-                <th>Phone number:</th>
-                <td>{{ user.phone_number }}</td>
+                <th>Số điện thoại:</th>
+                <td>{{ user.phone }}</td>
             </tr>
             <tr>
-                <th>birth_date:</th>
-                <td>{{ user.birth_date }}</td>
+                <th>Ngày sinh:</th>
+                <td>{{ user.date_of_birth }}</td>
             </tr>
             <tr>
-                <th>Country:</th>
-                <td>{{ user.country }}</td>
+                <th>Tỉnh/Thành phố:</th>
+                <td>{{ user.province }}</td>
             </tr>
             <tr>
-                <th>City:</th>
-                <td>{{ user.city }}</td>
-            </tr>
-            <tr>
-                <th>District:</th>
+                <th>Quận/Huyện:</th>
            
                 <td>{{ user.district }}</td>
             </tr>
             <tr>
-                <th>address:</th>
+                <th>địa chỉ:</th>
                 <td>{{ user.address }}</td>
             </tr>
         </table>

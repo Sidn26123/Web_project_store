@@ -49,7 +49,7 @@ class Transaction(models.Model):
     ]
 
     doctor = models.ForeignKey(Doctor, on_delete = models.CASCADE)
-    patient = models.ForeignKey(Patient, on_delete=models.CASCADE)
+    patient = models.ForeignKey(Patient, on_delete=models.CASCADE, null = True)
     transaction_time = models.DateTimeField(auto_now_add=True)
     amount_transact = models.IntegerField()
     note = models.TextField(null= True, blank = True)

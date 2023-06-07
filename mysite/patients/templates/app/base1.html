@@ -5,7 +5,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <!--CSS-->
-    <link href="{% static 'app/css/dathu170.css' %}" rel="stylesheet" />
+    <link href="{% static 'app/css/dathu103.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/owl.carousel.min.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/all.min.css' %}" rel="stylesheet" />
     <link href="{% static 'app/css/t.css' %}" rel="stylesheet" />
@@ -23,98 +23,86 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="">
 </head>
-    <header>
-        <div class="logo">
-          <a href="{% url 'patient:home1' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a>
-        </div>
-        <nav>
+<header>
+  <nav>
           <ul>
+            <li class = "logo"><a href="{% url 'patient:home1' %}"><img src="{% static 'app/images/logo.png'%}" alt="Logo"></a></li>
             <li><a href="{% url 'patient:home1' %}">Doccure</a></li>
             <li><a href="{% url 'patient:chuyenkhoa1' %}">Chuyên khoa</a></li>
-            <li><a href="{% url 'patient:datkham1'%}">Đặt khám</a></li>
+            <li><a href="{% url 'patient:datkham1' %}">Đặt khám</a></li>
             <li><a href="{% url 'patient:tintuc1' %}">Tin tức</a></li>
-          </ul>
-        </nav>
-        <div class="search-boxss">
-          <form>
-            <input type="text" placeholder="Tìm kiếm...">
-            <button type="submit"><i class="fa fa-search"></i></button>
-          </form>
-        </div>
-        <div class="user-toolsss">
-          <a href="{% url 'patient:thongbao' %}">Thông báo</a>
-          <a href="{% url 'patient:hdsd1' %}">Hướng dẫn khách hàng</a>
-          <a href="{% url 'patient:lienhe1' %}">Liên hệ</a>
-          <a> <div class="avatar-container"> 
-            <img class="avatar" src="{% static 'app/images/CK4.jpg'%}" alt="User Avatar">
-            <div class="avatar-menu">
-              <ul>
-                <li><a href="{% url 'patient:thongtin' %}">Thông tin</a></li>
-                <li><a href="{% url 'patient:change_password' %}">Thay đổi mật khẩu</a></li>
-                <li><a href="#">Xem lịch hẹn sắp tới</a></li>
-                <li><a href="#">Ngôn ngữ</a></li>
-                <li><a href="{%url 'patient:home'%}">Đăng xuất</a></li>
-              </ul>
+            <li><a href="{% url 'patient:thongbao1' %}">Thông báo</a></li>
+            <li><a href="{% url 'patient:hdsd1' %}">Hướng dẫn khách hàng</a></li>
+            <li><a href="{% url 'patient:lienhe1' %}">Liên hệ</a></li>
+             <div class="avatar-container"> 
+              <img class="avatar" src="{% static 'app/images/CK4.jpg'%}" alt="User Avatar">
+              <div class="avatar-menu">
+                
+                  <li><a href="{% url 'patient:thongtin' %}">Thông tin</a></li>
+                  <li><a href="{% url 'patient:change_password' %}">Thay đổi mật khẩu</a></li>
+                  <li><a href="#">Xem lịch hẹn sắp tới</a></li>
+                  <li><a href="#">Ngôn ngữ</a></li>
+                  <li><a href="{%url 'patient:home'%}">Đăng xuất</a></li>
+                
+              </div>
             </div>
-          </div>
-        </a>
+        
+     
+          
+      </nav>
       
         <!--css ảnh tròn người dùng-->
         <style>
           .avatar-container {
             position: relative;
+            display: inline-block;
           }
           
           .avatar {
-            border-radius: 100%;
-            width: 30px;
+            border-radius: 50%;
+            width: 30px; /* Điều chỉnh kích thước của avatar tại đây */
             height: 30px;
-            cursor: pointer;
           }
           
           .avatar-menu {
             position: absolute;
-            top: 50px;
-            right: 0;
-            width: 200px;
-            background-color: white;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-            z-index: 1;
-            display: none;
+            top: 100%; /* Hiển thị menu bên dưới avatar */
+            
+            right:-10px;
+            width: 171px; /* Điều chỉnh kích thước của menu tại đây */
+            background-color: #f1f1f1;
+          
+            display: none; /* Ẩn menu ban đầu */
+          }
+          
+          .avatar-container:hover .avatar-menu {
+            display: block; /* Hiển thị menu khi di chuột vào avatar */
+            text-align: center; 
           }
           
           .avatar-menu ul {
-            list-style: none;
+            list-style-type: none;
             padding: 0;
             margin: 0;
           }
           
           .avatar-menu li {
-            border-bottom: 1px solid #ccc;
-          }
-          
-          .avatar-menu li:last-child {
-            border-bottom: none;
-          }
-          
-          .avatar-menu a {
-            display: block;
+            margin-bottom: 10px;
             padding: 0px;
-            color: #333;
+          }
+          
+          .avatar-menu li a {
             text-decoration: none;
+            color: #333;
+            font-size:14px;
           }
           
-          .avatar-menu a:hover {
-            background-color: #f2f2f2;
+          .avatar-menu li a:hover {
+            color: #000;
           }
           
-          .avatar-container:hover .avatar-menu {
-            display: block;
-          }
-
-        </style>
+          </style>
+        
     </header>
       {% block main-content1 %} {%endblock main-content1%}
       {% block main-lienhe1 %} {% endblock main-lienhe1 %}

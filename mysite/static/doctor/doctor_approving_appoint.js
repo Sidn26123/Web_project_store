@@ -76,6 +76,7 @@ $(document).on('click',function(event){
     var appoint_id = $(event.target).parent().parent().parent().find('.transaction-id').data('id');
 
     if ($(event.target).attr('class') == 'accept-appointment'){
+        window.url = '/doctor/update-appointment-status/';
         $('.accept-confirm').toggle();
         $('.deny-confirm').hide();
     }

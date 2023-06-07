@@ -235,5 +235,76 @@ def get_period_available(request):
     }
     return JsonResponse(data)
 
-def update_period_available(request):
-    pass
+def delete_time_frame(request):
+    doctor_id = request.GET.get('id')
+    time_start = request.GET.get('time_start')
+    time_end = request.GET.get('time_end')
+    day = request.GET.get('day')
+    doctor = Doctor.objects.get(id = doctor_id)
+    available_time = doctor.available_time
+    available_time = json.loads(available_time)
+    for a in available_time:
+        if a['day'] == day:
+            time = a['time']
+            print(time)
+            for t in time:
+                if t['time-start'] == time_start and t['time-end'] == time_end:
+                    time.remove(t)
+                    doctor.available_time = json.dumps(available_time)
+                    doctor.save()
+                    return JsonResponse({'status': 'deleted'})
+    return JsonResponse({'status': 'fail'})
+def add_period_available(request):
+    doctor_id = request.GET.get('id')
+    time_start = request.GET.get('time_start')
+    time_end = request.GET.get('time_end')
+    day = request.GET.get('day')
+    doctor = Doctor.objects.get(id = doctor_id)
+    available_time = doctor.available_time
+    available_times = json.loads(available_time)
+    print(available_times)
+    for time_list in available_times:
+        if time_list['day'] == int(day):
+            time = time_list['time']
+            check_time_frame_available(doctor_id, day, time_start, time_end)
+            if check_time_frame_available(doctor_id, day, time_start, time_end) == False:
+                return JsonResponse({'status': 'fail'})
+            temp = {}
+            temp['time-start'] = time_start
+            temp['time-end'] = time_end
+            temp['count'] = 0
+            time.append(temp)
+            time = sort_time(time)
+            doctor.available_time = json.dumps(available_times)
+            doctor.save()
+            return JsonResponse({'status': 'added'})
+    return JsonResponse({'status': 'fail'})
+        
+
+def sort_time(time_list):
+    time_start_list = []
+    for time in time_list:
+        time_start_list.append(datetime.strptime(time['time-start'], "%H:%M"))
+    time_min = time_start_list[0]
+    for i in range(0, len(time_start_list)):
+        for j in range(i, len(time_start_list)):
+            if time_start_list[i] > time_start_list[j]:
+                time_list[i], time_list[j] = time_list[j], time_list[i]
+    return time_list
+def check_time_frame_available(doctor_id, day, time_start, time_end):
+    doctor = Doctor.objects.get(id = doctor_id)
+    available_time = doctor.available_time
+    available_time = json.loads(available_time)
+    for a in available_time:
+        if a['day'] == int(day):
+            time = a['time']
+            for t in time:
+                time_start_datetime = datetime.strptime(time_start, "%H:%M")
+                time_end_datetime = datetime.strptime(time_end, "%H:%M")
+                start_in_list_datetime = datetime.strptime(t['time-start'], "%H:%M")
+                end_in_list_datetime = datetime.strptime(t['time-end'], "%H:%M")
+                print(time_start_datetime, start_in_list_datetime)
+                if (time_start_datetime >= start_in_list_datetime and time_end_datetime <= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= start_in_list_datetime) or (time_start_datetime <= end_in_list_datetime and time_end_datetime >= end_in_list_datetime):
+                    return False
+            return True
+    return False

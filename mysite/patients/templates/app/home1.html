@@ -2,48 +2,111 @@
 {% load static %}
 {% block main-content1 %}
        <!--css ảnh nền-->
-      <style>
-        .background-image {
-          background-image: url("{% static 'app/images/anhnen.jpg' %}");
-          background-repeat: no-repeat;
-          background-size: cover;
-          width:100% ;
-          height: 650px;
+       <style>
+        /* styles.css */
+      form {
+      margin-bottom: 10px;
+      }
       
-        }
-        
-        .container {
-          text-align: center;
-          margin: auto;
-          max-width: 1000px;
-          padding: 96px;
-        }
-        
-        h1 {
-            color: #fff;
-            font-size: 30px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 1px #333;
-        }
-        h2 {
-         
-            color: #fff;
-            font-size: 40px;
-            margin-bottom: -10px;
-            text-transform: uppercase;
-            text-shadow: 1px 1px 1px #333;
-        }
-      </style>
+      input[type="text"] {
      
+      padding: 10px;
+      border-radius: 5px;
+      width: 400px;
+      background-color: #b2b2b2;
+      }
+      
+      button[type="submit"] {
+    
+
+        right: 0;
+        height: 100%;
+        background-color: #333333;
+        border: none;
+        color: #ffffff;
+        padding: 10px;
+        border-radius: 0 5px 5px 0;
+        cursor: pointer;
+      }
+      
+      h2 {
+      margin-top: 20px;
+      }
+      
+      ul {
+      list-style: none;
+      padding: 0;
+      }
+      
+      li {
+      margin-bottom: 5px;
+      }
+      
+      </style>
+  <body>
+    <div class="background-image">
+      <div class="container">
+        <form method="GET" action="{% url 'patient:home1' %}"class="search-bar">
+          {% csrf_token %}
+          {{ form }}
+          <button type="submit">Tìm kiếm</button>
+        </form>
+      
+        {% if results %}
+        <div class="search-results">
+          <h1>Kết quả tìm kiếm:</h1>
+          <ul>
+            {% for doctor in results %}
+            <a href = "/patient/test-info/{{doctor.id}}">  <li>{{ doctor.real_name }} </li></a>  
+            {% endfor %}
+          </ul>
+        </div>
+      {% elif form.is_bound %}
+        <p>Không có kết quả tìm kiếm.</p>
+      {% endif %}
+      </form>
+        <h2>NỀN TẢNG Y TẾ</h2>
+        <h1>Chăm Sóc Sức Khỏe Toàn Diện</h1>
+      </div>
+    </div>
+</body>
+<!--css ảnh nền-->
+<style>
+.background-image {
+  background-image: url("{% static 'app/images/anhnen.jpg' %}");
+  background-repeat: no-repeat;
+  background-size: cover;
+  width:100% ;
+  height: 566px;
+
+}
+
+.container {
+  text-align: center;
+  margin: auto;
+  max-width: 1000px;
+  padding: 26px;
+}
+
+h1 {
+    color: #fff;
+    font-size: 30px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px #333;
+}
+h2 {
+ 
+    color: #fff;
+    font-size: 40px;
+    margin-bottom: -10px;
+    text-transform: uppercase;
+    text-shadow: 1px 1px 1px #333;
+}
+</style>
 
   
       </header>
-      <div class="background-image">
-        <div class="container">
-          <h2>NỀN TẢNG Y TẾ</h2>
-          <h1>Chăm Sóc Sức Khỏe Toàn Diện</h1>
-        </div>
-      </div>
+     
       <section class="news-sections">
         <div class="containers">
           <h2 class="section-titles">Tin tức mới nhất</h2>
