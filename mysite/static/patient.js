@@ -29,6 +29,7 @@ $(document).ready(function(){
         $('.start_date').val(formattedDate);
         var day_cur = get_day_index(new Date(get_day_cur()));
         update_time(id, day_cur);
+        add_day();
     });
     $(document).on('click', '.span-text', function(){
         var id_doc = $(this).parent().parent().data('time-id');
@@ -45,12 +46,20 @@ $('.start_date').on('blur', function(){
     var time_now_date = $(this).val();
     var day = get_day_index(new Date(time_now_date));
     update_time(ids, day);
+    add_day();
 });
 function get_day_cur(){
     return $('#start_date').val();
 }
 function get_day_index(day){
     return ((day.getDay() + 6) % 7) + 1;
+}
+
+function add_day(){
+    $('.start_date').each(function(index, value){
+        console.log($(this).parent().find('a').addClass("A"))
+        $(this).parent().find('a').attr('data-day-cur', $(this).val())
+    })
 }
 function update_time(id, day_index){
     $.ajax({
@@ -80,6 +89,7 @@ function update_time(id, day_index){
                         }
                         time_template.attr('data-time-id', id);
                         time_template.attr('data-date', day_index);
+                        // time_template.find('.span-text').attr('data-day-cur');
                         $('.doctor-' + id).append(time_template);
                     }
                     // }

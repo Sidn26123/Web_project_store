@@ -101,10 +101,10 @@ def get_spec_overview_table_data(request):
     specs = Specialties.objects.all()
     spec_labels = {spec.name: spec.get_name_display() for spec in specs}
     spec = [spec.name for spec in specs]
-    query_results = Transaction.objects.select_related('medical_specialty').filter(medical_specialty__in = spec).values('medical_specialty__name', 'medical_specialty__picture').annotate(total = Sum('amount_transact')).annotate(count = Count('id'))
+    query_results = Transaction.objects.select_related('medical_specialty').filter(medical_specialty__in = spec).values('medical_specialty__name', 'medical_specialty__avatar').annotate(total = Sum('amount_transact')).annotate(count = Count('id'))
     table = []
     for query_result in query_results:
-        temp = [spec_labels[query_result['medical_specialty__name']], query_result['medical_specialty__picture']]
+        temp = [spec_labels[query_result['medical_specialty__name']], query_result['medical_specialty__avatar']]
         row = [temp, query_result['total'], query_result['count']]
         table.append(row)
     data = {

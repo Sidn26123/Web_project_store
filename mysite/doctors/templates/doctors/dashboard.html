@@ -1,0 +1,166 @@
+{% extends 'doctors/doctor_home.html' %}
+{% load static %}
+{% block main_content %}
+    <div class = "content-container">
+        <div class = "d-row-flex">
+            <div class="d-col-flex col-md-4 info-table">
+                <div class="loader"></div>
+                <img src="" alt="Avatar" class="info-table__item avatar" id="doctor-avatar">
+                <span class = "info-table__item" id = "name"></span>
+                <span class = "info-table__item" id = "position"></span>
+                <span class = "info-table__item" id = "work-experience"></span>
+                <span class = "info-table__item" id = "work-place"></span>
+                <a class = "info-table__item" id = "view-as-patient-see" href="">Xem thông tin hiển thị của bạn</a>
+            </div>
+            <div class="d-col-flex col-md-8">
+                <div class="d-row-flex">
+                    <div class="col-md-4 d-col-flex">
+                        <div>
+                            <span>Số tiền kiếm được</span>
+                            <span id = "earned-money"></span>
+                        </div>
+                        <div>
+                            <span>Tiền trong tài khoản</span>
+                            <span id = "money-left"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-4 d-col-flex">
+                        <div class="loader" id = "loader-2"></div>
+                        <span>Tổng bệnh nhân</span>
+                        <span id="total-patient"></span>
+                        <span>Tổng cuộc hẹn</span>
+                        <span id="total-appointment"></span>
+                        <span>Cuộc hẹn sắp tơi</span>
+                        <span id = "coming-appointment"></span>
+                        <span>Cuộc hẹn đang chờ</span>
+                        <span id = "pending-appointment"></span>
+                    </div>
+                    <div class="col-md-4 d-col-flex">
+                        <span id = "rate-point">Điểm đánh giá</span>
+                        <span id = "amount-rate">Lượt đánh giá</span>
+                    </div>
+                </div>
+                <div class="doctor-dashboard-appointment-warrper wrapper">
+                    <h3>Cuộc hẹn</h3>
+                    <div class = "d-row-flex ">
+                        <div class = "condition-choose-box active" id = "coming">
+                            Sắp tới
+                        </div>
+                        <div class = "condition-choose-box" id = "today">
+                            Hôm nay
+                        </div>
+                    </div>
+                    <table id = "doctor-dashboard-appointment">
+                    <thead>
+                        <tr role = "row"></tr>
+                    </thead>
+                        <tbody>
+                        </tbody>
+                        <div class = "loader" id="loader-table"></div>
+                    </table>
+                </div>
+                <div class="wrapper appointment-detail-wrapper hidden">
+                    <div class = "appointment-detail__item">
+                        <img src="" alt="Avatar">
+                        <span id ="patient-name"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span id="birthday"></span>
+                        <span id ="province"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ngày đặt</span>
+                        <span id="book-day"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ngày khám</span>
+                        <span id="appointment-day"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Chi phí</span>
+                        <span id="cost"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Ghi chú</span>
+                        <span id ="note"></span>
+                    </div>
+                    <div class = "appointment-detail__item">
+                        <span>Trạng thái</span>
+                        <span id="status"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="choice-to-appoint" style="display:none">
+            <div class="choices" id = "choice-ok">Ok</div>
+            <div class="choices" id = "choice-cancel">Hủy</div>
+            <div class="choices" id = "choice-wait">Chờ</div>
+        </div>
+        <div class="notice-having-appoint-form" style="display:none">
+            <span>Bạn đang có cuộc hẹn khác</span>
+            <span>Để đặt cuộc hẹn mới, vui lòng hoàn thành hoặc hủy cuộc hẹn hiện tại</span>
+            <div class="choices">
+                <div class="choices choice-cancel">Hủy</div>
+                <div class="choices choice-ok">Ok</div>
+                <a href="">Tới đó</a>
+            </div>
+        </div>
+        <div class="set-time">
+            <h3>Điều chỉnh thời gian khám</h3>
+            <br>
+            <div class="time-period">
+                <span>Thời gian khám mỗi ca</span>
+                <select name="time-period" id="time-per-period">
+                    <option value="15" default>15</option>
+                    <option value="30">30</option>
+                    <option value="45">45</option>
+                </select>
+                <span>phút</span>
+            </div>
+            <div class = "time-frame">
+                <div class="days-frame">
+                    <span class = "day-label chose-day" value = "1">Thứ 2</span>
+                    <span class = "day-label" value = "2">Thứ 3</span>
+                    <span class = "day-label" value = "3">Thứ 4</span>
+                    <span class = "day-label" value = "4">Thứ 5</span>
+                    <span class = "day-label" value = "5">Thứ 6</span>
+                    <span class = "day-label" value = "6">Thứ 7</span>
+                    <span class = "day-label" value = "7">Chủ nhật</span>
+
+                    <span>Khung giờ</span>
+                    <div class = "btn-wrapper">
+                        <div class="edit-btn">
+                            <span>Thêm</span>
+                            <div class="add-form">
+                                <i id = "close-add-form" class="fa-regular fa-circle-xmark close-btn-form"></i>
+                                <div class="d-row-flex">
+                                    <span>Gio bat dau</span>
+                                    <input type="time" name="start-time" id="start-time" step = 60>
+                                    <span>Gio ket thuc</span>
+                                    <input type="time" name="end-time" id="end-time" step = 60>
+                                </div>
+                                <button>Thêm</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="period-area">
+                    </div>
+                    <div style="display:none">
+                        <div id ="period-item-template">
+                            <span></span>
+                            <i class="fa-regular fa-xmark delete-time-frame"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="data-appoint-spec-area" style="display:none">
+        <div id="id-appoint-next" data-id="0"></div>
+    </div>
+    
+    <script src="{% static 'main.js' %}"></script>
+    <script src="{% static 'doctor_dashboard.js' %}"></script>
+	<script src="{% static 'doctor.js' %}"></script>	
+    <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
+{% endblock %}
