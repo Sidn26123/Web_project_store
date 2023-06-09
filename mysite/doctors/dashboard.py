@@ -314,7 +314,8 @@ def check_time_frame_available(doctor_id, day, time_start, time_end):
     for a in available_time:
         if a['day'] == int(day):
             time = a['time']
-            for t in time:
+            for t in a['time']:
+                print(t)
                 time_start_datetime = datetime.strptime(time_start, "%H:%M")
                 time_end_datetime = datetime.strptime(time_end, "%H:%M")
                 start_in_list_datetime = datetime.strptime(t['time-start'], "%H:%M")
@@ -322,9 +323,28 @@ def check_time_frame_available(doctor_id, day, time_start, time_end):
                 print(time_start_datetime, start_in_list_datetime)
                 if (time_start_datetime >= start_in_list_datetime and time_end_datetime <= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= start_in_list_datetime) or (time_start_datetime <= end_in_list_datetime and time_end_datetime >= end_in_list_datetime):
                     return False
+                
             return True
     return False
 
+    
+# def check_time_frame_available(doctor_id, day, time_start, time_end):
+#     doctor = Doctor.objects.get(id = int(doctor_id))
+#     book_time = doctor.bookable_time
+#     book_time = json.loads(book_time)
+#     for time in book_time:
+#         if time['day'] == day:
+#             for available in time["appoint"]:
+#                 if available["time_start"] == time_start and available["time_end"] == time_end:
+#                     time_start_datetime = datetime.strptime(time_start, "%H:%M")
+#                     time_end_datetime = datetime.strptime(time_end, "%H:%M")
+#                     start_in_list_datetime = datetime.strptime(t['time-start'], "%H:%M")
+#                     end_in_list_datetime = datetime.strptime(t['time-end'], "%H:%M")
+#                     print(time_start_datetime, start_in_list_datetime)
+#                     if (time_start_datetime >= start_in_list_datetime and time_end_datetime <= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= end_in_list_datetime) or (time_start_datetime <= start_in_list_datetime and time_end_datetime >= start_in_list_datetime) or (time_start_datetime <= end_in_list_datetime and time_end_datetime >= end_in_list_datetime):
+#                         return False
+#                 return True
+#     return True
 def get_period_available_for_show(request):
     id = request.GET.get('id')
     doctor = Doctor.objects.get(id = id)
@@ -358,3 +378,108 @@ def get_transaction_detail(request, id):
 
     # transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
     return render(request, 'doctors/detail_appointing.html', {'transact': transact_dict})
+
+    
+
+
+# def get_period_available(request):
+#     doctor_id = request.GET.get('id')
+#     doctor = Doctor.objects.get(id = int(doctor_id))
+#     book_time = doctor.bookable_time
+#     book_time = json.loads(book_time)
+#     period = []
+#     for time in book_time:
+#         if time['day'] == day:
+#             for a in time["appoint"]:
+#                 temp = {}
+#                 temp['time_start'] = a['time-start']
+#                 temp['time_end'] = a['time-end']
+#                 count = a['count']
+#                 time_start = datetime.strptime(a['time-start'], "%H:%M")
+#                 time_end = datetime.strptime(a['time-end'], "%H:%M")
+#                 left = floor((floor((time_end-time_start).total_seconds()/60) - amount*count)/amount)
+#                 temp['left'] = left
+#                 period.append(temp)
+# def get_period_available(request):
+#     id = request.GET.get('id')
+#     days = request.GET.get('day')
+#     doctor = Doctor.objects.get(id = id)
+#     available_time = doctor.available_time
+#     amount = doctor.time_per_appoint
+#     available_time = json.loads(available_time)
+#     period = []
+#     for day in available_time:
+#         if day['day'] == int(days):
+#             times = day['time']
+#             for a in times:
+#                 temp = {}
+#                 temp['time_start'] = a['time-start']
+#                 temp['time_end'] = a['time-end']
+#                 count = a['count']
+#                 time_start = datetime.strptime(a['time-start'], "%H:%M")
+#                 time_end = datetime.strptime(a['time-end'], "%H:%M")
+#                 left = floor((floor((time_end-time_start).total_seconds()/60) - amount*count)/amount)
+#                 temp['left'] = left
+#                 period.append(temp)
+#     data = {
+#         'period': json.dumps(period),
+#     }
+#     return JsonResponse(data)
+
+# def delete_time_frame(request):
+#     doctor_id = request.GET.get('id')
+#     time_start = request.GET.get('time_start')
+#     time_end = request.GET.get('time_end')
+#     day = request.GET.get('day')
+#     doctor = Doctor.objects.get(id = doctor_id)
+#     # available_time = doctor.available_time
+#     # available_time = json.loads(available_time)
+#     book_time = doctor.bookable_time
+#     book_time = json.loads(book_time)
+#     # print(time_start, time_end, day, available_time)
+#     for a in book_time:
+#         if a['day'] == day:
+#             for t in a["appoint"]:
+#                 if t['time-start'] == time_start and t['time-end'] == time_end:
+#                     a["appoint"].remove(t)
+#                     doctor.bookable_time = json.dumps(book_time)
+#                     doctor.save()
+#                     return JsonResponse({'status': 'deleted'})
+#     return JsonResponse({'status': 'fail'})
+# def get_current_weekday_number(day):
+#     day = datetime.strptime(day, "%d/%m/%Y")
+#     today = day.today()
+#     weekday_number = today.weekday() + 1  # Cộng 1 để chuyển từ 0-6 sang 1-7
+#     return weekday_number
+# def add_period_available(request):
+#     doctor_id = request.GET.get('id')
+#     time_start = request.GET.get('time_start')
+#     time_end = request.GET.get('time_end')
+#     days = request.GET.get('day')
+#     day = datetime.strptime(day, "%d/%m/%Y")
+#     doctor = Doctor.objects.get(id = doctor_id)
+#     book_time = doctor.bookable_time
+#     book_time = json.loads(book_time)
+#     for time_list in book_time:
+#         if get_current_weekday_number(time_list['day']) == get_current_weekday_number(day):
+#             time = time_list['appoint']
+#             # check_time_frame_available(doctor_id, day, time_start, time_end)
+#             if check_time_frame_available(doctor_id, day, time_start, time_end) == False:
+#                 return JsonResponse({'status': 'fail'})
+#             temp = {}
+#             temp['time-start'] = time_start
+#             temp['time-end'] = time_end
+#             temp['count'] = 0
+#             time.append(temp)
+#             time = sort_time(time)
+#             doctor.bookable_time = json.dumps(book_time)
+#             doctor.save()
+#             return JsonResponse({'status': 'added'})
+#     t = {}
+#     t['day'] = day
+#     t['appoint'] = []
+#     t['appoint'].append({'time-start': time_start, 'time-end': time_end, 'count': 0})
+#     book_time.append(t)
+#     doctor.bookable_time = json.dumps(book_time)
+#     doctor.save()
+#     return JsonResponse({'status': 'fail'})

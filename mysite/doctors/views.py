@@ -93,7 +93,11 @@ def get_notification(request):
         notices = Notification.objects.filter(receiver__id = doctor_id).order_by('-time_create')
         table = []
         for notice in notices:
-            table.append(model_to_dict(notice))
+            notice_dict = model_to_dict(notice)
+            notice['time_create'] = notice['time_create'].strftime("%d/%m/%Y %H:%M:%S")
+            if notice['time_notice'] != None:
+                notice['time_notice'] = notice['time_notice'].strftime("%d/%m/%Y %H:%M:%S")
+            table.append(notice_dict)
         data = {
             'notices': table,
         }
@@ -148,7 +152,11 @@ def get_notification(request):
     if doctor_id is not None:
         notices = Notification.objects.filter(receiver = "doc,"+str(doctor_id)).order_by('-time_create')        
         for notice in notices:
-            table.append(model_to_dict(notice))
+            notice_dict = model_to_dict(notice)
+            notice_dict['time_create'] = notice.time_create.strftime("%d/%m/%Y %H:%M:%S")
+            if notice.time_notice != None:
+                notice_dict['time_notice'] = notice.time_notice.strftime("%d/%m/%Y %H:%M:%S")
+            table.append(notice_dict)
         now = datetime.now()
         notice_stat = Transaction.objects.filter(doctor__id = int(doctor_id), state = "waiting", appoint_time__date = now.date()).aggregate(count = Count('id'))
         next_appoint_count = notice_stat['count']

@@ -181,6 +181,7 @@ function update_notification(){
 function draw_notification(data) {
     var table_data = JSON.parse(data.table);
     for (var i = 0; i < table_data.length; i++) {
+        $('.notification-area').empty()
         var template = $('#notification-item-template').clone();
         var row = table_data[i];
         template.find('.content').text(row['content']);

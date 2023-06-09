@@ -725,7 +725,7 @@ th i::after{
 }
 
 .filter-item.checked {
-    background-color:  #06aa0e;
+    background-color:  #f2f2f2;
     color: #fff;
 }
 

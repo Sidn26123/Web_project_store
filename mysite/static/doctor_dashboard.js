@@ -186,7 +186,7 @@ $(document).on('click', '.show-on', function(){
     get_appoint_detail(appoint_id);
 })
 $(document).on('click', '.go', function(){
-    
+
 })
 function get_appoint_detail(appoint_id){
     $.ajax({
@@ -285,18 +285,20 @@ $(document).on('click', '.delete-time-frame',function(){
     $(this).parent().remove();
 })
 
-$(document).on('click', '.add-time-frame', function(){
+$(document).on('click', '#add-time', function(){
     var chose_day = $('span.chose-day').attr('value');
     var time_start = $('#start-time').val();
     var time_end = $('#end-time').val();
     if (time_start > time_end){
+        console.log(time_start)
         var temp = time_start;
         time_start = time_end;
         time_end = temp;
+        console.log(time_end)
         $('#start-time').val(time_start);
         $('#end-time').val(time_end);
     }
-    add_time_frame(chose_day, time_start, time_end);
+    add_time_frame();
 })
 function delete_time_frame(day, time_start, time_end){
     var doctor_id = $('.get-id').data('id');
@@ -314,8 +316,6 @@ function delete_time_frame(day, time_start, time_end){
         }
     })
 }
-
-
 function get_time_per_period(){
     var doctor_id = $('.get-id').data('id');
     $.ajax({
@@ -383,6 +383,12 @@ function add_time_frame(){
             'time_end': time_end,
         },
         success: function(data){
+            if (data.status == "added"){
+                alert("Thêm khung giờ thành công")
+            }   
+            else if (data.status = "fail"){
+                alert("Khung giờ này đã tồn tại")
+            }
         }
     });
     
@@ -396,9 +402,9 @@ $(document).ready(function(){
         console.log($(this).val())
         update_time_period_area($(this).val());
     });
-    $('#add-time').on('click', function(){
-        add_time_frame();
-    });
+    // $('#add-time').on('click', function(){
+    //     add_time_frame();
+    // });
     $('#time-per-period').on('blur', function(){
         update_time_per_period($(this).val());
     });
