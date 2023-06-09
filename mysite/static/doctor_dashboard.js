@@ -158,7 +158,7 @@ function draw_appoint_table(data){
                 },
                 {"title": "Tên bệnh nhân",
                     "render": function(data, type, row){
-                        return '<div class = "info-patient" ><img src = "`' + row[1][0] + '">' + row[1][1] +' </div>';
+                        return '<div class = "info-patient" ><img src = ' + row[1][0] + '>' + row[1][1] +' </div>';
                     }
                 },
                 {"title": "Ngày khám"},
@@ -230,7 +230,7 @@ $(document).ready(function(){
         var minute = date.getMinutes();
         var time = hour_1 + ":" + minute;
         $('#start-time').val(time);
-        time = hour_2 + ":" + minute;
+        time = hour_1 + ":" + minute;
         $('#end-time').val(time);
         $('.add-form').addClass('show');
     });
@@ -247,11 +247,18 @@ $(document).ready(function(){
 
 function get_period_available(){
     var doctor_id = $('.get-id').data('id');
+    var day = $('input[name="day-frame-select"]:checked').val();
+    if (day === undefined){
+        day = 1;
+    }
+    console.log(day)
     $.ajax({
         url: '/doctor/get-period-available/',
         type: 'GET',
         data: {
             'id': doctor_id,
+            'day': day,
+
         },
         success: function(data){
             data = JSON.parse(data.period);
@@ -269,7 +276,7 @@ function get_period_available(){
 }
 
 $(document).on('click', '.delete-time-frame',function(){
-    var chose_day = $('span.chose-day').attr('value');
+    var chose_day = $('input[name="day-frame-select"]:checked').val();
     var chose_time = $(this).parent().find('span').text();
     var time_arr = chose_time.split('-');
     delete_time_frame(chose_day, time_arr[0], time_arr[1]);
@@ -306,8 +313,64 @@ function delete_time_frame(day, time_start, time_end){
     })
 }
 
-function add_time_frame(day, time_start, time_end){
+
+function get_time_per_period(){
     var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/get-period-available-show/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+        },
+        success: function(data){
+            time_per_appoint = data['time']
+            $('#time-per-period option[value='+time_per_appoint+']').prop('selected', true);
+        }
+    })
+}
+function update_time_per_period(time_per_period){
+    var doctor_id = $('.get-id').data('id');
+    console.log(doctor_id)
+    $.ajax({
+        url: '/doctor/update-time-per-period/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+            'amount': time_per_period,
+        },
+        success: function(data){
+
+        }
+    })
+}
+function update_time_period_area(day){
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/get-period-available/',
+        type: 'GET',
+        data: {
+            'id': doctor_id,
+            'day': day,
+        },
+        success: function(data){
+            data = JSON.parse(data.period)
+            for (var i=0; i < data.length; i++){
+                var template = $('#period-item-template').clone();
+                template.find('span').text(data[i]['time_start'] + "-" + data[i]['time_end']);
+                if (data[i]['left'] <= 0){
+                    template.addClass('unavailable period-item-unavailable');
+                }
+                $('.period-area').append(template);
+            }
+        }
+    })
+}
+
+function add_time_frame(){
+    var doctor_id = $('.get-id').data('id');
+    var time_start = $("#start-time").val();
+    var time_end = $("#end-time").val();
+    var day = $('input[name="day-frame-select"]:checked').val();
     $.ajax({
         url: '/doctor/add-period-available/',
         type: 'GET',
@@ -320,4 +383,21 @@ function add_time_frame(day, time_start, time_end){
         success: function(data){
         }
     });
+    
 }
+$(document).ready(function(){
+    $('#day-1').prop('checked', true);
+    get_time_per_period();
+    // update_time_period_area($('#day-1').val());
+    $('input[name="day-frame-select"]').on('click', function(){
+        $('.period-area').empty();
+        console.log($(this).val())
+        update_time_period_area($(this).val());
+    });
+    $('#add-time').on('click', function(){
+        add_time_frame();
+    });
+    $('#time-per-period').on('blur', function(){
+        update_time_per_period($(this).val());
+    });
+});

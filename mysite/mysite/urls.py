@@ -17,12 +17,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings
-from patients.views import dangky
+from patients.views import register, user_login
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('patient/', include('patients.urls')),
     path('ad/', include('site_admins.urls')),
     path('doctor/', include('doctors.urls')),
-    path('home/', dangky, name="dangky")
+    path('register/', register, name="register"),
+    path('login/', user_login, name="login")
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

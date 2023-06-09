@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Patient
 from site_admins.models import Site_admin, Transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
@@ -20,6 +21,8 @@ import json
 import calendar
 import csv
 import os
+import re
+
 from math import floor, ceil
 from django.forms.models import model_to_dict
 
@@ -543,8 +546,10 @@ def datkhamid(request, id, time):
         form = PatientForm()
     context = {
         'doctor': doctor_dict,
+        'doc': doctor,
         'time': time,
         'avatar': doctor.avatar.url,
+        'fee': doctor.fee,
         'form': form,
     }
     return render(request, 'patients/book_appointment1.html', context)
@@ -576,11 +581,17 @@ def register(request):
 #code đăng nhập
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import LoginForm
+from .forms import LoginForm, LoginDoctorForm, LoginPatientForm
 
 def user_login(request):
+    if request.user.is_authenticated:
+        logout(request)
     if request.method == 'POST':
-        form = LoginForm(request=request, data=request.POST)
+        instance = request.POST.get('instance')
+        if instance == 'patient':
+            form = LoginPatientForm(request=request, data=request.POST)
+        elif instance == 'doctor':
+            form = LoginDoctorForm(request=request, data=request.POST)
         if form.is_valid():
             # Lấy thông tin đăng nhập từ form
             username = form.cleaned_data['username']
@@ -588,8 +599,13 @@ def user_login(request):
             # Xác thực thông tin đăng nhập
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request,user)
-                return redirect('patient:home1')
+                if user.is_active:
+                    # Thực hiện đăng nhập cho user
+                    login(request,user)
+                    if instance == "patient":
+                        return redirect('patient:home1')
+                    elif instance == "doctor":
+                        return redirect('doctor:dashboard')
     else:
         form = LoginForm()
 
@@ -616,6 +632,8 @@ def change_password(request):
             new_password = form.cleaned_data['new_password']
             confirm_password = form.cleaned_data['confirm_password']
             
+            regex = r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.\@#$!%*#?&]).*$'
+
             # Kiểm tra mật khẩu cũ có đúng không
             if not request.user.check_password(old_password):
                 messages.error(request, 'Mật khẩu cũ không đúng')
@@ -625,7 +643,9 @@ def change_password(request):
             if new_password != confirm_password:
                 messages.error(request, 'Mật khẩu mới không khớp')
                 return redirect('patient:change_password')
-            
+            if not re.match(regex, new_password):
+                messages.error(request, 'Mật khẩu phải chứa ít nhất 1 chữ in hoa, 1 chữ thường, không dấu, 1 ký tự đặc biệt và 1 số')
+                return redirect('patient:change_password')
             # Cập nhật mật khẩu mới
             request.user.set_password(new_password)
             request.user.save()
@@ -649,7 +669,7 @@ def book_appointment1(request):
             return render(request, 'patients/success.html')
     else:
         form = PatientForm()
-    return render(request, 'patients/book_appointment1.html', {'form': form})
+    return render(request, 'patients/book_appointment1.html', {'form': form, 'request':request})
 
 
 #code tìm kiếm bác sĩ
@@ -706,6 +726,9 @@ def check_available_to_book(request):
     id = request.GET.get('id')
     time = request.GET.get('time')
     time_arr = time.split('-')
+    day_book = datetime.strptime(time_arr[3]+'/'+ time_arr[4] + '/' + time_arr[5], '%Y/%m/%d')
+    if day_book < datetime.today():
+        return JsonResponse({'available': False})
     day = time_arr[0]
     time_start = time_arr[1]
     doctor = Doctor.objects.get(id=id)
@@ -730,7 +753,10 @@ def check_available_to_book(request):
 
 def save_appoint(request):
     info = {}
+    if request.method == 'GET':
+        return JsonResponse({'success': False})
     if request.method == 'POST':
+        form = request.POST.get('formData')
         for key, value in request.POST.items():
             if key != "csrfmiddlewaretoken":
                 info[key] = value
@@ -739,9 +765,17 @@ def save_appoint(request):
         newest_record = newest_record.id_transaction
     except:
         newest_record = 0
-    doctor = Doctor.objects.get(id=int(info['doctor-id']))
+    id_doc = request.POST.get('id_doctor')
+    id_pat = request.POST.get('id_patient')
+    print(id_doc , id_pat)
+    doctor = Doctor.objects.get(id=id_doc)
+    patient = Patient.obejcts.get(id=id_pat)
     time = info['time-frame'].split('-')
-
-    Transaction.objects.create(doctor = doctor, amount_transact = doctor.fee, medical_specialty = doctor.specialty, state = "pending", id_transaction = newest_record  +1, info_patient = info, appoint_address = info['address'])
+    errors = []
+    messages = ""
+    if (id_pat):
+        Transaction.objects.create(doctor = doctor, patient = patient, amount_transact = doctor.fee,medical_specialty = doctor.specialty, state = "pending", id_transaction = newest_record  +1)
+    else:
+        Transaction.objects.create(doctor = doctor, amount_transact = doctor.fee, medical_specialty = doctor.specialty, state = "pending", id_transaction = newest_record  +1, info_patient = info, appoint_address = info['address'])
     print(info)
     return JsonResponse({'success': True})

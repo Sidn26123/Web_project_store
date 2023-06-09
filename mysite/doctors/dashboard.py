@@ -128,7 +128,9 @@ def get_appoint_table_data(request):
     appoints = Transaction.objects.select_related('doctor').filter(doctor__id = doctor_id, state = "waiting", appoint_time__date__range = [time_start, time_end]).order_by('appoint_time')
     table = []
     for appoint in appoints:
-        temp = [appoint.patient.avatar.url, appoint.patient.real_name]
+        temp_info = json.loads(appoint.info_patient)
+        
+        temp = ['/media/media/images/default.jpeg', temp_info['name']]
         row = [appoint.id, temp, appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"), appoint.appoint_address, appoint.amount_transact]
         table.append(row)
     data = {
@@ -141,7 +143,8 @@ def get_transaction_detail(request):
     transact = Transaction.objects.get(id = transact_id)
     transact_dict = model_to_dict(transact)
     transact_dict['appoint_time'] = transact.appoint_time.strftime("%d/%m/%Y %H:%M:%S")
-    transact_dict['patient'] = [transact.patient.real_name,transact.patient.avatar.url]
+    temp = json.loads(transact.info_patient)
+    transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
     return JsonResponse(transact_dict)
 
 def check_next_appoint(request):
@@ -213,23 +216,25 @@ def get_next_appoint_id(request):
 
 def get_period_available(request):
     id = request.GET.get('id')
+    days = request.GET.get('day')
     doctor = Doctor.objects.get(id = id)
     available_time = doctor.available_time
     amount = doctor.time_per_appoint
     available_time = json.loads(available_time)
     period = []
     for day in available_time:
-        times = day['time']
-        for a in times:
-            temp = {}
-            temp['time_start'] = a['time-start']
-            temp['time_end'] = a['time-end']
-            count = a['count']
-            time_start = datetime.strptime(a['time-start'], "%H:%M")
-            time_end = datetime.strptime(a['time-end'], "%H:%M")
-            left = floor((floor((time_end-time_start).total_seconds()/60) - amount*count)/amount)
-            temp['left'] = left
-            period.append(temp)
+        if day['day'] == int(days):
+            times = day['time']
+            for a in times:
+                temp = {}
+                temp['time_start'] = a['time-start']
+                temp['time_end'] = a['time-end']
+                count = a['count']
+                time_start = datetime.strptime(a['time-start'], "%H:%M")
+                time_end = datetime.strptime(a['time-end'], "%H:%M")
+                left = floor((floor((time_end-time_start).total_seconds()/60) - amount*count)/amount)
+                temp['left'] = left
+                period.append(temp)
     data = {
         'period': json.dumps(period),
     }
@@ -243,10 +248,11 @@ def delete_time_frame(request):
     doctor = Doctor.objects.get(id = doctor_id)
     available_time = doctor.available_time
     available_time = json.loads(available_time)
+    # print(time_start, time_end, day, available_time)
     for a in available_time:
-        if a['day'] == day:
+        if a['day'] == int(day):
             time = a['time']
-            print(time)
+            print(time_start, time_end)
             for t in time:
                 if t['time-start'] == time_start and t['time-end'] == time_end:
                     time.remove(t)
@@ -291,6 +297,7 @@ def sort_time(time_list):
             if time_start_list[i] > time_start_list[j]:
                 time_list[i], time_list[j] = time_list[j], time_list[i]
     return time_list
+
 def check_time_frame_available(doctor_id, day, time_start, time_end):
     doctor = Doctor.objects.get(id = doctor_id)
     available_time = doctor.available_time
@@ -308,3 +315,20 @@ def check_time_frame_available(doctor_id, day, time_start, time_end):
                     return False
             return True
     return False
+
+def get_period_available_for_show(request):
+    id = request.GET.get('id')
+    doctor = Doctor.objects.get(id = id)
+    time_per_appoint = doctor.time_per_appoint
+    data = {
+        'time': time_per_appoint,
+    }
+    return JsonResponse(data)
+
+def update_time_per_period(request):
+    doctor_id = request.GET.get('id')
+    amount = request.GET.get('amount')
+    doctor = Doctor.objects.get(id = int(doctor_id))
+    doctor.time_per_period = 0
+    doctor.save()
+    return JsonResponse({'status': 'success'})

@@ -36,6 +36,7 @@ def doctor_login_view(request):
             password = form.cleaned_data.get('password')
             doctor = authenticate(request, username = username, password = password)
             class_name = doctor.__class__.__name__
+            print(class_name)
             if doctor is not None and doctor.is_active and class_name == 'Doctor':
                 login(request, doctor)
                 return redirect(request.GET.get('next', '/doctor/dashboard/'))
@@ -51,8 +52,10 @@ def doctor_login_view(request):
 
 @login_required(login_url = '/doctor/login')
 def dashboard(request):
+    doctor = Doctor.objects.get(id = request.user.id)
     context = {
         'request': request,
+        'doctor': doctor,
     }
     return render(request, 'doctors/dashboard.html', context)
 
@@ -163,6 +166,7 @@ def get_doctor_info(request):
     doctor_dict['avatar'] = doctor.avatar.url
 
     data = {
-        # 'doctor': doctor_dict,
+        'doctor': doctor_dict,
     }
     return JsonResponse(data)
+

@@ -15,9 +15,12 @@ class Doctor(User):
     money_left = models.IntegerField(default = 0)
     fee = models.IntegerField(default = 0)
     is_auth = models.BooleanField(default = False)
-    available_time = models.TextField(default = "[]")
-    time_per_appoint = models.IntegerField(default = 30)
+    available_time = models.TextField(default = '[{"day":1,"time":[]},{"day":2,"time":[]},{"day":3,"time":[]},{"day":4,"time":[]},{"day":5,"time":[]}{"day":6,"time":[]},{"day":7,"time":[]}]')
+    time_per_appoint = models.IntegerField(null = True)
+    details = models.TextField(default = "")
+    
     def save(self, *args, **kwargs):
+        self.time_per_appoint = 30
         super().save(*args, **kwargs)
 @receiver(pre_save, sender = Doctor)
 def calculate_age(sender, instance, **kwargs):
@@ -26,11 +29,15 @@ def calculate_age(sender, instance, **kwargs):
     instance.new_age = age
 class Specialties(models.Model):
     medical_specialties = [
-        ("nha_khoa", "Nha khoa"),
-        ("tim_mach", "Tim mạch"),
-        ("da_lieu", "Da liễu"),
-        ("mat", "Mắt"),
         ("xuong_khop", "Xương khớp"),
+        ("than_kinh", "Thần Kinh"),
+        ("tieu_hoa", "Tiêu Hóa"),
+        ("tim_mach", "Tim mạch"),
+        ("tai_mui_hong", "Tai Mũi Họng"),
+        ("cot_song", "Cột Sống"),
+        ("da_lieu", "Da Liễu"),
+        ("ho_hap_phoi", "Hô Hấp - Phổi"),
+        ("nha_khoa", "Nha khoa"),
     ]
     name = models.CharField(max_length=255, choices = medical_specialties, default= "nha_khoa",  primary_key=True)
     description = models.TextField()

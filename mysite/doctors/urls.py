@@ -36,14 +36,18 @@ from .dashboard import (
     get_period_available,
     delete_time_frame,
     add_period_available,
+    get_period_available_for_show,
+    update_time_per_period,
 )
 
 from .my_patient import (
     get_patient,
+    delete_my_patient,
 )
 from .review import (
     get_review_data,
     get_invoice,
+    hide_invoice,
 )
 
 from .approving_appoint import (
@@ -97,4 +101,8 @@ urlpatterns = [
     path('get-period-available/', get_period_available),
     path('delete-time-frame/', delete_time_frame),
     path('add-period-available/', add_period_available),
+    path('get-period-available-show/', get_period_available_for_show),
+    path('update-time-per-period/', update_time_per_period),
+    path('delete-my-patient/', delete_my_patient),
+    path('hide-invoice/', hide_invoice),
 ]

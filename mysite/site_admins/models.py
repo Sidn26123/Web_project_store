@@ -35,11 +35,15 @@ class Transaction(models.Model):
         
     ]
     medical_specialties = [
-        ("nha_khoa", "Nha khoa"),
-        ("tim_mach", "Tim mạch"),
-        ("da_lieu", "Da liễu"),
-        ("mat", "Mắt"),
         ("xuong_khop", "Xương khớp"),
+        ("than_kinh", "Thần Kinh"),
+        ("tieu_hoa", "Tiêu Hóa"),
+        ("tim_mach", "Tim mạch"),
+        ("tai_mui_hong", "Tai Mũi Họng"),
+        ("cot_song", "Cột Sống"),
+        ("da_lieu", "Da Liễu"),
+        ("ho_hap_phoi", "Hô Hấp - Phổi"),
+        ("nha_khoa", "Nha khoa"),
     ]
     CREATOR = [
         ("doctor", "Bác sĩ"),
@@ -62,7 +66,7 @@ class Transaction(models.Model):
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
     appoint_address = models.TextField(default = "")
     creator = models.CharField(max_length = 20, default = "doctor", choices = CREATOR)
-    info_patient = models.CharField(max_length = 30, null = True, blank = True)
+    info_patient = models.TextField( null = True, blank = True)
     city = models.CharField(max_length = 30, null = True, blank = True)
     district = models.CharField(max_length = 30, null = True, blank = True)
     address = models.TextField(null = True, blank = True)

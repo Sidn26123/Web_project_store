@@ -2,30 +2,56 @@
 {% load static %}
 {% block main-register %}
 <div class="register-form">
-    <script>
+    <!-- <script>
       var previousUrl = document.referrer;
       $('#refer-url').on('click', function(){
         window.location.href = previousUrl;
       })
-    </script>
+    </script> -->
     <h2>Đặt khám</h2>
     <img src="{{avatar}}" alt="">
     {{time}}
-    <form id = "info-appointment" method="post" action = "{% url 'patient:save-appoint' %}">
+    <form id = "info-appointment" method="post" action = "{% url 'patient:save-appoint' %}" data-doctoc-id = {{doc.id}}>
       {% csrf_token %}
-      {{ form.as_p }}
-      <div class="dauvao-nhom thanh-toan"><p class="tieude-nhom">Hình thức thanh toán</p>
-        <label><input class="dauvao-nhap" type="radio" name="pay_type" value="1" checked="checked"> Thanh toán sau tại cơ sở y tế</label>
+
+    {% if request.user.is_authenticated %}
+      <div class="id-patient" data-id-patient = {{request.user.id}}> </div>
+      <div>
+        <input type="radio" id = "option_1" name = "type" class = "active-method" checked>
+        <label for="option_1">Đặt cho bản thân</label>
+        <input type="radio" id = "option_2" name = "type">
+        <label for="option_2">Đặt cho người khác</label>
       </div>
-    <p class="dauvao-ghichu chu-giua">Quý khách vui lòng điền đầy đủ thông tin để tiết kiệm thời gian làm thủ tục khám</p>
-    <div class="dauvao-canhbao"><p style="text-align: justify; "><b>LƯU Ý</b></p>
-      <p style="text-align: justify; ">Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám bệnh, khi điền thông tin anh/chị vui lòng:</p><ul>
-        <li style="text-align: justify; ">Ghi rõ họ và tên, viết hoa những chữ cái đầu tiên, ví dụ:<b> Phan Hậu &nbsp;</b></li>
-        <li style="text-align: justify; ">Điền đầy đủ, đúng và vui lòng kiểm tra lại thông tin trước khi ấn "Xác nhận đặt khám"</li></ul>
-      </div>
-      <input type="text" name = "doctor-id" value = {{doctor.id}} style="display:none">
-      <input type="text" name = "time-frame" value = {{time}} style="display:none">
-      <button type="submit">Xác nhận đặt khám</button>
+      <script>
+        $('#option_1').on('click', function(){
+          $(this).addClass('active-method');
+          $('#option_2').removeClass('active-method')
+          $('.wrapper-select').hide();
+        })
+        $('#option_2').on('click', function(){
+          $(this).addClass('active-method');
+          $('#option_1').removeClass('active-method')
+          $('.wrapper-select').show();
+        })
+      </script>
+        <div class = "wrapper-select">
+        {{ form.as_p }}
+        </div>
+        <div class="dauvao-nhom thanh-toan"><p class="tieude-nhom">Hình thức thanh toán</p>
+          <label><input class="dauvao-nhap" type="radio" name="pay_type" value="1" checked="checked"> Thanh toán sau tại cơ sở y tế</label>
+        </div>
+
+    {% endif %}
+      <p class="dauvao-ghichu chu-giua">Quý khách vui lòng điền đầy đủ thông tin để tiết kiệm thời gian làm thủ tục khám</p>
+      <div class="dauvao-canhbao"><p style="text-align: justify; "><b>LƯU Ý</b></p>
+        <p style="text-align: justify; ">Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám bệnh, khi điền thông tin anh/chị vui lòng:</p><ul>
+          <li style="text-align: justify; ">Ghi rõ họ và tên, viết hoa những chữ cái đầu tiên, ví dụ:<b> Phan Hậu &nbsp;</b></li>
+          <li style="text-align: justify; ">Điền đầy đủ, đúng và vui lòng kiểm tra lại thông tin trước khi ấn "Xác nhận đặt khám"</li></ul>
+        </div>
+        <input type="text" name = "doctor-id" value = {{doctor.id}} style="display:none">
+        <input type="text" name = "time-frame" value = {{time}} style="display:none">
+        <button type="submit">Xác nhận đặt khám</button>
+  
 
     </form>
   </div>

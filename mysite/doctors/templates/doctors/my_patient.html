@@ -2,32 +2,40 @@
 {% load static %}
 {% block main_content %}
     <div class = "content block-div">
-        <div class = "type-choose-box d-row-flex">
-            <div class = "condition-choose-box" id = "all">Tất cả</div>
-            <div class = "condition-choose-box" id = "before">Đã khám</div>
-            <div class = "condition-choose-box" id = "upcoming">Chưa khám</div>
-        </div>
+        {% comment %} <div class = "type-choose-box d-row-flex">
+            <div class = "condition-choose-box chose" id = "all">Tất cả</div>
+            <div class = "condition-choose-box chose" id = "before">Đã khám</div>
+            <div class = "condition-choose-box chose" id = "upcoming">Chưa khám</div>
+        </div> {% endcomment %}
 
         <div id = "patient-info-wrapper" class = "d-row-flex"></div>
-        <div id = "patient-info-template" class = "id-store">
-            <div>
-                <img src="" alt="" class = "patient-info__item patient-avatar">
-                <span class = "patient-info__item patient-name"></span>
-                <span class = "patient-info__item patient-id"></span>
-                <span class = "patient-info__item age"></span>
-            </div>
-            <span class = "patient-info__item address"></span>
-            <span class = "patient-info__item last-time"></span>
-            <span class = "patient-info__item phone"></span>
-            <span class = "patient-info__item email"></span>
-            <span class = "patient-info__item blood-group"></span>
-            <div>
-                <div class="patient-info__item more-info-btn">Chi tiết</div>
-                <div class="patient-info__item delete-btn">Xóa</div>
+        <div style = "display:none;">
+            <div id = "patient-info-template" class = "id-store">
+                <div>
+                    <img src="" alt="" class = "patient-info__item patient-avatar">
+                    <span class = "patient-info__item patient-name"></span>
+                    <span class = "patient-info__item patient-id"></span>
+                    <span class = "patient-info__item age"></span>
+                </div>
+                <div class = "patient-info-more d-col-flex" style = "display: none;">
+                    <span>Địa chỉ: <span class = "patient-info__item patient-address"></span></span>
+                    <span>Thời gian gần nhất: <span class = "patient-info__item last-time"></span></span>
+                    <span>Điện thoại: <span class = "patient-info__item patient-phone"></span></span>
+                    <span>Email: <span class = "patient-info__item patient-email"></span></span>
+                    <span>Nhóm máu: <span class = "patient-info__item patient-blood-group"></span></span>
+
+                </div>
+
+                <div>
+                    <div class="patient-info__item more-info-btn">Chi tiết</div>
+                    <div class="patient-info__item delete-btn">Xóa</div>
+                </div>
             </div>
         </div>
+
     </div>
     <script src="{% static 'main.js' %}"></script>
     <script src="{% static 'doctor/doctor_review.js' %}"></script>
+    <script src="{% static 'doctor/doctor_my_patient.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'main.css' %}">
 {% endblock %}

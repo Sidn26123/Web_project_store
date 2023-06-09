@@ -56,7 +56,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'site_admins.middleware.Custom404Middleware',
-    # 'site_admins.middleware.ClassRequiredMiddleware',
+    'site_admins.middleware.ClassRequiredMiddleware',
     # "django_htmx.middleware.HtmxMiddleware",
 ]
 
@@ -174,4 +174,5 @@ LOCALE_PATHS = (
     os.path.join(BASE_DIR, 'locale/'),
 )
 
-PAGE_TEMPLATE_404 = 'site_admins/404.html' 
+PAGE_TEMPLATE_404 = 'site_admins/404.html'
+PAGE_NOT_AVAILABLE = 'site_admins/500.html'

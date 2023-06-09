@@ -28,14 +28,22 @@ from django.forms.models import model_to_dict
 
 
 def get_confirming_appoint(request):
-    appoint_id = request.GET.get('id')
+    doctor_id = request.GET.get('id')
     now = datetime.now()
     start_time = now - relativedelta(days = 3)
-    appoints = Transaction.objects.filter(state = 'pending').filter(transaction_time__gte = start_time).order_by('-appoint_time')
+    appoints = Transaction.objects.filter(doctor__id = doctor_id, state = 'pending').filter(transaction_time__gte = start_time).order_by('-appoint_time')
     table = []
     for appoint in appoints:
-        temp = [appoint.patient.real_name, appoint.patient.avatar.url]
-        row = [appoint.id, appoint.patient.id, temp, appoint.patient.gender,  appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"),  appoint.appoint_address, appoint.amount_transact,appoint.get_state_display()]
+        if appoint.patient == None:
+            temp_str = json.loads(appoint.info_patient)
+            temp = [temp_str['name'], '/media/media/images/default.jpeg']
+            time = temp_str['time-frame'].split('-')
+            time_start = datetime.strptime(time[1], "%H:%M")
+            row = [appoint.id, -1, temp, temp_str['gender'],  time_start.strftime("%d/%m/%Y %H:%M:%S"),  appoint.appoint_address, appoint.amount_transact,appoint.get_state_display()]
+
+        else:
+            temp = [appoint.patient.real_name, appoint.patient.avatar.url]
+            row = [appoint.id, appoint.patient.id, temp, appoint.patient.gender,  appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"),  appoint.appoint_address, appoint.amount_transact,appoint.get_state_display()]
         table.append(row)
     
     data = {
@@ -55,7 +63,8 @@ def update_appoint_status(request):
     elif (choice == "deny-confirm"):
         appoint.state = "denied"
     appoint.save()
-    row = [appoint.id, appoint.patient.real_name, appoint.state]
+    temp = json.loads(appoint.info_patient)
+    row = [appoint.id, temp['name'], appoint.state]
     data = {
         'row': json.dumps(row),
     }

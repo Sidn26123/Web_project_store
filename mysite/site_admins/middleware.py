@@ -28,16 +28,15 @@ class Custom404Middleware:
                 'previous_page': previous_page
             }
             return render(request, settings.PAGE_TEMPLATE_404, context, status=404)
-        next_url = request.path_info
-        print(next_url)
-        condition = True
-        class_name = request.user.__class__.__name__
-        if class_name == 'Doctor' and (next_url[1:3] != "do"):
-            condition = False
-        elif class_name == 'Patient' and (next_url[1:3] != "pa"):
-            condition = False
-        elif class_name == 'Site_admin' and (next_url[1:3] != "ad"):
-                condition = False
+        # next_url = request.path_info
+        # condition = True
+        # class_name = request.user.__class__.__name__
+        # if class_name == 'Doctor' and (next_url[1:3] != "do"):
+        #     condition = False
+        # elif class_name == 'Patient' and (next_url[1:3] != "pa"):
+        #     condition = False
+        # elif class_name == 'Site_admin' and (next_url[1:3] != "ad"):
+        #     condition = False
         return response
 
 
@@ -49,6 +48,15 @@ class ClassRequiredMiddleware:
         
     def __call__(self, request):
         response = self.get_response(request)
+        class_name = request.user.__class__.__name__
+        print(class_name)
+        next_url = request.path_info
+        previous_page = request.META.get('HTTP_REFERER', '/')
+        context = {
+            'previous_page': previous_page
+        }
+        if (class_name == 'Doctor' and (next_url[1:3] in ["ad", "pa"])) or (class_name == 'Patient' and (next_url[1:3] in ["ad", "do"])) or (class_name == 'Site_admin' and (next_url[1:3] in ["pa", "do"])):
+            return render(request, settings.PAGE_NOT_AVAILABLE, context)
         # # Kiểm tra điều kiện của bạn
 
 

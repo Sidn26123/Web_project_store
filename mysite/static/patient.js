@@ -35,17 +35,17 @@ $(document).ready(function(){
         var id_doc = $(this).parent().parent().data('time-id');
         var time_te = $(this).text();
         var time_now_date = $(this).parent().parent().parent().parent().find('.start_date').val();
-        console.log(time_now_date)
         var day_indexx = get_day_index(new Date(time_now_date))
-        booking(id_doc, time_te, day_indexx);
+        booking(id_doc, time_te, day_indexx, time_now_date);
     })
 })
 $('.start_date').on('blur', function(){
     var ids = $(this).parent().data('doctor-id');
+    var day_cur = $(this).val();
     $('.doctor-'+ids).empty();
     var time_now_date = $(this).val();
-    var day = get_day_index(new Date(time_now_date));
-    update_time(ids, day);
+    var day_index = get_day_index(new Date(time_now_date));
+    update_time(ids, day_index);
     add_day();
 });
 function get_day_cur(){
@@ -56,9 +56,9 @@ function get_day_index(day){
 }
 
 function add_day(){
-    $('.start_date').each(function(index, value){
-        console.log($(this).parent().find('a').addClass("A"))
-        $(this).parent().find('a').attr('data-day-cur', $(this).val())
+    var node = $('.start_date');
+    node.each(function(index, value){
+        $(this).attr("min", currentDate);
     })
 }
 function update_time(id, day_index){
@@ -99,8 +99,8 @@ function update_time(id, day_index){
     })
     
 }
-function booking(doctor_id, time, day){
-    var times = day + '-' + time;
+function booking(doctor_id, time, day_index, day){
+    var times = day_index + '-' + time + '-' + day;
     $.ajax({
         'url': '/patient/check-available-to-book',
         'type': 'GET',
@@ -111,7 +111,10 @@ function booking(doctor_id, time, day){
         success: function(data){
             is_available = data['available'];
             if (is_available){
-                window.location.href  = '/patient/book_appointment1/' + doctor_id + '/' + day + '-' + time + '/';
+                window.location.href  = '/patient/book_appointment1/' + doctor_id + '/' +times + '/';
+            }
+            else{
+                alert('Khung giờ này không hợp lệ để đặt hẹn với bác sĩ này')
             }
         }
     });
@@ -164,17 +167,34 @@ function parseTimeString(timeString) {
 }
 
 $(document).ready(function() {
+
     $('#info-appointment').submit(function(e) {
         e.preventDefault(); // Ngăn chặn hành động mặc định khi submit form
-
+        method = 0;
+        if ($('#option_1').hasClass('active-method')) {
+            method = 1;
+            console.log("A")
+            $('.wrapper-select').empty();
+        }
+        // else{
+        var id_patient = $('.id-patient').data('id-patient')
+        console.log(id_patient)
         // Lấy dữ liệu form
         var formData = $(this).serialize();
-
+        var csrfToken = $('input[name="csrfmiddlewaretoken"]').val();
+        var doctor_id = $('#info-appointment').data('doctor-id');
+        console.log(doctor_id)
         // Gửi dữ liệu form bằng Ajax
         $.ajax({
             url: "/patient/save-appoint/",
             type: "POST",
-            data: formData,
+            data: {
+                'csrfmiddlewaretoken': csrfToken,
+                'formData' :formData,
+                'method': method,
+                'id_patient': id_patient,
+                'id_doctor': doctor_id,
+            },
             success: function(response) {
                 // Xử lý phản hồi từ server (nếu cần)
                 console.log(response);
@@ -185,4 +205,20 @@ $(document).ready(function() {
             }
         });
     });
+    $('#change-instance-login').on('click', function(){
+        if ($(this).hasClass('patient')){
+            $(this).text("Đăng nhập của bệnh nhân")
+            $(this).removeClass('patient')
+            $(this).addClass('doctor')
+            $('#instance-store').attr('value','doctor')
+        }
+        else{
+            $(this).text("Đăng nhập của bác sĩ")
+            $(this).removeClass('doctor')
+            $(this).addClass('patient')
+            $('#instance-store').attr('value','patient')
+
+        }
+    });
 });
+

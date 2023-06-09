@@ -18,7 +18,6 @@ function get_confirming_table(){
 function draw_confirming_appointment(data){
     var table_data = JSON.parse(data.table)
     if ($.fn.dataTable.isDataTable('#confirming-appoint-table')){
-        console.log("a")
         table = $('#confirming-appoint-table').DataTable().clear();
     }
     else {

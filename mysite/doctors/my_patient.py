@@ -30,34 +30,54 @@ def get_patient(request):
     id = request.GET.get('id')
     condition = request.GET.get('condition')
     today = date.today()
-    doctor = Doctor.objects.get
-    Trasaction.objects.doct
+    # doctor = Doctor.objects.get(id = id) 
     time_query = Q()
-    if condition == "all":
-        time_query = Q()
-    elif condition == "before":
-        time_query = Q(appoint_time__lt = today)
-    elif condition == "upcoming":
-        time_query = Q(appoint_time__gte = today)
+    # condition_arr = condition.split(',')
+    # if "all" in condition_arr:
+    #     time_query = Q()
+    # else:
+    #     if "before" in condition_arr:
+    #         time_query = Q(counter = 0)
+    #     if "upcoming" in condition_arr:
+    #         time_query = Q()
     if time_query != Q():
         patients = MyPaient.objects.filter(doctor__id = int(id)).filter(time_query)
     else:
         patients = MyPaient.objects.filter(doctor__id = int(id))
-    patient_dict = {}
     patient_data = []
     for patient in patients:
-        patient_dict['doctor_name'] = patient.doctor.real_name
-        patient_dict['patient_name'] = patient.patient.real_name
-        patient_dict['id'] = patient.patient.id
-        patient_dict['age'] = patient.patient.new_age
-        patient_dict['address'] = patient.patient.address
-        patient_dict['phone'] = patient.patient.phone
-        patient_dict['email'] = patient.patient.email
-        patient_dict['blood_group'] = patient.patient.blood_group
+        pat = Patient.objects.get(id = patient.patient.id)
+        pat_dict = {}
+        pat_dict['name'] = pat.real_name
+        pat_dict['avatar'] = pat.avatar.url
+        pat_dict['age'] = pat.new_age
+        pat_dict['phone'] = pat.phone
+        pat_dict['email'] = pat.email
+        pat_dict['blood_group'] = pat.blood_group
+        pat_dict['address'] = pat.address
+        pat_dict['id'] = pat.id
+        patient_dict = model_to_dict(patient)
+        patient_dict['avatar'] = patient.patient.avatar.url
+        # patient_dict['doctor_name'] = patient.doctor.real_name
+        # patient_dict['patient_name'] = patient.patient.real_name
+        # patient_dict['id'] = patient.patient.id
+        # patient_dict['age'] = patient.patient.new_age
+        # patient_dict['address'] = patient.patient.address
+        # patient_dict['phone'] = patient.patient.phone
+        # patient_dict['email'] = patient.patient.email
+        # patient_dict['blood_group'] = patient.patient.blood_group
         patient_dict['last_time'] = patient.last_time.strftime("%d/%m/%Y")
+        patient_dict['patient'] = pat_dict
         patient_data.append(patient_dict)
-        patient_dict = {}
     data = {
         'patients': json.dumps(patient_data),
     }
     return JsonResponse(data)
+
+def delete_my_patient(request):
+    id = request.GET.get('id')
+    print(id)
+    my_patient = MyPaient.objects.get(patient__id = int(id))
+    my_patient.delete()
+    
+    return JsonResponse({'status': 'success'})

@@ -16,15 +16,14 @@
 
   <div class="chuyenkhoakham">
     <div class="doctor-info">
-        <img src="{% static 'app/images/BS1.jpg'%}" alt="Logo">
-      <h2><a href="{% url 'patient:BsCotsong1' %}">{{data.real_name}}</h2>
-      <p>Thông tin bác sĩ...</p>
+      <img src="/media/{{data.avatar}}" alt="Logo">
+      <h2><a href="{% url 'patient:BsCotsong1' %}"> Bác sĩ : {{data.real_name}}</h2>
+      <p>Thông tin bác sĩ : {{data.real_name}}</p>
     </div>
     <div class="appointment-info">
       <h3>Lịch khám: </h3>
       <p>Địa chỉ khám: {{data.address}} </p>
-     <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: </a></p>
-      <p>Loại bảo hiểm áp dụng: </p>
+     <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{data.fee}} đ</a></p>
     </div>
   </div>
 
@@ -48,9 +47,10 @@
                   background-color: #e6e6e6;
                 }
                 
-                img {
+                .doctor-info img {
                   width: 50px;
                   height: 50px;
+                  border-radius: 60%;
                 }
                 
                 h2, h3 {
@@ -61,4 +61,4 @@
                   margin: 10px 0;
                 }
   </style>
-  {% endblock main-lienhe1 %}
+{% endblock main-lienhe1 %}

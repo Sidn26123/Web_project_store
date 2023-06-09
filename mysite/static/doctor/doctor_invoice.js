@@ -1,15 +1,22 @@
 function get_search_condition(){
-    return $('#search_query').val();
+    if ($('#search-query').val() == undefined){
+        return "";
+    }
+    return $('#search-query').val();
 }
 
 function get_time_condition(){
     var time_condition_node = $('#time_condition');
     var time_condition = ""
-    time_condition_node.each(function(){
-        if ($(this).hasClass('checked')){
-            time_condition = $(this).val();
-        }
-    });
+    var time_start = $('#date-start').val();
+    var time_end = $('#date-end').val();
+    if (time_start == undefined){
+        time_start = "";
+    }
+    if (time_end == undefined){
+        time_end = "";
+    }
+    return time_start + ',' + time_end;
 }
 
 function update_time_pos(){
@@ -43,6 +50,7 @@ function get_invoice_table(){
     var time_condition = get_time_condition();
     var query_condition = get_search_condition();
     var id = $('.get-id').data('id');
+    console.log(time_condition, query_condition)
     $.ajax({
         url: '/doctor/get-invoice/',
         type: 'GET',
@@ -52,6 +60,7 @@ function get_invoice_table(){
             'query-condition': query_condition,
         },
         success: function(data){
+            console.log(data)
             draw_invoice_table(data);
         },
     });
@@ -59,7 +68,7 @@ function get_invoice_table(){
 
 function draw_invoice_table(data){
     var table_data = JSON.parse(data.table)
-    console.log(table_data)
+
     if ($.fn.dataTable.isDataTable('#invoice-table')){
         table = $('#invoice-table').DataTable();
     }
@@ -73,10 +82,10 @@ function draw_invoice_table(data){
             "autoWidth": true, // Điều chỉnh tự động chiều rộng cột
             "responsive": true,
             "columns": [
-                {"title": "ID"
-                    // "render": function(data, type, row){
-                    //     return '<div class = "info-invoice invoice-id" data-id =' + row[0] + '>' + row[0] + '</div>'; 
-                    // },
+                {"title": "ID",
+                    "render": function(data, type, row){
+                        return '<div class = "info-invoice invoice-id" data-id =' + row[0] + '>' + row[0] + '</div>'; 
+                    },
                 },
                 {"title": "ID bệnh nhân",
                     "render": function(data, type, row){
@@ -85,7 +94,7 @@ function draw_invoice_table(data){
                 },
                 {"title": "Tên bệnh nhân",
                     "render": function(data, type, row){
-                        return '<div class = "info-patient" ><img src = ' + row[2][0] + '</img>' + row[2][1] +' </div>';
+                        return '<div class = "info-patient" ><img src = ' + row[2][1] + '>' + row[2][0] +' </div>';
                     }
                 },
                 {"title": "Ngày khám"},
@@ -94,7 +103,7 @@ function draw_invoice_table(data){
                 {"title": "Trạng thái"},
                 {"title": "",
                     "render": function(){
-                        return '<div class = "show__item"><div class ="show-on">Xem</div><div class ="show-off">Xóa</div></div>'
+                        return '<div class = "show__item"><div class ="show-off">Xóa</div></div>'
                     }
                 },
             ],
@@ -102,15 +111,38 @@ function draw_invoice_table(data){
                 $('.loader').hide();
             }
         });
+
+    } 
     table.clear();
     table.rows.add(table_data);
     table.draw();
-    } 
 }
 
 $(document).ready(function(){
     get_invoice_table();
-    $('.submit-time').on('click', function(){
+    $('#submit-time').on('click', function(){
         get_invoice_table();
     });
 });
+
+$(document).on('click', '.show-off', function(){
+    var id = $(this).parent().parent().parent().find('.invoice-id').data('id');
+    hide_invoice(id);
+});
+
+function hide_invoice(id){
+    console.log(id)
+    $.ajax({
+        url: '/doctor/hide-invoice/',
+        type: 'GET',
+        data: {
+            'id': id,
+        },
+        success: function(data){
+            if (data.status == 'ok'){
+                alert("Đã xóa thành công")
+                $('.invoice-id .'+id).remove();
+            }
+        },
+    });
+}

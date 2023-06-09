@@ -28,7 +28,11 @@ from django.forms.models import model_to_dict
 
 def get_review_data(request):
     id = request.GET.get('doctor-id')
+    # star = start_condition.split(',')
+    doctor = Doctor.objects.get(id = int(id))
+    doctor_dict = {'id': doctor.id, 'real_name': doctor.real_name, 'avatar': doctor.avatar.url}
     star_condition_str = request.GET.get('star-condition')
+    print(star_condition_str)
     # Nếu star_condition_str == None thì trả về {}
     if star_condition_str == None:
         return JsonResponse({})
@@ -60,9 +64,11 @@ def get_review_data(request):
     print(star_detail_dict)
     star_query = Q()
     for s in star_condition:
+        print(s)
         star_query = star_query | Q(rate = s)
     query = Q(receiver_id = int(id)) & star_query
     reviews = Review.objects.filter(query)
+    print(reviews)
     review_arr = []
     for review in reviews:
         temp_dict = {}
@@ -76,6 +82,7 @@ def get_review_data(request):
         'star_avg': json.dumps(star_avg),
         'star_detail': json.dumps(star_detail_dict),
         'reviews': json.dumps(review_arr),
+        'doctor': json.dumps(doctor_dict),
     }
 
     return JsonResponse(data)
@@ -86,6 +93,7 @@ def get_invoice(request):
     if time_condition != None:
         time_condition = time_condition.split(',')
     query_condition = request.GET.get('query-condition')
+    print(id, time_condition, query_condition)
     time_query = Q()
     if time_condition == None:
         time_query = Q()
@@ -112,7 +120,10 @@ def get_invoice(request):
     invoice_query = Q(doctor__id = int(id))
     invoices = Invoice.objects.filter(invoice_query & time_query & search_query)
     table = []
+    print(invoices)
     for invoice in invoices:
+        if invoice.show_on_doctor == False:
+            continue
         temp = [invoice.patient.real_name, invoice.patient.avatar.url]
         row = [invoice.id_transaction, invoice.patient.id, temp, invoice.appoint_time.strftime("%d/%m/%Y %H:%M:%S"), invoice.appoint_address, invoice.amount_transact, invoice.status]
         table.append(row)
@@ -121,3 +132,10 @@ def get_invoice(request):
         'table': json.dumps(table),
     }
     return JsonResponse(data)
+
+def hide_invoice(request):
+    id = request.GET.get('id')
+    invoice = Invoice.objects.get(id_transaction = id)
+    invoice.show_on_doctor = False
+    invoice.save()
+    return JsonResponse({'status': 'success'})
