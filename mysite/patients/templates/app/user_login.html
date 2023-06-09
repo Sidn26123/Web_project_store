@@ -3,7 +3,7 @@
 {% block main-register %}
 <div class="login-form">
     <h2>Đăng nhập tài khoản</h2>
-    <form method="post" action = "{% url 'patient:user_login' %}">
+    <form method="post" >
       {% csrf_token %}
       {{ form.as_p }}
     <input type="text" value = "patient" name = "instance" style="display:none" id = "instance-store">

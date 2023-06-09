@@ -8,7 +8,9 @@
             <div class = "condition-choose-box chose" id = "upcoming">Chưa khám</div>
         </div> {% endcomment %}
 
-        <div id = "patient-info-wrapper" class = "d-row-flex"></div>
+        <div id = "patient-info-wrapper" class = "d-row-flex">
+            Hiện tại bạn không có bệnh nhân nào
+        </div>
         <div style = "display:none;">
             <div id = "patient-info-template" class = "id-store">
                 <div>
@@ -29,6 +31,15 @@
                 <div>
                     <div class="patient-info__item more-info-btn">Chi tiết</div>
                     <div class="patient-info__item delete-btn">Xóa</div>
+                    <div style="display:none" class = "confirm-template">
+                        <i class="fa-regular fa-circle-xmark hide-form"></i>
+                        <span></span>
+                        <div class="d-row-flex">
+                            <button class = "okay-confirm">Xác nhận</button>
+                            <button class = "cancle-confirm">Không</button>
+                        </div>
+
+                    </div>
                 </div>
             </div>
         </div>

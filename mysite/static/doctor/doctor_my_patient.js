@@ -12,7 +12,9 @@ function update_my_patient(){
         },
         success: function(data){
             data = JSON.parse(data.patients);
-            $('#patient-info-wrapper').empty();
+            if (data.length != 0){
+                $('#patient-info-wrapper').empty();
+            }
             for (var i = 0; i < data.length; i++){
                 var template = $('#patient-info-template').clone();
                 template.removeAttr('id');
@@ -30,7 +32,18 @@ function update_my_patient(){
             }
             $('.delete-btn').click(function(){
                 var patient_id = $(this).parent().parent().find('.patient-id').text()
-                delete_my_patient(patient_id);
+                var templ = $('.confirm-template').clone()
+                templ.find('span').text("Bạn có chắc chắn muốn xóa bệnh nhân " + patient_id + " không?")
+                $('.delete-btn').after(templ)
+                $('.hide-form').on('click', function(){
+                    templ.remove();
+                })
+                $('.okay-confirm').on('click', function(){
+                    delete_my_patient(patient_id);
+                });
+                $('.cancel-confirm').on('click', function(){
+                    templ.remove();
+                });
             })
             $('.more-info-btn').click(function(){
                 $(this).parent().parent().find('.patient-info-more').toggle();
