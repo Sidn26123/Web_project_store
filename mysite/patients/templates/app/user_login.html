@@ -6,9 +6,10 @@
     <form method="post">
       {% csrf_token %}
       {{ form.as_p }}
+      <input style = "display:none" type="text" value = "patient" name = "instance-store" id = "instance-store">
       <button type="submit">Đăng nhập</button>
     </form>
-    <a href="#">Đăng nhập của bác sĩ</a>
+    <a href="#"  id = "change-instance-login">Đăng nhập của bác sĩ</a>
     <style>
       a{
         color:red;
@@ -16,6 +17,7 @@
       }
     </style>
   </div>
+  <script src = "{% static 'patient.js' %}"></script>
 {% endblock main-register %}
   </div>
 </form>

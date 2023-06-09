@@ -691,8 +691,13 @@ def user_login(request):
             # Xác thực thông tin đăng nhập
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request,user)
-                return redirect('patient:home1')
+                print(request.POST.get('instance-store'))
+                if request.POST.get('instance-store') == "doctor":
+                    login(request,user)
+                    return redirect('doctor:dashboard')
+                else:
+                    login(request,user)
+                    return redirect('patient:home1')
     else:
         form = LoginForm()
 
