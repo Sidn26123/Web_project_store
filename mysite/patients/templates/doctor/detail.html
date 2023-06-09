@@ -1,19 +1,22 @@
 {% block detail %}
 {% load static %}
     {% for item in doc %}
-        <div class="wrapper" data-doctor-id="{{item.id}}">
-            <div class="doctor-info doc-{{item.id}}" data-doctor-id = "{{item.id}}">
-                <h2>Lịch khám</h2>
-                <input type="date" name="start_date" id="start_date" class = "start_date">
-                <div id = "doctor-time-area" class = "doctor-{{item.id}}">
-                </div>
-    
-    
+    <div class="chuyenkhoakham" data-doctor-id="{{item.id}}">
+        <div class="doctor-info doc-{{item.id}}" data-doctor-id = "{{item.id}}">
+            <h2>Lịch khám</h2>
+            <input type="date" name="start_date" id="start_date" class = "start_date">
+            <div id = "doctor-time-area" class = "doctor-{{item.id}}">
             </div>
+
+
+        </div>
+
             <div class="appointment-info">
-                <p>Địa chỉ khám: {{user.address}}</p>
-                <p><a href="{% url 'patient:home' %}">Giá khám: </a></p>
-                <p>Loại bảo hiểm áp dụng: </p>
+                <img src="/media/{{item.avatar}}" alt="Logo">
+                <p>Tên bác sĩ:  {{item.real_name}}</p>
+                <p>Thông tin bác sĩ:  {{item.real_name}}</p>
+                <p>Địa chỉ khám: {{item.address}}</p>
+                <p><a href="{% url 'patient:home' %}">Giá khám: {{item.fee}} đ</a></p>
             </div>
             <div style = "display:none">
                 <div >
@@ -25,7 +28,51 @@
                 </a>
             </div>
         </div>
+
+
         
+ <style>
+ 
+      
+      .wrapper {
+        margin-top: 20px;
+      }
+      
+      .chuyenkhoakham {
+        display: flex;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+      
+      .doctor-info {
+        flex: 1;
+        padding: 20px;
+        background-color: #e6e6e6;
+      }
+      
+      .appointment-info {
+        flex: 1;
+        padding: 20px;
+        background-color: #e6e6e6;
+      }
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 60%;
+      }
+      
+      h2, h3 {
+        margin-top: 0;
+      }
+      
+      p {
+        margin: 10px 0;
+      }
+      
+        
+ </style>
+
 
     {% endfor %}
     <script src="{% static 'patient.js' %}"></script>

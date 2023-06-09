@@ -1,12 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from .models import Patient
 from site_admins.models import Site_admin, Transaction
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views import View
 #from patients.models import Patient
-#from .models import Site_admin, Transaction
-#from doctors.models import Doctor
+from site_admins.models import Site_admin, Transaction, Notification    
+from doctors.models import Doctor
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from math import ceil
 #from .forms import Login_form
@@ -21,11 +20,14 @@ import json
 import calendar
 import csv
 import os
-import re
-
 from math import floor, ceil
 from django.forms.models import model_to_dict
-
+from .forms import TransactionForm
+def logout_v(request):
+    print(request)
+    logout(request)
+    print(request)
+    return redirect("/patient/")
 # Create your views here.
 def home(request):
     context= {}
@@ -58,7 +60,17 @@ def thongbao(request):
     context= {}
     return render(request, 'app/thongbao.html',context)
 def thongbao1(request):
-    context= {}
+    condition = "ptn," + str(request.user.id)
+    notices = Notification.objects.filter(receiver = condition).last()
+
+    if notices is None:
+        notice_dict = {}
+    else:
+        notice_dict = model_to_dict(notices)
+        doctor_id = notices.sender.split(',')[1]
+        notice_dict['doctor_name'] = Doctor.objects.get(id = doctor_id).real_name
+        notice_dict['time_create'] = notices.time_create.strftime("%d/%m/%Y %H:%M:%S")
+    context= {'notice': notice_dict}
     return render(request, 'app/thongbao1.html',context)
 def chuyenkhoa(request):
     context= {}
@@ -197,7 +209,7 @@ def dalieu1(request):
     return render(request, 'CK/dalieu1.html',context)
 def hohap(request):
     print("a")
-    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    doctor = Doctor.objects.filter(specialty = "ho_hap_phoi")
     print(doctor)
     context= {
         'doc': doctor,
@@ -205,7 +217,7 @@ def hohap(request):
     return render(request, 'CK/hohap.html',context)
 def hohap1(request):
     print("a")
-    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    doctor = Doctor.objects.filter(specialty = "ho_hap_phoi")
     print(doctor)
     context= {
         'doc': doctor,
@@ -284,7 +296,7 @@ def timmachdk(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/timmach.html',context)
+    return render(request, 'CKdatkham/timmachdk.html',context)
 def timmachdk1(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "tim_mach")
@@ -292,7 +304,7 @@ def timmachdk1(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/timmach1.html',context)
+    return render(request, 'CKdatkham/timmachdk1.html',context)
 def taimuihongdk(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
@@ -300,7 +312,7 @@ def taimuihongdk(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/taimuihong.html',context)
+    return render(request, 'CKdatkham/taimuihongdk.html',context)
 def taimuihongdk1(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "tai_mui_hong")
@@ -308,7 +320,7 @@ def taimuihongdk1(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/taimuihong1.html',context)
+    return render(request, 'CKdatkham/taimuihongdk1.html',context)
 def cotsongdk(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "cot_song")
@@ -316,7 +328,7 @@ def cotsongdk(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/cotsong.html',context)
+    return render(request, 'CKdatkham/cotsongdk.html',context)
 def cotsongdk1(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "cot_song")
@@ -324,7 +336,7 @@ def cotsongdk1(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/cotsong1.html',context)
+    return render(request, 'CKdatkham/cotsongdk1.html',context)
 def dalieudk(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "da_lieu")
@@ -332,7 +344,7 @@ def dalieudk(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/dalieu.html',context)
+    return render(request, 'CKdatkham/dalieudk.html',context)
 def dalieudk1(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "da_lieu")
@@ -340,23 +352,23 @@ def dalieudk1(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/dalieu1.html',context)
+    return render(request, 'CKdatkham/dalieudk1.html',context)
 def hohapdk(request):
     print("a")
-    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    doctor = Doctor.objects.filter(specialty = "ho_hap_phoi")
     print(doctor)
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/hohap.html',context)
+    return render(request, 'CKdatkham/hohapdk.html',context)
 def hohapdk1(request):
     print("a")
-    doctor = Doctor.objects.filter(specialty = "ho_hap")
+    doctor = Doctor.objects.filter(specialty = "ho_hap_phoi")
     print(doctor)
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/hohap1.html',context)
+    return render(request, 'CKdatkham/hohapdk1.html',context)
 def nhakhoadk(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "nha_khoa")
@@ -364,7 +376,7 @@ def nhakhoadk(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/nhakhoa.html',context)
+    return render(request, 'CKdatkham/nhakhoadk.html',context)
 def nhakhoadk1(request):
     print("a")
     doctor = Doctor.objects.filter(specialty = "nha_khoa")
@@ -372,7 +384,7 @@ def nhakhoadk1(request):
     context= {
         'doc': doctor,
     }
-    return render(request, 'CKdatkham/nhakhoa1.html',context)
+    return render(request, 'CKdatkham/nhakhoadk1.html',context)
 
 #Code 5 chuyên khoa  trang home 
 def xuongkhophome(request):
@@ -460,59 +472,95 @@ def taimuihonghome1(request):
 
 
 #bác sĩ 
-def BsXuongkhop1(request):
-    context= {}
+def BsXuongkhop1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsXuongkhop1.html',context)
-def BsXuongkhop2(request):
-    context= {}
+def BsXuongkhop2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsXuongkhop2.html',context)
-def BsThankinh1(request):
-    context= {}
+def BsThankinh1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsThankinh1.html',context)
-def BsThankinh2(request):
-    context= {}
+def BsThankinh2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsThankinh2.html',context)
-def BsTieuhoa1(request):
-    context= {}
+def BsTieuhoa1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTieuhoa1.html',context)
-def BsTieuhoa2(request):
-    context= {}
+def BsTieuhoa2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTieuhoa2.html',context)
-def BsTimmach1(request):
-    context= {}
+def BsTimmach1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTimmach1.html',context)
-def BsTimmach2(request):
-    context= {}
+def BsTimmach2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTimmach2.html',context)
-def BsTaimuihong1(request):
-    context= {}
+def BsTaimuihong1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTaimuihong1.html',context)
-def BsTaimuihong2(request):
-    context= {}
+def BsTaimuihong2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsTaimuihong2.html',context)
-def BsCotsong1(request):
-    context= {}
+def BsCotsong1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsCotsong1.html',context)
-def BsCotsong2(request):
-    context= {}
+def BsCotsong2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsCotsong2.html',context)
-def BsDalieu1(request):
-    context= {}
+def BsDalieu1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsDalieu1.html',context)
-def BsDalieu2(request):
-    context= {}
+def BsDalieu2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsDalieu2.html',context)
-def BsHohapphoi1(request):
-    context= {}
+def BsHohapphoi1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsHohapphoi1.html',context)
-def BsHohapphoi2(request):
-    context= {}
+def BsHohapphoi2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsHohapphoi2.html',context)
-def BsNhakhoa1(request):
-    context= {}
+def BsNhakhoa1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsNhakhoa1.html',context)
-def BsNhakhoa2(request):
-    context= {}
+def BsNhakhoa2(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
     return render(request, 'doctor/BsNhakhoa2.html',context)
 
 #code xuất thông tin bác sĩ
@@ -521,6 +569,11 @@ def thongtinBS(request, id):
     print(doc)
     context= {'data': doc}
     return render(request, 'patients/thongtinBS.html',context)
+def thongtinBS1(request, id):
+    doc = Doctor.objects.get(id = id)
+    print(doc)
+    context= {'data': doc}
+    return render(request, 'patients/thongtinBS1.html',context)
 #đăng nhập để đặt khám
 def logindedatkham(request):
     context= {}
@@ -532,18 +585,17 @@ def datkham(request):
 def datkham1(request):
     context= {}
     return render(request, 'patients/datkham1.html',context)
-
-def datkhamid(request, id, time):
+def datkhamid0(request, id, time):
     doctor = Doctor.objects.get(id = id)
     doctor_dict = model_to_dict(doctor)
     doctor_dict['avatar'] = doctor.avatar.url
     if request.method == 'POST':
-        form = PatientForm(request.POST)
+        form = TransactionForm(request.POST)
         if form.is_valid():
             form.save()
             return render(request, 'patients/success.html')
     else:
-        form = PatientForm()
+        form = TransactionForm()
     context = {
         'doctor': doctor_dict,
         'doc': doctor,
@@ -551,6 +603,52 @@ def datkhamid(request, id, time):
         'avatar': doctor.avatar.url,
         'fee': doctor.fee,
         'form': form,
+    }
+    return render(request, 'patients/book_appointment.html', context)
+# from doctors.dashboard import (
+    
+# )
+def datkhamid(request, id, time):
+    patient_id = request.user.id
+    doctor = Doctor.objects.get(id = id)
+    doctor_dict = model_to_dict(doctor)
+    doctor_dict['avatar'] = doctor.avatar.url
+    if request.method == 'POST':
+        form = TransactionForm(request.POST)
+        if form.is_valid():
+            # form.save()
+            # patient_info = {'email': form.cleaned_data['email'], 'phone': form.cleaned_data['phone'], 'real_name': form.cleaned_data['real_name'], 'district': form.cleaned_data['district'], 'address': form.cleaned_data['address'], 'XA': form.cleaned_data['XA'], 'citizen_identification': form.cleaned_data['citizen_identification'], 'date_of_birth': form.cleaned_data['date_of_birth']}
+            time_arr = time.split('-')
+            time_str = time_arr[3] + '-' + time_arr[4] + '-' + time_arr[5] + ' ' + time_arr[1]
+            transaction_time = datetime.strptime(time_str, '%Y-%m-%d %H:%M')
+            last_transaction = Transaction.objects.last()
+            available_time = doctor.available_time
+            doctor = Doctor.objects.get(id = id)
+            available_time = doctor.available_time
+            print(available_time[0:3])
+            available_time = json.loads(available_time)
+            for a in available_time:
+                print(a['day'])
+                if a['day'] == int(time_arr[0]):
+                    time = a['time']
+                    for t in time:
+                        if t['time-start'] == time_arr[1]:
+                            t['count'] = t['count'] + 1
+            doctor.available_time = available_time
+            print(doctor.available_time)
+            doctor.save()
+            Transaction.objects.create(state = "pending", medical_specialty = doctor.specialty, doctor = doctor, transaction_time = transaction_time, amount_transact = doctor.fee, id_transaction = last_transaction.id_transaction + 1, province = form.cleaned_data['province'], real_name = form.cleaned_data['real_name'], phone = form.cleaned_data['phone'] ,citizen_identification = form.cleaned_data['citizen_identification'], date_of_birth = form.cleaned_data['date_of_birth'], email = form.cleaned_data['email'])
+            Notification.objects.create(content = "Bạn có một cuộc hẹn mới", receiver = "doc,"+str(id), sender = "ptn,"+str(patient_id))
+            
+            return render(request, 'patients/success.html')
+    else:
+        form = TransactionForm()
+    context = {
+        'doctor': doctor_dict,
+        'time': time,
+        'avatar': doctor.avatar.url,
+        'form': form,
+        'fee' : doctor.fee,
     }
     return render(request, 'patients/book_appointment1.html', context)
 def book_appointment(request):
@@ -581,17 +679,11 @@ def register(request):
 #code đăng nhập
 from django.contrib.auth import authenticate, login
 from django.shortcuts import render, redirect
-from .forms import LoginForm, LoginDoctorForm, LoginPatientForm
+from .forms import LoginForm
 
 def user_login(request):
-    if request.user.is_authenticated:
-        logout(request)
     if request.method == 'POST':
-        instance = request.POST.get('instance')
-        if instance == 'patient':
-            form = LoginPatientForm(request=request, data=request.POST)
-        elif instance == 'doctor':
-            form = LoginDoctorForm(request=request, data=request.POST)
+        form = LoginForm(request=request, data=request.POST)
         if form.is_valid():
             # Lấy thông tin đăng nhập từ form
             username = form.cleaned_data['username']
@@ -599,13 +691,8 @@ def user_login(request):
             # Xác thực thông tin đăng nhập
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                if user.is_active:
-                    # Thực hiện đăng nhập cho user
-                    login(request,user)
-                    if instance == "patient":
-                        return redirect('patient:home1')
-                    elif instance == "doctor":
-                        return redirect('doctor:dashboard')
+                login(request,user)
+                return redirect('patient:home1')
     else:
         form = LoginForm()
 
@@ -632,8 +719,6 @@ def change_password(request):
             new_password = form.cleaned_data['new_password']
             confirm_password = form.cleaned_data['confirm_password']
             
-            regex = r'(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[.\@#$!%*#?&]).*$'
-
             # Kiểm tra mật khẩu cũ có đúng không
             if not request.user.check_password(old_password):
                 messages.error(request, 'Mật khẩu cũ không đúng')
@@ -643,9 +728,7 @@ def change_password(request):
             if new_password != confirm_password:
                 messages.error(request, 'Mật khẩu mới không khớp')
                 return redirect('patient:change_password')
-            if not re.match(regex, new_password):
-                messages.error(request, 'Mật khẩu phải chứa ít nhất 1 chữ in hoa, 1 chữ thường, không dấu, 1 ký tự đặc biệt và 1 số')
-                return redirect('patient:change_password')
+            
             # Cập nhật mật khẩu mới
             request.user.set_password(new_password)
             request.user.save()
@@ -659,17 +742,20 @@ def change_password(request):
 
 #code phần đặt khám thông tin bác sĩ
 from django.shortcuts import render
-from .forms import PatientForm
+from .forms import TransactionForm 
 
 def book_appointment1(request):
+
     if request.method == 'POST':
-        form = PatientForm(request.POST)
+        form = TransactionForm(request.POST)
+        
         if form.is_valid():
-            form.save()
+            # form.save()
+            # Transaction.objects.create(appointment_state = "pending", medical_specialties = 
             return render(request, 'patients/success.html')
     else:
-        form = PatientForm()
-    return render(request, 'patients/book_appointment1.html', {'form': form, 'request':request})
+        form = TransactionForm()
+    return render(request, 'patients/book_appointment1.html', {'form': form})
 
 
 #code tìm kiếm bác sĩ
@@ -683,8 +769,8 @@ def home(request):
 
     if request.method == 'GET' and form.is_valid():
         keyword = form.cleaned_data['search_keyword']
-        results = Doctor.objects.filter(real_name__icontains=keyword)
-
+        results = Doctor.objects.filter(real_name__icontains=keyword) | Doctor.objects.filter(specialty = keyword)
+     
     context = {
         'form': form,
         'results': results,
@@ -693,23 +779,45 @@ def home(request):
 #code tìm kiếm bác sĩ home1
 from django.shortcuts import render
 from .forms import DoctorSearchForm
-from doctors.models import Doctor
+from doctors.models import Doctor , Specialties
 
 def home1(request):
     form = DoctorSearchForm(request.GET or None)
     results = []
 
     if request.method == 'GET' and form.is_valid():
-        keyword = form.cleaned_data['search_keyword']
-        results = Doctor.objects.filter(real_name__icontains=keyword)
+        search_query = form.cleaned_data['search_keyword']
+        specialty_choices = dict(Specialties.medical_specialties)
+        doctors_by_name = Doctor.objects.filter(real_name__icontains=search_query)
+        doctors_by_specialty = Doctor.objects.filter(specialty__icontains=search_query)
+        doctors_by_specialty_choices = Doctor.objects.filter(specialty__in=specialty_choices.keys(), specialty__icontains=search_query)
+
+        results = doctors_by_name | doctors_by_specialty | doctors_by_specialty_choices
 
     context = {
         'form': form,
         'results': results,
     }
     return render(request, 'app/home1.html', context)
+#code chỉnh sửa thông tin người dùng
 
+from django.shortcuts import render, get_object_or_404, redirect
+from .forms import editname 
+from .models import Patient
+def edit_user(request, user_id):
+    user = get_object_or_404(Patient, pk=user_id)
+    
+    if request.method == 'POST':
+        form = editname(request.POST, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('patient:thongtin')
+    else:
+        form = editname(instance=user)
+    
+    return render(request, 'chinhsuaTT/edit_user.html', {'form': form, 'user': user})
 
+########
 def get_time_available(request):
     id = request.GET.get('id')
     doctor = Doctor.objects.get(id=id)

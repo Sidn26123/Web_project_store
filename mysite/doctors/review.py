@@ -32,10 +32,8 @@ def get_review_data(request):
     doctor = Doctor.objects.get(id = int(id))
     doctor_dict = {'id': doctor.id, 'real_name': doctor.real_name, 'avatar': doctor.avatar.url}
     star_condition_str = request.GET.get('star-condition')
-    print(star_condition_str)
     # Nếu star_condition_str == None thì trả về {}
-    if star_condition_str == None:
-        return JsonResponse({})
+
     #Chuyển star sang int
     star_condition = [int(star) for star in star_condition_str.split(',') if star != '']
     star_avg = {}
@@ -61,14 +59,12 @@ def get_review_data(request):
             star_detail_dict[str(temp)] = 0
         else:
             star_detail_dict[str(temp)] = star_detail_dict_t[i]
-    print(star_detail_dict)
     star_query = Q()
     for s in star_condition:
         print(s)
         star_query = star_query | Q(rate = s)
     query = Q(receiver_id = int(id)) & star_query
     reviews = Review.objects.filter(query)
-    print(reviews)
     review_arr = []
     for review in reviews:
         temp_dict = {}
@@ -78,6 +74,8 @@ def get_review_data(request):
         temp_dict['feedback'] = review.feedback
         temp_dict['time_review'] = review.time_feedback.strftime("%d/%m/%Y %H:%M:%S")
         review_arr.append(temp_dict)
+    if star_condition_str == "":
+        review_arr = []
     data = {
         'star_avg': json.dumps(star_avg),
         'star_detail': json.dumps(star_detail_dict),
@@ -100,14 +98,14 @@ def get_invoice(request):
     elif (time_condition[0] == "" and time_condition[1] == ""):
         time_query = Q()
     elif (time_condition[0] == ""):
-        time_format = datetime.strptime(time_condition[1] + " 23:59:59", "%d/%m/%Y %H:%M:%S")
+        time_format = datetime.strptime(time_condition[1] + " 23:59:59", "%Y-%m-%d %H:%M:%S")
         time_query = Q(transaction_time__lte = time_format)
     elif time_condition[1] == "":
-        time_format = datetime.strptime(time_condition[0] + " 00:00:00", "%d/%m/%Y %H:%M:%S")
+        time_format = datetime.strptime(time_condition[0] + " 00:00:00", "%Y-%m-%d %H:%M:%S")
         time_query = Q(transaction_time__gte = time_format)
     elif time_condition[0] != "" and time_condition[1] != "":
-        time_start_format = datetime.strptime(time_condition[0] + " 00:00:00", "%d/%m/%Y %H:%M:%S")
-        time_end_format = datetime.strptime(time_condition[1] + " 23:59:59", "%d/%m/%Y %H:%M:%S")
+        time_start_format = datetime.strptime(time_condition[0] + " 00:00:00", "%Y-%m-%d %H:%M:%S")
+        time_end_format = datetime.strptime(time_condition[1] + " 23:59:59", "%Y-%m-%d %H:%M:%S")
         time_query = Q(transaction_time__gte = time_start_format) & Q(transaction_time__lte = time_end_format)
     else:
         return JsonResponse({'status': 'error'})

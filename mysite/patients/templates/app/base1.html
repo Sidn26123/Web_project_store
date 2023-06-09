@@ -42,7 +42,7 @@
                   <li><a href="{% url 'patient:change_password' %}">Thay đổi mật khẩu</a></li>
                   <li><a href="#">Xem lịch hẹn sắp tới</a></li>
                   <li><a href="#">Ngôn ngữ</a></li>
-                  <li><a href="{%url 'patient:home'%}">Đăng xuất</a></li>
+                  <li><a href="{%url 'patient:logout'%}">Đăng xuất</a></li>
                 
               </div>
             </div>
@@ -120,5 +120,6 @@
       {% block main-datkham %} {% endblock main-datkham %}
       {% block main-register %} {% endblock main-register %}
       {% block main-login %} {% endblock main-login %}
+      {% block main-success %} {% endblock main-success %}
       {% block main-change_password %} {% endblock main-change_password %}
 </html>

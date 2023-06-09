@@ -13,6 +13,13 @@
             margin: 0;
             padding: 20px;
         }
+        a{
+            color:red;
+            text-align: center;
+            display: inline-block;
+            font-size: 20px;
+            text-decoration: underline;
+          }
     
         h2 {
             color: #333;
@@ -79,12 +86,16 @@
               <th>Họ và tên:</th> <td>{{ user.real_name }}</td>
             </tr>
             <tr>
-                <th>Ngày sinh:</th>
+                <th>Giới tính:</th>
                 <td>{{ user.gender }}</td>
             </tr>
             <tr>
                 <th>Số điện thoại:</th>
                 <td>{{ user.phone }}</td>
+            </tr>
+            <tr>
+                <th>CCCD:</th>
+                <td>{{ user.citizen_identification }}</td>
             </tr>
             <tr>
                 <th>Ngày sinh:</th>
@@ -104,6 +115,7 @@
                 <td>{{ user.address }}</td>
             </tr>
         </table>
+        <a href="{% url 'patient:edit_user' user_id=user.id%}">Chỉnh sửa</a>
       </div>
 </body>
 </html>

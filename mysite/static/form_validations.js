@@ -1,24 +1,24 @@
-$.validator.addMethod("username_exist", function(value, element) {
-    var is_exist = false;
-    $.ajax({
-        url: '/ad/check_username_exist/',
-        type: 'GET',
-        data: {
-            'username': value,
-        },
-        success: function(data) {
-            is_exist = data;
-        }
-    });
-    return this.required(element) && is_exist
-});
+// $.validator.addMethod("username_exist", function(value, element) {
 
-$.validator.addMethod("username_valid", function(value, element) {
-    var is_valid = false;
-    var regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/
-    is_valid = regex.test(value);
-    return this.required(element) && is_valid
-});
+//     var is_exist = false;
+//     $.ajax({
+//         url: '/ad/check_username_exist/',
+//         type: 'GET',
+//         data: {
+//             'username': value,
+//         },
+//         success: function(data) {
+//             is_exist = data;
+//         }
+//     });
+//     return this.required(element) && is_exist
+// });
+// $.validator.addMethod("username_valid", function(value, element) {
+//     var is_valid = false;
+//     var regex = /^[a-zA-Z]+(([',. -][a-zA-Z ])?[a-zA-Z]*)*$/
+//     is_valid = regex.test(value);
+//     return this.required(element) && is_valid
+// });
 
 $.validator.addMethod("password_valid", function(value, element) {
     var is_valid = false;
@@ -34,7 +34,38 @@ $.validator.addMethod("number_str", function(value, element) {
     is_valid = regex.test(value);
     return this.required(element) && is_valid
 });
-
+$.validator.addMethod("phone_number_exist", function(value, element){
+    var is_exist = false;
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/check-phone-number-exist/',
+        type: 'GET',
+        data: {
+            'phone_number': value,
+            'doctor_id': doctor_id,
+        },
+        success: function(data){
+            is_exist = data;
+        }
+    });
+    return this.required(element) && is_exist
+});
+$.validator.addMethod("email_exist", function(value, element){
+    var is_exist = false;
+    var doctor_id = $('.get-id').data('id');
+    $.ajax({
+        url: '/doctor/check-email-exist/',
+        type: 'GET',
+        data: {
+            'email': value,
+            'doctor_id': doctor_id,
+        },
+        success: function(data){
+            is_exist = data;
+        }
+    });
+    return this.required(element) && is_exist
+});
 $.validator.addMethod("date_format", function(value, element) {
     var is_valid = false;
     //Kểm tra theo format dd/mm/yyyy, {2}, {4} là số lượng ký tự
@@ -160,4 +191,21 @@ $(document).ready(function() {
                 maxlength: "Họ tên không được vượt quá 40 ký tự",
             }
     });
+    $('.doctor-info-fix').validate({
+        rules:{
+            real_name:{
+                required: true,
+                minlength: 4,
+                maxlength: 40,
+            },
+        },
+        messages:{
+            real_name:{
+                required: "Vui lòng nhập họ tên",
+                minlength: "Họ tên phải có ít nhất 4 ký tự",
+                maxlength: "Họ tên không được vượt quá 40 ký tự",
+            }
+            
+        },
+    })
 });

@@ -25,6 +25,79 @@ class Site_admin(User):
 #         return self.is_admin
 
 class Transaction(models.Model):
+    MAN = "man"
+    WOMAN = "woman"
+    THEM = "undefined"
+    GENDER_CHOICES = [
+        (MAN, "Nam"),
+        (WOMAN, "Nữ"),
+        (THEM, "Không xác định"),
+    ]
+
+    PROVINCE_CHOICES = [
+        ('ho_chi_minh', 'TP. Hồ Chí Minh'),
+        ('ha_noi', 'Hà Nội'),
+        ('da_nang', 'Đà Nẵng'),
+        ('hai_phong', 'Hải Phòng'),
+        ('can_tho', 'Cần Thơ'),
+        ('cao_bang','Cao Bằng'),
+        ('an_giang', 'An Giang'),
+        ('bac_giang', 'Bắc Giang'),
+        ('bac_kan', 'Bắc Kạn'),
+        ('bac_lieu', 'Bạc Liêu'),
+        ('bac_ninh', 'Bắc Ninh'),
+        ('ben_tre', 'Bến Tre'),
+        ('binh_dinh', 'Bình Định'),
+        ('binh_duong', 'Bình Dương'),
+        ('binh_phuoc', 'Bình Phước'),
+        ('binh_thuan', 'Bình Thuận'),
+        ('ca_mau', 'Cà Mau'),
+        ('cao_bang', 'Cao Bằng'),
+        ('dak_lak', 'Đắk Lắk'),
+        ('dak_nong', 'Đắk Nông'),
+        ('dien_bien', 'Điện Biên'),
+        ('dong_nai', 'Đồng Nai'),
+        ('dong_thap', 'Đồng Tháp'),
+        ('gia_lai', 'Gia Lai'),
+        ('ha_giang', 'Hà Giang'),
+        ('ha_nam', 'Hà Nam'),
+        ('ha_tinh', 'Hà Tĩnh'),
+        ('hai_duong', 'Hải Dương'),
+        ('hau_giang', 'Hậu Giang'),
+        ('hoa_binh', 'Hòa Bình'),
+        ('hung_yen', 'Hưng Yên'),
+        ('khanh_hoa', 'Khánh Hòa'),
+        ('kien_giang', 'Kiên Giang'),
+        ('kon_tum', 'Kon Tum'),
+        ('lai_chau', 'Lai Châu'),
+        ('lam_dong', 'Lâm Đồng'),
+        ('lang_son', 'Lạng Sơn'),
+        ('lao_cai', 'Lào Cai'),
+        ('long_an', 'Long An'),
+        ('nam_dinh', 'Nam Định'),
+        ('nghe_an', 'Nghệ An'),
+        ('ninh_binh', 'Ninh Bình'),
+        ('ninh_thuan', 'Ninh Thuận'),
+        ('phu_tho', 'Phú Thọ'),
+        ('quang_binh', 'Quảng Bình'),
+        ('quang_nam', 'Quảng Nam'),
+        ('quang_ngai', 'Quảng Ngãi'),
+        ('quang_ninh', 'Quảng Ninh'),
+        ('quang_tri', 'Quảng Trị'),
+        ('soc_trang', 'Sóc Trăng'),
+        ('son_la', 'Sơn La'),
+        ('tay_ninh', 'Tây Ninh'),
+        ('thai_binh', 'Thái Bình'),
+        ('thai_nguyen', 'Thái Nguyên'),
+        ('thanh_hoa', 'Thanh Hóa'),
+        ('thua_thien_hue', 'Thừa Thiên Huế'),
+        ('tien_giang', 'Tiền Giang'),
+        ('tra_vinh', 'Trà Vinh'),
+        ('tuyen_quang', 'Tuyên Quang'),
+        ('vinh_long', 'Vĩnh Long'),
+        ('vinh_phuc', 'Vĩnh Phúc'),
+        ('yen_bai', 'Yên Bái')
+    ]
     appointment_state = [
         ("success", "Thành công"),
         ("failure", "Thất bại"),
@@ -66,10 +139,19 @@ class Transaction(models.Model):
     canceled_details = models.OneToOneField('Detail_canceled', on_delete=models.CASCADE, null = True, blank = True)
     appoint_address = models.TextField(default = "")
     creator = models.CharField(max_length = 20, default = "doctor", choices = CREATOR)
-    info_patient = models.TextField( null = True, blank = True)
+    info_patient = models.CharField(max_length = 30, null = True, blank = True)
     city = models.CharField(max_length = 30, null = True, blank = True)
     district = models.CharField(max_length = 30, null = True, blank = True)
     address = models.TextField(null = True, blank = True)
+
+
+
+    real_name = models.CharField(max_length=255, verbose_name="Tên", null = True)
+    gender = models.CharField(max_length = 20, choices = GENDER_CHOICES, default = THEM)
+    phone = models.CharField(max_length = 15, default = None, null = True, blank = True)
+    citizen_identification = models.CharField(max_length = 20, null = True)
+    date_of_birth = models.DateField(auto_now=False, auto_now_add=False, null =True)
+    province = models.CharField(max_length = 20, choices= PROVINCE_CHOICES, default="ha_noi") 
     def __str__(self):
         return f"{self.doctor.real_name}-{self.id}"
     def __save__(self, *args, **kwargs):
@@ -100,7 +182,8 @@ class Test(models.Model):
 
 
 class Notification(models.Model):
-    content = models.TextField()
+    title = models.TextField(null = True, blank = True)
+    content = models.TextField(null = True, blank = True)
     receiver = models.CharField(max_length = 20, default = "doc,", null = True, blank = True)
     sender = models.CharField(max_length = 20, default = "ptn,", null = True, blank = True)
     time_create = models.DateTimeField(auto_now_add=True)

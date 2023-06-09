@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-{% extends 'app/base.html'%}
+{% extends 'app/base1.html'%}
 {% load static %}
 {% block main-success %}
 <div class="register-form">
@@ -14,7 +14,7 @@
     <div class="register-form">
     <h2>Đặt khám thành công</h2>
     <h2>Cảm ơn bạn đã đặt khám.</h2>
-    <a href="{% url 'home1' %}" class="btnt">Quay lại trang chủ</a>
+    <a href="{% url 'patient:home1' %}" class="btnt">Quay lại trang chủ</a>
     </div>
 </body>
 <style>

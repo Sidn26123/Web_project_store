@@ -128,10 +128,14 @@ def get_appoint_table_data(request):
     appoints = Transaction.objects.select_related('doctor').filter(doctor__id = doctor_id, state = "waiting", appoint_time__date__range = [time_start, time_end]).order_by('appoint_time')
     table = []
     for appoint in appoints:
-        temp_info = json.loads(appoint.info_patient)
+        if (appoint.patient == None):
+            temp_info = json.loads(appoint.info_patient)
         
-        temp = ['/media/media/images/default.jpeg', temp_info['name']]
-        row = [appoint.id, temp, appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"), appoint.appoint_address, appoint.amount_transact]
+            temp = ['/media/media/images/default.jpeg', temp_info['name']]
+            row = [appoint.id, temp, appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"), appoint.appoint_address, appoint.amount_transact]
+        else:
+            temp = [appoint.patient.avatar.url, appoint.patient.real_name]
+            row = [appoint.id, temp, appoint.appoint_time.strftime("%d/%m/%Y %H:%M:%S"), appoint.appoint_address, appoint.amount_transact]
         table.append(row)
     data = {
         'table': json.dumps(table),
@@ -143,8 +147,13 @@ def get_transaction_detail(request):
     transact = Transaction.objects.get(id = transact_id)
     transact_dict = model_to_dict(transact)
     transact_dict['appoint_time'] = transact.appoint_time.strftime("%d/%m/%Y %H:%M:%S")
-    temp = json.loads(transact.info_patient)
-    transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
+    if (transact.patient == None):
+        temp = json.loads(transact.info_patient)
+        transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
+    else:
+        transact_dict['patient'] = [transact.patient.real_name, transact.patient.avatar.url, transact.patient.gender, transact.patient.province]
+
+    # transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
     return JsonResponse(transact_dict)
 
 def check_next_appoint(request):
@@ -329,6 +338,23 @@ def update_time_per_period(request):
     doctor_id = request.GET.get('id')
     amount = request.GET.get('amount')
     doctor = Doctor.objects.get(id = int(doctor_id))
-    doctor.time_per_period = 0
+    doctor.time_per_appoint = amount
     doctor.save()
     return JsonResponse({'status': 'success'})
+
+def get_transaction_detail(request, id):
+    transact = Transaction.objects.get(id = id)
+    transact_dict = model_to_dict(transact)
+    if transact_dict['appoint_time'] == None:
+        transact_dict['appoint_time'] = datetime.now()
+    else:
+        transact_dict['appoint_time'] = transact.appoint_time.strftime("%d/%m/%Y %H:%M:%S")
+
+    if (transact.patient == None):
+        temp = json.loads(transact.info_patient)
+        transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
+    else:
+        transact_dict['patient'] = [transact.patient.real_name, transact.patient.avatar.url, transact.patient.gender, transact.patient.province]
+
+    # transact_dict['patient'] = [temp['name'], '/media/media/images/default.jpeg']
+    return render(request, 'doctors/detail_appointing.html', {'transact': transact_dict})

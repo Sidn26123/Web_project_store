@@ -132,6 +132,7 @@ function update_review_stats(doctor_id, star_condition){
             'star-condition': star_condition,
         },
         success: function(data) {
+            $('#review-area').empty();
             var star = JSON.parse(data['star_detail'])
             var star_avg = JSON.parse(data['star_avg'])
             var reviews = JSON.parse(data['reviews'])
@@ -145,7 +146,6 @@ function update_review_stats(doctor_id, star_condition){
             $('#3-star').text(star['3']);
             $('#2-star').text(star['2']);
             $('#1-star').text(star['1']);
-            $('#review-area').empty();
             for (var i = 0; i < reviews.length; i++){
                 var template = $('#review-template').clone();
                 template.find('.reviewer-avatar').attr('class', reviews[i]['avatar']);
@@ -179,27 +179,25 @@ $(document).ready(function() {
     update_review_stats(doctor_id, star_condition);
 
     $('.filter-item').on('click', function() {
-      var clickedItemId = $(this).attr('id');
-      
-      if (clickedItemId === 'all') {
-        // Kiểm tra nút "Tất cả" đã được chọn hay chưa
-        if ($(this).hasClass('checked')) {
-          // Nếu đã được chọn, loại bỏ checked cho tất cả các phần tử khác
-          $('.filter-item').removeClass('checked');
+        var clickedItemId = $(this).attr('id');
+        if (clickedItemId === 'all') {
+            // Kiểm tra nút "Tất cả" đã được chọn hay chưa
+            if ($(this).hasClass('checked')) {
+            // Nếu đã được chọn, loại bỏ checked cho tất cả các phần tử khác
+            $('.filter-item').removeClass('checked');
+            } else {
+            // Nếu chưa được chọn, thêm checked cho tất cả các phần tử
+            $('.filter-item').addClass('checked');
+            }
         } else {
-          // Nếu chưa được chọn, thêm checked cho tất cả các phần tử
-          $('.filter-item').addClass('checked');
-        }
-      } else {
-        // Nếu click vào nút khác, tắt checked của nút "Tất cả" nếu có
-        $('#all').removeClass('checked');
-        
-        $(this).toggleClass('checked');
+            // Nếu click vào nút khác, tắt checked của nút "Tất cả" nếu có
+            $('#all').removeClass('checked');
+            
+            $(this).toggleClass('checked');
 
-      }
-      star_condition = get_star_condition();
-        console.log(star_condition)
+        }
+        star_condition = get_star_condition();
         update_review_stats(doctor_id, star_condition);
     });
-  });
+});
 

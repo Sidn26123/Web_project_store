@@ -13,14 +13,16 @@
   </div>
 
 
-<div class="chuyenkhoakham">
+  <div class="chuyenkhoakham">
     <div class="doctor-info">
-      <h2>Lịch khám</h2>
+      <img src="/media/{{data.avatar}}" alt="Logo">
+      <p>Tên bác sĩ:  {{data.real_name}}</p>
+      <p>Thông tin bác sĩ:  {{data.introduce}}</p>
     </div>
     <div class="appointment-info">
-      <p>Địa chỉ khám: {{user.address}}</p>
-     <p><a href="{% url 'patient:home' %}">Giá khám: </a></p>
-      <p>Loại bảo hiểm áp dụng: </p>
+      <p>Chuyên Khoa: {{data.specialty}}
+      <p>Địa chỉ khám: {{data.address}}</p>
+      <p>Giá khám: {{data.fee}} đ</a></p>
     </div>
   </div>
 
@@ -117,7 +119,11 @@
         margin: 0 auto;
         padding: 20px;
       }
-      
+      img {
+        width: 100px;
+        height: 100px;
+        border-radius: 60%;
+      }
       .doctor-info {
         flex: 1;
         padding: 20px;

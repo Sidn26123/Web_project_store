@@ -16,11 +16,12 @@ class Doctor(User):
     fee = models.IntegerField(default = 0)
     is_auth = models.BooleanField(default = False)
     available_time = models.TextField(default = '[{"day":1,"time":[]},{"day":2,"time":[]},{"day":3,"time":[]},{"day":4,"time":[]},{"day":5,"time":[]}{"day":6,"time":[]},{"day":7,"time":[]}]')
-    time_per_appoint = models.IntegerField(null = True)
+    time_per_appoint = models.IntegerField(null = True, blank = True)
     details = models.TextField(default = "")
     
     def save(self, *args, **kwargs):
-        self.time_per_appoint = 30
+        if (self.time_per_appoint == None):
+            self.time_per_appoint = 30
         super().save(*args, **kwargs)
 @receiver(pre_save, sender = Doctor)
 def calculate_age(sender, instance, **kwargs):

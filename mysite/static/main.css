@@ -605,7 +605,7 @@ th i::after{
 	flex-direction: column;
 	width: 100% !important;
 	position: relative;
-	top: -152px;
+	top: -126px;
 	border-radius: 10px; /* Bo tròn góc khung */
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Tạo đường viền ngoài mờ mờ */
     padding: 10px; /* Khoảng cách giữa nội dung và viền */
@@ -725,7 +725,7 @@ th i::after{
 }
 
 .filter-item.checked {
-    background-color:  #f2f2f2;
+    background-color:  #06aa0e;
     color: #fff;
 }
 
@@ -795,6 +795,8 @@ th i::after{
 .time-period{
 	padding: 10px;
 	display: flex;
+	width: 30%;
+	justify-content: space-around;
 }
 
 .time-period__item{
@@ -918,6 +920,43 @@ th i::after{
 	height: 258px;
 	margin-top: 62px;
 	background-color: rgba(39, 39, 97, 0.781);
+}
+
+.day-frame__days{
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.day-frame__days__item{
+	background-color: #ddd;
+	flex: 1;
+	margin: 0 5px;
+	display: flex;	
+	height: 40px;
+	justify-content: center;
+	align-items: center;
+}
+
+.doctor-avatar__img_div{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.date_dashboard__flex{
+	display: flex;
+	justify-content: flex-start;
+	padding: 10px;
+	align-items: center;
+	width: 50%;
+}
+
+.date_dashboard{
+	text-align: center;
+	padding: 10px;
+	margin: 0 5px;
+	width: 50%;
 }
 /* 
 - btn_active: nút được kích hoạt 

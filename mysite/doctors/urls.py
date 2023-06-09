@@ -38,6 +38,7 @@ from .dashboard import (
     add_period_available,
     get_period_available_for_show,
     update_time_per_period,
+    get_transaction_detail,
 )
 
 from .my_patient import (
@@ -105,4 +106,5 @@ urlpatterns = [
     path('update-time-per-period/', update_time_per_period),
     path('delete-my-patient/', delete_my_patient),
     path('hide-invoice/', hide_invoice),
+    path('get-transaction-detail/<int:id>', get_transaction_detail),
 ]

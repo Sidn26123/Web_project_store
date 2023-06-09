@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Đặt khám</title>
+    
 </head>
 <style>
     <style>
@@ -75,6 +76,14 @@
 <body>
     <div class="register-form">
     <h2>Đặt khám</h2>
+    <div class="wrapperr">
+      <p class = 'anhdk' >
+      <img src="{{avatar}}" alt="">
+      <p>Tên bác sĩ: {{doctor.real_name}}</p>
+      <p>Ngày và giờ khám: {{time}}</p>
+      <p>Giá khám: {{doctor.fee}} đ </p>
+      </p>
+      </div>
     <form>
         <label for="Fullname">Full name:</label>
         <input type="text" id="Full_name" name="Full_name" required><br>
@@ -104,6 +113,7 @@
         <div class="dauvao-nhom thanh-toan"><p class="tieude-nhom">Hình thức thanh toán</p>
           <label><input class="dauvao-nhap" type="radio" name="pay_type" value="1" checked="checked"> Thanh toán sau tại cơ sở y tế</label>
       </div>
+      <p class = 'giakham' >Giá khám: {{doctor.fee}} đ</p>
       <p class="dauvao-ghichu chu-giua">Quý khách vui lòng điền đầy đủ thông tin để tiết kiệm thời gian làm thủ tục khám</p>
       <div class="dauvao-canhbao"><p style="text-align: justify; "><b>LƯU Ý</b></p>
         <p style="text-align: justify; ">Thông tin anh/chị cung cấp sẽ được sử dụng làm hồ sơ khám bệnh, khi điền thông tin anh/chị vui lòng:</p><ul>
@@ -121,7 +131,36 @@
       <a href="{%url 'patient:user_login'%}">Đăng nhập</a>
     </div>
   </div>
-  <style>  
+  <style> 
+    .wrapperr {
+      border: 1px solid #ccc;
+      padding: 10px;
+      background-color: #b1d0b8;
+    }
+    
+    .anhdk {
+      margin: 0;
+    }
+    
+    .giakham {
+
+      display: inline-block;
+      background-color: #ccc;
+      color: blue;
+      text-align: center;
+      line-height: 50px;
+      font-size: 16px;
+    }
+    .anhdk img {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+    }
+    
+    .time {
+      font-size: 14px;
+      color: #333;
+    } 
     a{
         color:red;
         text-decoration: underline;

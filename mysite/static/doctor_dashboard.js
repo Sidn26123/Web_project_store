@@ -166,7 +166,7 @@ function draw_appoint_table(data){
                 {"title": "Phí"},
                 {"title": "",
                     "render": function(){
-                        return '<div class = "show__item"><div class ="show-on">Xem</div><div class ="show-off">Xóa</div></div>'
+                        return '<div class = "show__item"><div class ="show-on">Xem</div><div class ="go">Vào</div></div>'
                     }
                 },
             ],
@@ -185,7 +185,9 @@ $(document).on('click', '.show-on', function(){
     $('.appointment-detail-wrapper').toggleClass('hidden');
     get_appoint_detail(appoint_id);
 })
-
+$(document).on('click', '.go', function(){
+    
+})
 function get_appoint_detail(appoint_id){
     $.ajax({
         url: '/doctor/get-transaction-detail/',
@@ -194,16 +196,16 @@ function get_appoint_detail(appoint_id){
             'id': appoint_id,
         },
         success: function(data){
-            
+            console.log(data)
             $('.appointment-detail__item img').attr('src', data['patient'][1]);
             $('.appointment-detail__item #patient-name').text(data['patient'][0]);
-            $('.appointment-detail__item #birthday').text(data['patient'][2]);
-            $('.appointment-detail__item #gender').text(data['patient'][3]);
-            $('.appointment-detail__item #province').text(data['patient'][4]);
+            // $('.appointment-detail__item #birthday').text(data['patient'][2]);
+            $('.appointment-detail__item #gender').text(data['patient'][2]);
+            $('.appointment-detail__item #province').text(data['patient'][3]);
             $('.appointment-detail__item #book-day').text(data['transaction_time']);
             $('.appointment-detail__item #appointment-day').text(data['appoint_time']);
             $('.appointment-detail__item #cost').text(data['amount_transact']);
-            $('.appointment-detail__item #note').text(data['note']);
+            // $('.appointment-detail__item #note').text(data['note']);
             $('.appointment-detail__item #status').text(data['status']);
         },
     })

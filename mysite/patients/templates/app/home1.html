@@ -57,7 +57,7 @@
           <h1>Kết quả tìm kiếm:</h1>
           <ul>
             {% for doctor in results %}
-            <a href = "/patient/test-info/{{doctor.id}}">  <li>{{ doctor.real_name }} </li></a>  
+            <a href = "/patient/test-info/{{doctor.id}}">  <li>{{ doctor.real_name }}--{{doctor.specialty}}</li></a>  
             {% endfor %}
           </ul>
         </div>
@@ -72,6 +72,10 @@
 </body>
 <!--css ảnh nền-->
 <style>
+  .search-results h1{
+    font-size: 18px;
+    color: #e97d16;
+  }
 .background-image {
   background-image: url("{% static 'app/images/anhnen.jpg' %}");
   background-repeat: no-repeat;

@@ -50,6 +50,7 @@ function get_invoice_table(){
     var time_condition = get_time_condition();
     var query_condition = get_search_condition();
     var id = $('.get-id').data('id');
+    console.log(time_condition)
     console.log(time_condition, query_condition)
     $.ajax({
         url: '/doctor/get-invoice/',

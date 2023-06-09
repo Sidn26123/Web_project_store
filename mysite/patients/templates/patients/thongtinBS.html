@@ -1,6 +1,6 @@
-{% extends 'app/base1.html' %}
+{% extends 'app/base.html' %}
 {% load static %}
-{% block main-lienhe1 %}
+{% block main-lienhe %}
 
 <div class="baiviet-dau">
     <div class="vung-bao">
@@ -21,7 +21,7 @@
       <p>Thông tin bác sĩ : {{data.real_name}}</p>
     </div>
     <div class="appointment-info">
-      <h3>Lịch khám: </h3>
+      <p> Chuyên khoa: {{data.specialty}} </p>
       <p>Địa chỉ khám: {{data.address}} </p>
      <p><a href="{% url 'patient:book_appointment1' %}">Giá khám: {{data.fee}} đ</a></p>
     </div>
@@ -61,4 +61,4 @@
                   margin: 10px 0;
                 }
   </style>
-{% endblock main-lienhe1 %}
+  {% endblock main-lienhe %}

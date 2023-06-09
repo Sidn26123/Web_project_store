@@ -8,7 +8,7 @@ from .forms import Login_form
 from django.core.paginator import Paginator,PageNotAnInteger, EmptyPage
 from django.core.files.storage import default_storage
 from math import ceil
-from .forms import Login_form
+from .forms import Login_form, ChangeInfoForm
 from django.db.models import Q
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -77,7 +77,12 @@ def invoice(request):
 
 @login_required(login_url = '/doctor/login')
 def settings(request):
-    return render(request, 'doctors/settings_page.html')
+    if request.method == 'POST':
+        form = ChangeInfoForm(request.POST)
+        if form.is_valid():
+            print(form)
+    form = ChangeInfoForm()
+    return render(request, 'doctors/settings_page.html', {'form': form})
 @login_required(login_url = '/doctor/login')
 def approving_appoint(request):
     return render(request, 'doctors/approving_appoint.html')
